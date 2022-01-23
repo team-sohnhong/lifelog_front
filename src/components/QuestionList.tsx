@@ -1,22 +1,28 @@
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
 import {
-  Grid,
-  Typography,
-  Button,
   Box,
-  Divider,
+  Button,
   Card,
   CardActions,
   CardContent,
+  Divider,
+  Grid,
   Link,
   List,
   ListItem,
+  Typography,
 } from "@mui/material"
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
+import { useState } from "react"
+import { PostProps, Posts } from "../routes/Home"
 
-export default function QuestionList() {
+
+const QuestionList: React.FC<Posts> = (props) => {
+  const { posts } = props;
+  const post = posts[0]
+
   return (
     <List>
-      {[0, 1, 2, 3].map(() => {
+      {posts.map(() => {
         return (
           <Card sx={{ minWidth: 275, mb: 1 }}>
             <Grid
@@ -40,13 +46,13 @@ export default function QuestionList() {
                   component="div"
                 >
                   <Typography variant="h6" gutterBottom>
-                    0
+                    {post.vote}
                   </Typography>
                   <Typography variant="h6" gutterBottom>
                     vote
                   </Typography>
                   <Typography variant="h6" gutterBottom>
-                    0
+                    {post.answer}
                   </Typography>
                   <Typography variant="h6" gutterBottom>
                     answer
@@ -58,7 +64,7 @@ export default function QuestionList() {
                 <CardContent>
                   <Link href="/home" underline="none">
                     <Typography sx={{ fontSize: 20 }} gutterBottom>
-                      사용자가 적은 제목
+                      {post.title}
                     </Typography>
                   </Link>
                   <Typography
@@ -83,13 +89,13 @@ export default function QuestionList() {
                     wrap="nowrap"
                   >
                     <Grid item xs={1}>
-                      <Button size="small">#TagName</Button>
+                      <Button size="small">#{ post.tags[0]}</Button>
                     </Grid>
                     <Grid item mr={5}>
-                      <Typography>22/01/10 10:22</Typography>
+                      <Typography>{post.created_at}</Typography>
                       <AccessibilityNewIcon></AccessibilityNewIcon>
                       <Link href="/user" underline="none">
-                        <Typography>userName</Typography>
+                        <Typography>{post.writer}</Typography>
                       </Link>
                     </Grid>
                   </Grid>
@@ -101,7 +107,12 @@ export default function QuestionList() {
           </Card>
         )
       })}
-      <ListItem></ListItem>
     </List>
   )
 }
+
+export default QuestionList
+
+// 1. props 전달하는 것 만들기
+// 2. 비동기 통신 만들기
+// 3. 

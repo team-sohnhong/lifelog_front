@@ -1,6 +1,8 @@
 import { Grid, Typography, Button, Box, Divider } from "@mui/material"
+import { Posts } from "../routes/Home"
 
-export default function QuestionHeader() {
+export default function QuestionHeader({posts}: Posts) {
+  const postsLength = posts.length
   return (
     <Box>
       <Grid
@@ -18,7 +20,7 @@ export default function QuestionHeader() {
         </Button>
       </Grid>
       <Box sx={{ mt: 5 }}>
-        <Typography px={2}>22,142,347 questions</Typography>
+        <Typography px={2}>{postsLength} questions</Typography>
         <Divider />
       </Box>
     </Box>

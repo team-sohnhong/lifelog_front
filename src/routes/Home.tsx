@@ -4,19 +4,6 @@ import AppBar from "../components/AppBar"
 import QuestionHeader from "../components/QuestionHeader"
 import QuestionList from "../components/QuestionList"
 
-interface PostProps {
-  post: {
-    date: string
-    title: string
-    content: string
-    vote: number
-    answer: number
-    tags: Array<string>
-    created_at: Date
-    writer: User
-  }
-}
-
 interface User {
   id: string
   user_name: string
@@ -24,7 +11,37 @@ interface User {
   image: string
 }
 
+export interface PostProps {
+  date: string
+  title: string
+  content: string
+  vote: number
+  answer: number
+  tags: Array<string>
+  created_at: number
+  writer: string
+}
+
+export interface Posts {
+  posts: Array<PostProps>
+}
+
 function Home() {
+  const post: PostProps = {
+    date: "today",
+    title: "title",
+    content: "content",
+    vote: 2,
+    answer: 0,
+    tags: ["tag1"],
+    created_at: Date.now(),
+    writer: "userName",
+  }
+
+  const posts: Posts = {
+    posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
+  }
+
   return (
     <div>
       <AppBar />
@@ -36,8 +53,8 @@ function Home() {
               height: "150vh",
             }}
           >
-            <QuestionHeader />
-            <QuestionList />
+            <QuestionHeader posts={posts.posts} />
+            <QuestionList posts={posts.posts} />
           </Box>
         </Container>
       </React.Fragment>

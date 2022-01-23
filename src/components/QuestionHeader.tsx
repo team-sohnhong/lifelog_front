@@ -1,7 +1,7 @@
-import { Grid, Typography, Button, Box, Divider } from "@mui/material"
+import { Grid, Typography, Button, Box, Divider, Link } from "@mui/material"
 import { Posts } from "../routes/Home"
 
-export default function QuestionHeader({posts}: Posts) {
+export default function QuestionHeader({ posts }: Posts) {
   const postsLength = posts.length
   return (
     <Box>
@@ -15,9 +15,11 @@ export default function QuestionHeader({posts}: Posts) {
         <Typography variant="h4" color="initial">
           All Question
         </Typography>
-        <Button variant="contained" color="primary">
-          Add Questions
-        </Button>
+        <Link href="/signin">
+          <Button variant="contained" color="primary">
+            Add Questions
+          </Button>
+        </Link>
       </Grid>
       <Box sx={{ mt: 5 }}>
         <Typography px={2}>{postsLength} questions</Typography>

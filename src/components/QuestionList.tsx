@@ -12,12 +12,10 @@ import {
   ListItem,
   Typography,
 } from "@mui/material"
-import { useState } from "react"
 import { PostProps, Posts } from "../routes/Home"
 
-
-const QuestionList: React.FC<Posts> = (props) => {
-  const { posts } = props;
+const QuestionList: React.FC<Posts> = props => {
+  const { posts } = props
   const post = posts[0]
 
   return (
@@ -78,6 +76,7 @@ const QuestionList: React.FC<Posts> = (props) => {
                     want the quote tag ...
                   </Typography>
                 </CardContent>
+                {/* tags and writer */}
                 <CardActions sx={{ fontSize: 15 }}>
                   <Grid
                     container
@@ -89,7 +88,7 @@ const QuestionList: React.FC<Posts> = (props) => {
                     wrap="nowrap"
                   >
                     <Grid item xs={1}>
-                      <Button size="small">#{ post.tags[0]}</Button>
+                      <Button size="small">#{post.tags[0]}</Button>
                     </Grid>
                     <Grid item mr={5}>
                       <Typography>{post.created_at}</Typography>
@@ -115,4 +114,4 @@ export default QuestionList
 
 // 1. props 전달하는 것 만들기
 // 2. 비동기 통신 만들기
-// 3. 
+// 3.

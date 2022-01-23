@@ -1,3 +1,3 @@
-export default function ABc() {
+export default function AddQuestion() {
   
 }

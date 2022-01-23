@@ -8,11 +8,9 @@ import {
   Divider,
   Grid,
   Link,
-  List,
-  ListItem,
-  Typography,
+  List, Typography
 } from "@mui/material"
-import { PostProps, Posts } from "../routes/Home"
+import { Posts } from "../routes/Home"
 
 const QuestionList: React.FC<Posts> = props => {
   const { posts } = props

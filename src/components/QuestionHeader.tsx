@@ -1,10 +1,8 @@
-import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material"
-import {
-  Link as RouterLink
-} from "react-router-dom"
-import { Posts } from "../routes/Home"
+import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { Posts } from "../routes/Home";
 export default function QuestionHeader({ posts }: Posts) {
-  const postsLength = posts.length
+  const postsLength = posts.length;
   return (
     <Box>
       <Grid
@@ -12,9 +10,8 @@ export default function QuestionHeader({ posts }: Posts) {
         spacing={0}
         px={2}
         pt={2}
-        justifyContent={"space-between"}
-      >
-        <Typography variant="h4" color="initial">
+        justifyContent={"space-between"}>
+        <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
         <Link component={RouterLink} to="/addQuestion" underline="none">
@@ -24,9 +21,11 @@ export default function QuestionHeader({ posts }: Posts) {
         </Link>
       </Grid>
       <Box sx={{ mt: 5 }}>
-        <Typography px={2}>{postsLength} questions</Typography>
+        <Typography px={2} color="#D8D8D8">
+          {postsLength} questions
+        </Typography>
         <Divider />
       </Box>
     </Box>
-  )
+  );
 }

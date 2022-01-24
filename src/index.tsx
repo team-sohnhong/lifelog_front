@@ -1,14 +1,14 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import { Provider } from "react-redux"
-import { createStore } from "redux"
-import App from "./App"
-import "./index.css"
-import { PostProps, Posts } from "./routes/Home"
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import App from "./App";
+import "./index.css";
+import { PostProps, Posts } from "./routes/Home";
 
 const post: PostProps = {
   date: "today",
-  title: "디폴트 제목입니다.",
+  title: "Default title",
   content:
     "I'm currently trying to make a quote system for my forum and since I am using bb-codes throughout the whole system I want to implement this for quoting aswell. I have created what I want the quote tag ...",
   vote: 2,
@@ -16,26 +16,26 @@ const post: PostProps = {
   tags: ["tag1"],
   created_at: Date.now(),
   writer: "userName",
-}
+};
 
 const posts: Posts = {
   posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
-}
+};
 
 function reducer(state = posts.posts, action: any) {
   if (action.type === "증가") {
-    console.log(action.payload)
-    state.push(action.payload)
-    return state
+    console.log(action.payload);
+    state.push(action.payload);
+    return state;
   } else if (action.type === "감소") {
     // state.posts.
-    return state
+    return state;
   } else {
-    return state
+    return state;
   }
 }
 
-let store = createStore(reducer)
+let store = createStore(reducer);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,7 +44,7 @@ ReactDOM.render(
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
-)
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

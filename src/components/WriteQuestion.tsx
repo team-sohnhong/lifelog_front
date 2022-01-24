@@ -4,15 +4,15 @@ import {
   Container,
   Grid,
   Snackbar,
-  TextField
+  TextField,
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { PostProps } from "./../routes/Home"
+import { QuestionProps } from "../type/questionInteface"
 
-export default function AddQuestion(props: any) {
+export default function WriteQuestion(props: any) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -26,14 +26,14 @@ export default function AddQuestion(props: any) {
   const handleSnackbaropen = () => {
     setSnackbar({ open: !open })
   }
-  
+
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const data = new FormData(event.currentTarget)
 
-    const post: PostProps = {
+    const question: QuestionProps = {
       date: "오늘",
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
@@ -45,11 +45,11 @@ export default function AddQuestion(props: any) {
     }
 
     // 리덕스 스토어에 증가 액션 요청 with 데이터
-    dispatch({ type: "증가", payload: post })
+    dispatch({ type: "증가", payload: question })
 
     console.log(
       "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
-      post
+      question
     )
     navigate("/")
   }
@@ -66,7 +66,6 @@ export default function AddQuestion(props: any) {
           borderLeft: 1,
           borderRight: 1,
           borderColor: "#888888",
-
           alignItems: "center",
           "& input": {
             fontSize: "22px",
@@ -86,7 +85,11 @@ export default function AddQuestion(props: any) {
           }}
         >
           <Grid item mr={1}>
-            <Button color="secondary" variant="outlined" onClick={handleSnackbaropen}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleSnackbaropen}
+            >
               임시 저장
             </Button>
             <Snackbar

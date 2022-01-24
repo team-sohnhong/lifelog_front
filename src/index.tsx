@@ -4,9 +4,9 @@ import { Provider } from "react-redux"
 import { createStore } from "redux"
 import App from "./App"
 import "./index.css"
-import { PostProps, Posts } from "./routes/Home"
+import { QuestionProps } from "./type/questionInteface"
 
-const post: PostProps = {
+const post: QuestionProps = {
   date: "today",
   title: "디폴트 제목입니다.",
   content:
@@ -18,11 +18,9 @@ const post: PostProps = {
   writer: "userName",
 }
 
-const posts: Posts = {
-  posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
-}
+const posts: QuestionProps[] = [post, post, post, post, post] //post의 개수 만큼 리스트 생성
 
-function reducer(state = posts.posts, action: any) {
+function reducer(state = posts, action: any) {
   if (action.type === "증가") {
     console.log(action.payload)
     state.push(action.payload)

@@ -3,7 +3,8 @@ import Home from "./routes/Home"
 import SignIn from "./routes/SignIn"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
-import AddQuestion from "./components/AddQuestion"
+import WriteQuestion from "./components/WriteQuestion"
+import Question from "./components/Question"
 
 const theme = createTheme({
   palette: {
@@ -11,7 +12,7 @@ const theme = createTheme({
     primary: { main: "#1f1f1f" },
     secondary: { main: "#bb86fc" },
     // background: {
-    // default: "#af2929",
+    // default: "#101010",
     // },
   },
 })
@@ -24,7 +25,9 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/addQuestion" element={<AddQuestion />} />
+          <Route path="/question" element={<WriteQuestion />} />
+          <Route path="/question/detail" element={<Question />} />
+          {/* id로 바꿀 예정 */}
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

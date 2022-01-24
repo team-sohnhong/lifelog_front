@@ -3,43 +3,11 @@ import React from "react"
 import { useSelector } from "react-redux"
 import AppBar from "../components/AppBar"
 import QuestionHeader from "../components/QuestionHeader"
-import QuestionList from "../components/QuestionList"
-
-interface User {
-  id: string
-  user_name: string
-  address: string
-  image: string
-}
-
-export interface PostProps {
-  date: string
-  title: string
-  content: string
-  vote: number
-  answer: number
-  tags: Array<string>
-  created_at: number
-  writer: string
-}
-
-export interface Posts {
-  posts: Array<PostProps>
-} //이거 삭제해야 겠다. 필요 없는 interface. Array<PostProps>나  PostProps[]로 충분
-
-const post: PostProps = {
-  date: "today",
-  title: "title",
-  content: "content",
-  vote: 2,
-  answer: 0,
-  tags: ["tag1"],
-  created_at: Date.now(),
-  writer: "userName",
-}
+import Questions from "../components/Questions"
+import { QuestionProps } from "../type/questionInteface"
 
 function Home() {
-  const posts = useSelector(state => state) as PostProps[]
+  const questions = useSelector(state => state) as QuestionProps[]
 
   return (
     <div>
@@ -52,8 +20,8 @@ function Home() {
               height: "150vh",
             }}
           >
-            <QuestionHeader posts={posts} />
-            <QuestionList posts={posts} />
+            <QuestionHeader questions={questions} />
+            <Questions questions={questions} />
           </Box>
         </Container>
       </React.Fragment>

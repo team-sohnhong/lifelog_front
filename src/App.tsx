@@ -3,15 +3,16 @@ import Home from "./routes/Home"
 import SignIn from "./routes/SignIn"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
+import AddQuestion from "./components/AddQuestion"
 
 const theme = createTheme({
   palette: {
     // mode: "dark",
     primary: { main: "#1f1f1f" },
     secondary: { main: "#bb86fc" },
-    background: {
-      default: "#af2929",
-    },
+    // background: {
+    // default: "#af2929",
+    // },
   },
 })
 
@@ -23,7 +24,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
-          {/* <Route path="/addQuestion" element={< />} /> */}
+          <Route path="/addQuestion" element={<AddQuestion />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

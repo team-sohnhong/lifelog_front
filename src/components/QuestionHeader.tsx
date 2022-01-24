@@ -15,7 +15,7 @@ export default function QuestionHeader({ posts }: Posts) {
         <Typography variant="h4" color="initial">
           All Question
         </Typography>
-        <Link href="/signin">
+        <Link href="/addQuestion">
           <Button variant="contained" color="primary">
             Add Questions
           </Button>

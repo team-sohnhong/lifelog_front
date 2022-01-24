@@ -23,7 +23,8 @@ const posts: Posts = {
 
 function reducer(state = posts.posts, action: any) {
   if (action.type === "증가") {
-    state.push(post)
+    console.log(action.payload)
+    state.push(action.payload)
     return state
   } else if (action.type === "감소") {
     // state.posts.

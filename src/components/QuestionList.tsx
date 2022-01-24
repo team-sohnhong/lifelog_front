@@ -103,7 +103,7 @@ const QuestionList: React.FC<Posts> = props => {
             <Divider />
           </Card>
         )
-      })}
+      }).reverse()}
     </List>
   )
 }

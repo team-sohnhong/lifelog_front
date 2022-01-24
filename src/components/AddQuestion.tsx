@@ -6,36 +6,28 @@ import {
   Link,
   Snackbar,
   SnackbarOrigin,
-  TextField
+  TextField,
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {
-  Link as RouterLink
-} from "react-router-dom"
-import { PostProps, posts } from "./../routes/Home"
+import { Link as RouterLink } from "react-router-dom"
+import { PostProps } from "./../routes/Home"
+import { useNavigate } from "react-router-dom"
 
 export default function AddQuestion(props: any) {
-
-
   const 꺼내온거 = useSelector(state => state)
   const dispatch = useDispatch()
 
-  const [state, setState] = useState({
+  const [snackbar, setSnackbar] = useState({
     open: false,
-    vertical: "top",
-    horizontal: "center",
   })
-  const { vertical, horizontal, open } = state
+  const { open } = snackbar
 
-  const handleClick = (newState: SnackbarOrigin) => () => {
-    setState({ open: true, ...newState })
+  const handleClick = () => {
+    setSnackbar({ open: !open })
   }
-
-  const handleClose = () => {
-    setState({ ...state, open: false })
-  }
+  const navigate = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -51,8 +43,7 @@ export default function AddQuestion(props: any) {
       created_at: Date.now(),
       writer: "Me",
     }
-    posts.posts.push(post)
-    console.log(posts.posts)
+    dispatch({ type: "증가", payload: post })
 
     console.log(
       "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
@@ -69,6 +60,8 @@ export default function AddQuestion(props: any) {
       created_at: Date.now(),
       writer: "me",
     })
+        navigate("/")
+
   }
 
   return (
@@ -98,7 +91,6 @@ export default function AddQuestion(props: any) {
           },
         }}
       >
-  
         <Button onClick={() => dispatch({ type: "증가" })}>증가</Button>
         <Grid
           container
@@ -109,39 +101,29 @@ export default function AddQuestion(props: any) {
           }}
         >
           <Grid item mr={1}>
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={handleClick({
-                vertical: "top",
-                horizontal: "center",
-              })}
-            >
+            <Button color="secondary" variant="outlined" onClick={handleClick}>
               임시 저장
             </Button>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               autoHideDuration={800}
               open={open}
-              onClose={handleClose}
-              key={vertical + horizontal}
+              onClose={handleClick}
+              key={"temporary-storage-top"}
             >
               <Alert severity="error">임시 저장 실패!</Alert>
             </Snackbar>
           </Grid>
           <Grid item xs={2}>
-            <Link
-              component={RouterLink}
-              // ref={ref}
-              // {...props}
-              to="/"
-              // to={{ pathname: "/", state: posts }}
-              underline="none"
+            {/* <Link component={RouterLink} to="/" underline="none"> */}
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
             >
-              <Button type="submit" color="secondary" variant="contained">
-                저장
-              </Button>
-            </Link>
+              저장
+            </Button>
+            {/* </Link> */}
           </Grid>
         </Grid>
 

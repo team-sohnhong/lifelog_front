@@ -37,9 +37,9 @@ const post: PostProps = {
   writer: "userName",
 }
 
-export let posts: Posts = {
-  posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
-}
+// export let posts: Posts = {
+//   posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
+// }
 
 function Home() {
   const 꺼내온거 = useSelector(state => state) as PostProps[]

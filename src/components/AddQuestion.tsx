@@ -6,15 +6,21 @@ import {
   Link,
   Snackbar,
   SnackbarOrigin,
-  TextField,
+  TextField
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useState } from "react"
-import { PostProps } from "./../routes/Home"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  Link as RouterLink
+} from "react-router-dom"
+import { PostProps, posts } from "./../routes/Home"
 
 export default function AddQuestion(props: any) {
-  // let [title, setTitle] = useState("")
-  // let [content, setContent] = useState("")
+
+
+  const 꺼내온거 = useSelector(state => state)
+  const dispatch = useDispatch()
 
   const [state, setState] = useState({
     open: false,
@@ -35,6 +41,23 @@ export default function AddQuestion(props: any) {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // console.log("🚀 ~ file: SignIn.tsx ~ line 50 ~ handleSubmit ~ data", event)
+    let post: PostProps = {
+      date: "오늘",
+      title: data.get("title") as string,
+      content: data.get("content") as string,
+      vote: 3,
+      answer: 0,
+      tags: ["태그"],
+      created_at: Date.now(),
+      writer: "Me",
+    }
+    posts.posts.push(post)
+    console.log(posts.posts)
+
+    console.log(
+      "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
+      post
+    )
 
     console.log({
       date: "1",
@@ -46,17 +69,6 @@ export default function AddQuestion(props: any) {
       created_at: Date.now(),
       writer: "me",
     })
-  }
-
-  const post: PostProps = {
-    date: "today",
-    title: "title",
-    content: "content",
-    vote: 2,
-    answer: 0,
-    tags: ["tag1"],
-    created_at: Date.now(),
-    writer: "me",
   }
 
   return (
@@ -86,6 +98,8 @@ export default function AddQuestion(props: any) {
           },
         }}
       >
+  
+        <Button onClick={() => dispatch({ type: "증가" })}>증가</Button>
         <Grid
           container
           direction="row"
@@ -110,18 +124,24 @@ export default function AddQuestion(props: any) {
               autoHideDuration={800}
               open={open}
               onClose={handleClose}
-              // message="임시 저장 실패"
               key={vertical + horizontal}
             >
               <Alert severity="error">임시 저장 실패!</Alert>
             </Snackbar>
           </Grid>
           <Grid item xs={2}>
-            {/* <Link href="/addQuestion" underline="none"> */}
-            <Button type="submit" color="secondary" variant="contained">
-              저장
-            </Button>
-            {/* </Link> */}
+            <Link
+              component={RouterLink}
+              // ref={ref}
+              // {...props}
+              to="/"
+              // to={{ pathname: "/", state: posts }}
+              underline="none"
+            >
+              <Button type="submit" color="secondary" variant="contained">
+                저장
+              </Button>
+            </Link>
           </Grid>
         </Grid>
 

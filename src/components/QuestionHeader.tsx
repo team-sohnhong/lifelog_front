@@ -1,6 +1,8 @@
-import { Grid, Typography, Button, Box, Divider, Link } from "@mui/material"
+import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material"
+import {
+  Link as RouterLink
+} from "react-router-dom"
 import { Posts } from "../routes/Home"
-
 export default function QuestionHeader({ posts }: Posts) {
   const postsLength = posts.length
   return (
@@ -15,7 +17,7 @@ export default function QuestionHeader({ posts }: Posts) {
         <Typography variant="h4" color="initial">
           All Question
         </Typography>
-        <Link href="/addQuestion">
+        <Link component={RouterLink} to="/addQuestion" underline="none">
           <Button variant="contained" color="primary">
             Add Questions
           </Button>

@@ -18,9 +18,9 @@ const QuestionList: React.FC<Posts> = props => {
 
   return (
     <List>
-      {posts.map(() => {
+      {posts.map((item, index) => {
         return (
-          <Card sx={{ minWidth: 275, mb: 1 }}>
+          <Card key={index} sx={{ minWidth: 275, mb: 1 }}>
             <Grid
               container
               direction="row"
@@ -60,7 +60,7 @@ const QuestionList: React.FC<Posts> = props => {
                 <CardContent>
                   <Link href="/home" underline="none">
                     <Typography sx={{ fontSize: 20 }} gutterBottom>
-                      {post.title}
+                      {item.title}
                     </Typography>
                   </Link>
                   <Typography

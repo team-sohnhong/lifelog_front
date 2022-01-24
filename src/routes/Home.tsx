@@ -1,5 +1,6 @@
-import { Box, Container, CssBaseline } from "@mui/material"
+import { Box, Button, Container, CssBaseline } from "@mui/material"
 import React from "react"
+import { useDispatch, useSelector } from "react-redux"
 import AppBar from "../components/AppBar"
 import QuestionHeader from "../components/QuestionHeader"
 import QuestionList from "../components/QuestionList"
@@ -25,23 +26,28 @@ export interface PostProps {
 export interface Posts {
   posts: Array<PostProps>
 }
+const post: PostProps = {
+  date: "today",
+  title: "title",
+  content: "content",
+  vote: 2,
+  answer: 0,
+  tags: ["tag1"],
+  created_at: Date.now(),
+  writer: "userName",
+}
+
+export let posts: Posts = {
+  posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
+}
 
 function Home() {
-  const post: PostProps = {
-    date: "today",
-    title: "title",
-    content: "content",
-    vote: 2,
-    answer: 0,
-    tags: ["tag1"],
-    created_at: Date.now(),
-    writer: "userName",
-  }
-
-  const posts: Posts = {
-    posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
-  }
-
+  const 꺼내온거 = useSelector(state => state) as PostProps[]
+  const dispatch = useDispatch()
+  // let [postss, setPostss] = useState<Posts>(posts)
+  // const change = () => {
+  // setPostss(posts)
+  // }
   return (
     <div>
       <AppBar />
@@ -53,8 +59,10 @@ function Home() {
               height: "150vh",
             }}
           >
-            <QuestionHeader posts={posts.posts} />
-            <QuestionList posts={posts.posts} />
+            {/* <p>{꺼내온거}</p> */}
+            <Button onClick={() => dispatch({ type: "증가" })}>증가</Button>
+            <QuestionHeader posts={꺼내온거} />
+            <QuestionList posts={꺼내온거} />
           </Box>
         </Container>
       </React.Fragment>

@@ -46,8 +46,13 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-            LOGO
+            color="#FFCD4A"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontWeight: "bold",
+            }}>
+            CRIT
           </Typography>
 
           <Box

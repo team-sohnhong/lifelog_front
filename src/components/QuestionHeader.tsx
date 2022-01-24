@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
-import { QuestionProps } from "../type/questionInteface"
+import { QuestionProps } from "./../type/questionInteface"
 export default function QuestionHeader({
   questions,
 }: {

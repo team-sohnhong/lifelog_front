@@ -58,7 +58,7 @@ const QuestionList: React.FC<Posts> = props => {
               {/* content-body */}
               <Grid item xs={11} mx={"auto"}>
                 <CardContent>
-                  <Link href="/home" underline="none">
+                  <Link href="/post" underline="none">
                     <Typography sx={{ fontSize: 20 }} gutterBottom>
                       {item.title}
                     </Typography>
@@ -68,10 +68,11 @@ const QuestionList: React.FC<Posts> = props => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    I'm currently trying to make a quote system for my forum and
+                    {item.content}
+                    {/* I'm currently trying to make a quote system for my forum and
                     since I am using bb-codes throughout the whole system I want
                     to implement this for quoting aswell. I have created what I
-                    want the quote tag ...
+                    want the quote tag ... */}
                   </Typography>
                 </CardContent>
                 {/* tags and writer */}

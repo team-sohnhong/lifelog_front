@@ -8,8 +8,9 @@ import { PostProps, Posts } from "./routes/Home"
 
 const post: PostProps = {
   date: "today",
-  title: "ㄱㄱㄱ",
-  content: "content",
+  title: "디폴트 제목입니다.",
+  content:
+    "I'm currently trying to make a quote system for my forum and since I am using bb-codes throughout the whole system I want to implement this for quoting aswell. I have created what I want the quote tag ...",
   vote: 2,
   answer: 0,
   tags: ["tag1"],

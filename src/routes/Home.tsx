@@ -59,8 +59,6 @@ function Home() {
               height: "150vh",
             }}
           >
-            {/* <p>{꺼내온거}</p> */}
-            <Button onClick={() => dispatch({ type: "증가" })}>증가</Button>
             <QuestionHeader posts={꺼내온거} />
             <QuestionList posts={꺼내온거} />
           </Box>

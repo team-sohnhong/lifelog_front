@@ -60,8 +60,7 @@ export default function AddQuestion(props: any) {
       created_at: Date.now(),
       writer: "me",
     })
-        navigate("/")
-
+    navigate("/")
   }
 
   return (
@@ -87,11 +86,9 @@ export default function AddQuestion(props: any) {
           "& input::placeholder": {
             //이렇게 각 속성에 넣을 수도 있고
             fontSize: "22px",
-            color: "blue",
           },
         }}
       >
-        <Button onClick={() => dispatch({ type: "증가" })}>증가</Button>
         <Grid
           container
           direction="row"
@@ -116,11 +113,7 @@ export default function AddQuestion(props: any) {
           </Grid>
           <Grid item xs={2}>
             {/* <Link component={RouterLink} to="/" underline="none"> */}
-            <Button
-              type="submit"
-              color="secondary"
-              variant="contained"
-            >
+            <Button type="submit" color="secondary" variant="contained">
               저장
             </Button>
             {/* </Link> */}

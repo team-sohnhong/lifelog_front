@@ -15,11 +15,11 @@ export default function QuestionHeader({ posts }: Posts) {
         justifyContent={"space-between"}
       >
         <Typography variant="h4" color="initial">
-          All Question
+          All Questions
         </Typography>
         <Link component={RouterLink} to="/addQuestion" underline="none">
           <Button variant="contained" color="primary">
-            Add Questions
+            Add Question
           </Button>
         </Link>
       </Grid>

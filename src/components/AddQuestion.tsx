@@ -3,39 +3,39 @@ import {
   Button,
   Container,
   Grid,
-  Link,
   Snackbar,
-  SnackbarOrigin,
-  TextField,
+  TextField
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link as RouterLink } from "react-router-dom"
-import { PostProps } from "./../routes/Home"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { PostProps } from "./../routes/Home"
 
 export default function AddQuestion(props: any) {
-  const 꺼내온거 = useSelector(state => state)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  // 임시저장 로직
   const [snackbar, setSnackbar] = useState({
     open: false,
   })
+
   const { open } = snackbar
 
-  const handleClick = () => {
+  const handleSnackbaropen = () => {
     setSnackbar({ open: !open })
   }
-  const navigate = useNavigate()
-
+  
+  // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
     const data = new FormData(event.currentTarget)
-    // console.log("🚀 ~ file: SignIn.tsx ~ line 50 ~ handleSubmit ~ data", event)
-    let post: PostProps = {
+
+    const post: PostProps = {
       date: "오늘",
-      title: data.get("title") as string,
+      title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
       vote: 3,
       answer: 0,
@@ -43,23 +43,14 @@ export default function AddQuestion(props: any) {
       created_at: Date.now(),
       writer: "Me",
     }
+
+    // 리덕스 스토어에 증가 액션 요청 with 데이터
     dispatch({ type: "증가", payload: post })
 
     console.log(
       "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
       post
     )
-
-    console.log({
-      date: "1",
-      title: data.get("title"),
-      content: data.get("content"),
-      vote: 0,
-      answer: 0,
-      tags: [],
-      created_at: Date.now(),
-      writer: "me",
-    })
     navigate("/")
   }
 
@@ -70,21 +61,18 @@ export default function AddQuestion(props: any) {
         noValidate
         onSubmit={handleSubmit}
         sx={{
-          // marginTop: 8,
           display: "flex",
           flexDirection: "column",
           borderLeft: 1,
           borderRight: 1,
           borderColor: "#888888",
 
-          // justifyContent: "flex-start",
           alignItems: "center",
-          // alignContent: "center",
           "& input": {
             fontSize: "22px",
           },
           "& input::placeholder": {
-            //이렇게 각 속성에 넣을 수도 있고
+            //이렇게 컴포넌트의 각 속성에도 넣을 수도 있다
             fontSize: "22px",
           },
         }}
@@ -98,25 +86,23 @@ export default function AddQuestion(props: any) {
           }}
         >
           <Grid item mr={1}>
-            <Button color="secondary" variant="outlined" onClick={handleClick}>
+            <Button color="secondary" variant="outlined" onClick={handleSnackbaropen}>
               임시 저장
             </Button>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               autoHideDuration={800}
               open={open}
-              onClose={handleClick}
+              onClose={handleSnackbaropen}
               key={"temporary-storage-top"}
             >
               <Alert severity="error">임시 저장 실패!</Alert>
             </Snackbar>
           </Grid>
           <Grid item xs={2}>
-            {/* <Link component={RouterLink} to="/" underline="none"> */}
             <Button type="submit" color="secondary" variant="contained">
               저장
             </Button>
-            {/* </Link> */}
           </Grid>
         </Grid>
 
@@ -127,7 +113,6 @@ export default function AddQuestion(props: any) {
                 name="title" //이게 값 연결
                 variant="standard"
                 placeholder="제목"
-                // size="large"
                 required
                 fullWidth
                 sx={{
@@ -143,11 +128,10 @@ export default function AddQuestion(props: any) {
                 fullWidth
                 minRows={34} //이게 중요
                 maxRows={50}
-                InputProps={{ disableUnderline: true, margin: "dense" }}
+                InputProps={{ disableUnderline: true }}
                 sx={{
                   pt: 1,
                   pl: 0,
-                  // border: 1,
                   borderColor: "#808080",
                   minHeight: 800,
                 }}

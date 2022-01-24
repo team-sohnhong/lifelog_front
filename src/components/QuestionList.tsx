@@ -58,7 +58,7 @@ const QuestionList: React.FC<Posts> = props => {
               {/* content-body */}
               <Grid item xs={11} mx={"auto"}>
                 <CardContent>
-                  <Link href="/post" underline="none">
+                  <Link href="/question" underline="none">
                     <Typography sx={{ fontSize: 20 }} gutterBottom>
                       {item.title}
                     </Typography>

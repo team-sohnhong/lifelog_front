@@ -1,6 +1,6 @@
-import { Box, Button, Container, CssBaseline } from "@mui/material"
+import { Box, Container, CssBaseline } from "@mui/material"
 import React from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import AppBar from "../components/AppBar"
 import QuestionHeader from "../components/QuestionHeader"
 import QuestionList from "../components/QuestionList"
@@ -25,7 +25,8 @@ export interface PostProps {
 
 export interface Posts {
   posts: Array<PostProps>
-}
+} //이거 삭제해야 겠다. 필요 없는 interface. Array<PostProps>나  PostProps[]로 충분
+
 const post: PostProps = {
   date: "today",
   title: "title",
@@ -37,17 +38,9 @@ const post: PostProps = {
   writer: "userName",
 }
 
-// export let posts: Posts = {
-//   posts: [post, post, post, post, post], //post의 개수 만큼 리스트 생성
-// }
-
 function Home() {
-  const 꺼내온거 = useSelector(state => state) as PostProps[]
-  const dispatch = useDispatch()
-  // let [postss, setPostss] = useState<Posts>(posts)
-  // const change = () => {
-  // setPostss(posts)
-  // }
+  const posts = useSelector(state => state) as PostProps[]
+
   return (
     <div>
       <AppBar />
@@ -59,8 +52,8 @@ function Home() {
               height: "150vh",
             }}
           >
-            <QuestionHeader posts={꺼내온거} />
-            <QuestionList posts={꺼내온거} />
+            <QuestionHeader posts={posts} />
+            <QuestionList posts={posts} />
           </Box>
         </Container>
       </React.Fragment>

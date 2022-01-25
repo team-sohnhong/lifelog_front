@@ -10,7 +10,6 @@ import { Box } from "@mui/system"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { QuestionProps } from "../type/questionInteface"
 
 export default function WriteQuestion(props: any) {
   const dispatch = useDispatch()
@@ -27,22 +26,31 @@ export default function WriteQuestion(props: any) {
     setSnackbar({ open: !open })
   }
 
+  const postQuestion = async (question: any) => {
+    const response = await fetch(`http://localhost:3000/questions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(question),
+    })
+    console.log(response)
+  }
+
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const data = new FormData(event.currentTarget)
 
-    const question: QuestionProps = {
-      date: "오늘",
+    const question = {
+      id: "",
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
-      vote: 3,
-      answer: 0,
-      tags: ["태그"],
-      created_at: Date.now(),
-      writer: "Me",
+      owner: "Me",
     }
+
+    postQuestion(question)
 
     // 리덕스 스토어에 증가 액션 요청 with 데이터
     dispatch({ type: "증가", payload: question })

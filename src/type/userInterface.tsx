@@ -1,6 +1,11 @@
 export interface User {
-  id: string
-  user_name: string
+  name: string
   address: string
-  image: string
+  created_at: string
+}
+
+export const defaultUser = {
+  name: 'name',
+  address: 'address',
+  created_at: 'today',
 }

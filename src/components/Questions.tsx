@@ -9,38 +9,58 @@ import {
   Grid,
   Link,
   List,
-  Typography,
+  Typography
 } from "@mui/material"
-
-import { useEffect, useState } from "react"
-import { QuestionProps } from "../type/questionInteface"
+import { Link as RouterLink } from "react-router-dom"
+import {
+  QuestionProps
+} from "../type/questionInteface"
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-  const [loading, setLoading] = useState(true)
-  const [movies, setMovies] = useState([""])
+  // const [loading, setLoading] = useState(true)
 
-  const getMovies = async () => {
-    const json = await (
-      await fetch(
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-      )
-    ).json()
-    setMovies(json.data.movies)
-    setLoading(false)
-  }
+  // const [questionsServer, setQuestions] = useState<IQuestion[]>([
+  //   defaultQuestion,
+  // ])
 
-  useEffect(() => {
-    getMovies()
-  }, [])
+  // const question: IQuestion = questionsServer[0]
+  // const { _id, category, title, content, adopted, created_at } = question
+  // const getQuestions = async () => {
+  //   const json = await (await fetch(`http://localhost:3000/questions`)).json()
+  //   console.log(json[0])
+  //   setQuestions(json)
+  //   setLoading(false)
+  // }
+
+  // useEffect(() => {
+  //   getQuestions()
+  // }, [])
+
+  //  const [movies, setMovies] = useState([""])
+
+  //  const getMovies = async () => {
+  //    const json = await (
+  //      await fetch(
+  //        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
+  //      )
+  //    ).json()
+  //    setMovies(json.data.movies)
+  //    setLoading(false)
+  //  }
+  //   useEffect(() => {
+  //     getMovies()
+  //   }, [])
+
+  // ----response 받고 json 변환 방법 ------
   // const response = await fetch(
   //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
   // )
   // const json = await response
-  console.log(movies)
+
   return (
     <List>
       {questions
-        .map((item, index) => {
+        .map((question, index) => {
           return (
             <Card
               key={index}
@@ -62,13 +82,13 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                     component="div"
                   >
                     <Typography variant="h6" gutterBottom>
-                      {item.vote}
+                      2 {/* {item.vote} 나중에 추가 일단 서버대로*/}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       vote
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                      {item.answer}
+                      0 {/* {item.answer}  나중에 추가 일단 서버대로*/}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       answer
@@ -87,7 +107,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                         sx={{ fontSize: 20, color: "#BB86FC" }}
                         gutterBottom
                       >
-                        {item.title}
+                        {question.title}
                       </Typography>
                     </Link>
                     <Typography
@@ -95,7 +115,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       color="#D8D8D8"
                       gutterBottom
                     >
-                      {item.content}
+                      {question.content}
                     </Typography>
                   </CardContent>
                   {/* tags and writer */}
@@ -110,15 +130,24 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       wrap="nowrap"
                     >
                       <Grid item xs={1}>
-                        <Button size="small">#{item.tags[0]}</Button>
+                        <Button size="small">#tag</Button>
+                        {/* {item.tags.map((tag, index) => {
+                              return (
+                                <Button key={index} size="small">
+                                  #{tag}
+                                </Button>
+                              )
+                            })} */}
                       </Grid>
                       <Grid item mr={5}>
                         <Typography color="#616161">
-                          {item.created_at}
+                          {question.created_at}
                         </Typography>
                         <AccessibilityNewIcon></AccessibilityNewIcon>
                         <Link href="/user" underline="none">
-                          <Typography color="#BB86FC">{item.writer}</Typography>
+                          <Typography color="#BB86FC">
+                            Me {/* {item.writer} 나중에 추가 */}
+                          </Typography>
                         </Link>
                       </Grid>
                     </Grid>

@@ -1,21 +1,37 @@
+// export interface QuestionProps {
+//   title: string
+//   content: string
+//   vote: number
+//   answer: number
+//   tags: Array<string>
+//   created_at: number
+//   writer: string
+// }
+
 export interface QuestionProps {
-  date: string
+  _id: string
+  category: number
   title: string
   content: string
-  vote: number
-  answer: number
-  tags: Array<string>
-  created_at: number
-  writer: string
+  adopted: boolean
+  created_at: string
 }
 
-// const question: QuestionProps = {
-//   date: "today",
-//   title: "title",
-//   content: "content",
-//   vote: 2,
-//   answer: 0,
-//   tags: ["tag1"],
-//   created_at: Date.now(),
-//   writer: "userName",
-// }
+export const defaultQuestion: QuestionProps = {
+  _id: "",
+  category: 0,
+  title: "",
+  content: "",
+  adopted: false,
+  created_at: "",
+}
+
+// vote: number
+// answer: number
+// tags: Array<string>
+// writer: string
+
+// vote: 2,
+// answer: 3,
+// tags: ["태그1"],
+// writer: "Writer",

@@ -11,27 +11,20 @@ import {
   List,
   Typography,
 } from "@mui/material"
-import { Link as RouterLink } from "react-router-dom"
 
 import { useEffect, useState } from "react"
 import { QuestionProps } from "../type/questionInteface"
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-  // const { posts } = props.posts
-
   const [loading, setLoading] = useState(true)
   const [movies, setMovies] = useState([""])
 
   const getMovies = async () => {
-    // const response = await fetch(
-    //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-    // )
     const json = await (
       await fetch(
         `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
       )
     ).json()
-    // const json = await response
     setMovies(json.data.movies)
     setLoading(false)
   }
@@ -39,6 +32,10 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
   useEffect(() => {
     getMovies()
   }, [])
+  // const response = await fetch(
+  //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
+  // )
+  // const json = await response
   console.log(movies)
   return (
     <List>
@@ -49,13 +46,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
               key={index}
               sx={{ minWidth: 275, mb: 1, backgroundColor: "#1E1E1E" }}
             >
-              <Grid
-                container
-                direction="row"
-                // justify="center"
-                // alignItems="center"
-                alignContent="center"
-              >
+              <Grid container direction="row" alignContent="center">
                 {/* views and answers */}
                 <Grid item xs={1}>
                   <Box
@@ -87,7 +78,11 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                 {/* content-body */}
                 <Grid item xs={11} mx={"auto"}>
                   <CardContent>
-                    <Link component={RouterLink} to="/question/detail" underline="none">
+                    <Link
+                      component={RouterLink}
+                      to="/question/detail"
+                      underline="none"
+                    >
                       <Typography
                         sx={{ fontSize: 20, color: "#BB86FC" }}
                         gutterBottom
@@ -101,10 +96,6 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       gutterBottom
                     >
                       {item.content}
-                      {/* I'm currently trying to make a quote system for my forum and
-                    since I am using bb-codes throughout the whole system I want
-                    to implement this for quoting aswell. I have created what I
-                    want the quote tag ... */}
                     </Typography>
                   </CardContent>
                   {/* tags and writer */}
@@ -134,7 +125,6 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                   </CardActions>
                 </Grid>
               </Grid>
-
               <Divider />
             </Card>
           )

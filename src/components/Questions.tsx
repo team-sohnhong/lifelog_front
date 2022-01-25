@@ -69,7 +69,8 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                   <CardContent>
                     <Link
                       component={RouterLink}
-                      to="/question/detail"
+                      to={`/question/${question.id}`}
+                      // id={question._id}
                       underline="none"
                     >
                       <Typography

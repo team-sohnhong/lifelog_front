@@ -26,7 +26,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/question" element={<WriteQuestion />} />
-          <Route path="/question/detail" element={<Question />} />
+          <Route path="/question/:id" element={<Question />} />
           {/* id로 바꿀 예정 */}
         </Routes>
       </BrowserRouter>

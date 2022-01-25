@@ -9,7 +9,7 @@
 // }
 
 export interface QuestionProps {
-  _id: string
+  id: string
   category: number
   title: string
   content: string
@@ -18,7 +18,7 @@ export interface QuestionProps {
 }
 
 export const defaultQuestion: QuestionProps = {
-  _id: "",
+  id: "",
   category: 0,
   title: "",
   content: "",

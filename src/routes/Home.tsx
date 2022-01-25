@@ -9,13 +9,13 @@ function Home() {
   // const questions = useSelector(state => state) as QuestionProps[]
   const [loading, setLoading] = useState(true) //이거 안넣어도 왜 에러가 안나지
 
-  const [questions, setQuestions] = useState<QuestionProps[]>([
-    defaultQuestion,
-  ])
+  const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
 
   const getQuestions = async () => {
-    const json = await (await fetch(`http://localhost:3000/questions`, {method: 'GET'})).json()
-    console.log(json[0])
+    const json = await (
+      await fetch(`http://localhost:3000/questions`, { method: "GET" })
+    ).json()
+    console.log(json)
     setQuestions(json)
     setLoading(false)
   }

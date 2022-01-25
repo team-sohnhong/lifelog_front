@@ -5,7 +5,7 @@ import {
   Divider,
   Grid,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
@@ -17,10 +17,15 @@ export default function Question() {
 
   const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
   const question: QuestionProps = questions[0]
-  const { _id, category, title, content, adopted, created_at } = question
-  // useParams
+  const { id, category, title, content, adopted, created_at } = question
+  
+  const params = useParams()
+  console.log("🚀 ~ file: Question.tsx ~ line 22 ~ Question ~ id", params.id)
+
   const getQuestions = async () => {
-    const json = await (await fetch(`http://localhost:3000/questions`)).json()
+    const json = await(
+      await fetch(`http://localhost:3000/questions?${params.id}`)
+    ).json()
     console.log(json[0])
     setQuestions(json)
     setLoading(false)
@@ -77,7 +82,7 @@ export default function Question() {
                 </Typography>
                 <Typography sx={{ my: 1 }}>만든 시간: {created_at}</Typography>
                 <Typography sx={{ my: 1 }}>카테고리: {category}</Typography>
-                <Typography sx={{ my: 1 }}>아이디: {_id}</Typography>
+                <Typography sx={{ my: 1 }}>아이디: {id}</Typography>
                 <Divider />
                 {[
                   "댓글1 : 좋은 글이네요",

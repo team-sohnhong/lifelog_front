@@ -7,7 +7,7 @@ import "./index.css"
 import { QuestionProps } from "./type/questionInteface"
 
 const post: QuestionProps = {
-  _id: "",
+  id: "",
   category: 0,
   title: "Default title",
   content:

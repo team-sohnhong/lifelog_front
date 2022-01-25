@@ -15,7 +15,7 @@ const theme = createTheme({
       default: "#121212",
     },
   },
-});
+})
 
 const App: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ const App: React.FC = () => {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

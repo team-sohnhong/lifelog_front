@@ -9,15 +9,12 @@ import {
   Grid,
   Link,
   List,
-  Typography
+  Typography,
 } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
-import {
-  QuestionProps
-} from "../type/questionInteface"
+import { QuestionProps } from "../type/questionInteface"
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-
   // 동적으로 변경하자. 그것만 해보자
 
   // ----response 받고 json 변환 방법 ------
@@ -25,7 +22,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
   //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
   // )
   // const json = await response
-  
+
   return (
     <List>
       {questions

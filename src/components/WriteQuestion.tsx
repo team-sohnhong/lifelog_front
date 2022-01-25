@@ -45,7 +45,7 @@ export default function WriteQuestion(props: any) {
     const data = new FormData(event.currentTarget)
 
     const question = {
-      id: "",
+      id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
       owner: "Me",

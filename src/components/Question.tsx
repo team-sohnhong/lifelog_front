@@ -5,7 +5,7 @@ import {
   Divider,
   Grid,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
@@ -18,12 +18,12 @@ export default function Question() {
   const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
   const question: QuestionProps = questions[0]
   const { id, category, title, content, adopted, created_at } = question
-  
+
   const params = useParams()
   console.log("🚀 ~ file: Question.tsx ~ line 22 ~ Question ~ id", params.id)
 
   const getQuestions = async () => {
-    const json = await(
+    const json = await (
       await fetch(`http://localhost:3000/questions?${params.id}`)
     ).json()
     console.log(json[0])

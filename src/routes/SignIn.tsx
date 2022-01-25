@@ -10,6 +10,7 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import * as React from "react"
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props: any) {
   return (
@@ -30,6 +31,21 @@ function Copyright(props: any) {
 }
 
 export default function SignIn(props: any) {
+  const navigate = useNavigate()
+
+  const postSignIn = async (address: any) => {
+    const json = await (
+      await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(address),
+      })
+    ).json()
+    console.log(json)
+  }
+
   // 로그인 버튼 누를 시
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -40,6 +56,10 @@ export default function SignIn(props: any) {
       email: data.get("email"),
       password: data.get("password"),
     })
+
+    const address = { address: "your address" }
+    postSignIn(address)
+    navigate('/')
   }
 
   return (

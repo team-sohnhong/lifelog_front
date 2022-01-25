@@ -6,6 +6,8 @@ import {
   Grid,
   TextField,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
@@ -13,26 +15,31 @@ import { useParams } from "react-router-dom"
 import { defaultQuestion, QuestionProps } from "../type/questionInteface"
 
 export default function Question() {
+  const params = useParams()
+
   const [loading, setLoading] = useState(true)
 
-  const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
-  const question: QuestionProps = questions[0]
-  const { id, category, title, content, adopted, created_at } = question
+  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion)
+  const { id, category, title, content, created_at, owner } = question
+  let { adopted } = question
 
-  const params = useParams()
-  console.log("🚀 ~ file: Question.tsx ~ line 22 ~ Question ~ id", params.id)
-
-  const getQuestions = async () => {
+  //axios로 변경 예정
+  const getQuestion = async () => {
     const json = await (
-      await fetch(`http://localhost:3000/questions?${params.id}`)
+      await fetch(`http://localhost:3000/questions/${params.id}`)
     ).json()
-    console.log(json[0])
-    setQuestions(json)
+    setQuestion(json)
     setLoading(false)
   }
 
+  const clickAdopted = () => {
+    setQuestion({
+      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
+      adopted: !adopted, // 이렇게!
+    })
+  }
   useEffect(() => {
-    getQuestions()
+    getQuestion()
   }, [])
 
   return (
@@ -41,7 +48,7 @@ export default function Question() {
         <Container maxWidth="md">
           <Box
             sx={{
-              height: "100vh",
+              minHeight: "100vh",
               display: "flex",
               flexDirection: "column",
               borderLeft: 1,
@@ -67,6 +74,27 @@ export default function Question() {
                 <Typography sx={{ mt: 10 }} component="h6" variant="h6">
                   {content}
                 </Typography>
+                <Divider sx={{ mt: 30, mb: 3 }} />
+                <Typography sx={{ my: 1 }}>
+                  채택 여부: {adopted.toString()}
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onClick={() => {
+                        clickAdopted()
+                        console.log(adopted)
+                      }}
+                      value={adopted}
+                      color="primary"
+                    />
+                  }
+                  label="채택하기"
+                />
+                <Typography sx={{ my: 1 }}>만든 시간: {created_at}</Typography>
+                <Typography sx={{ my: 1 }}>만든 사람: {owner}</Typography>
+                <Typography sx={{ my: 1 }}>카테고리: {category}</Typography>
+                <Typography sx={{ my: 1 }}>아이디: {id}</Typography>
                 <ButtonGroup
                   variant="contained"
                   color="secondary"
@@ -77,36 +105,19 @@ export default function Question() {
                   <Button>Tag1</Button>
                   <Button>Tag2</Button>
                 </ButtonGroup>
-                <Typography sx={{ my: 1 }}>
-                  채택 여부: {adopted.toString()}
-                </Typography>
-                <Typography sx={{ my: 1 }}>만든 시간: {created_at}</Typography>
-                <Typography sx={{ my: 1 }}>카테고리: {category}</Typography>
-                <Typography sx={{ my: 1 }}>아이디: {id}</Typography>
                 <Divider />
                 {[
                   "댓글1 : 좋은 글이네요",
                   "댓글2 : 배고파요",
                   "댓글3 : 감사합니다!!!",
-                ].map((item, index) => {
+                ].map((comment, index) => {
                   return (
                     <Typography key={index} sx={{ my: 1 }}>
-                      {item}
+                      {comment}
                     </Typography>
                   )
                 })}
                 <Divider />
-                {/* <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  maxHeight: { xs: 233, md: 167 },
-                  maxWidth: { xs: 350, md: 250 },
-                }}
-                alt="The house from the offer."
-                src={"/logo192.png"}
-              /> */}
                 <TextField
                   name="comment"
                   variant="standard"

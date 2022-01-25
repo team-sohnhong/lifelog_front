@@ -15,6 +15,7 @@ export interface QuestionProps {
   content: string
   adopted: boolean
   created_at: string
+  owner: string
 }
 
 export const defaultQuestion: QuestionProps = {
@@ -24,6 +25,7 @@ export const defaultQuestion: QuestionProps = {
   content: "",
   adopted: false,
   created_at: "",
+  owner: "",
 }
 
 // vote: number

@@ -18,7 +18,7 @@ export default function QuestionHeader({
         <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
-        <Link component={RouterLink} to="/question" underline="none">
+        <Link component={RouterLink} to="/write" underline="none">
           <Button variant="contained" color="primary">
             Add Question
           </Button>

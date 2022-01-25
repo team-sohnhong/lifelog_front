@@ -15,14 +15,6 @@ import { Link as RouterLink } from "react-router-dom"
 import { QuestionProps } from "../type/questionInteface"
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-  // 동적으로 변경하자. 그것만 해보자
-
-  // ----response 받고 json 변환 방법 ------
-  // const response = await fetch(
-  //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-  // )
-  // const json = await response
-
   return (
     <List>
       {questions
@@ -113,7 +105,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                         <AccessibilityNewIcon></AccessibilityNewIcon>
                         <Link href="/user" underline="none">
                           <Typography color="#BB86FC">
-                            Me {/* {item.writer} 나중에 추가 */}
+                            {question.owner}
                           </Typography>
                         </Link>
                       </Grid>

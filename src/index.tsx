@@ -4,21 +4,18 @@ import { Provider } from "react-redux"
 import { createStore } from "redux"
 import App from "./App"
 import "./index.css"
-import { QuestionProps } from "./type/questionInteface"
+import { defaultQuestion, QuestionProps } from "./type/questionInteface"
 
-const post: QuestionProps = {
-  id: "",
-  category: 0,
-  title: "Default title",
-  content:
-    "I'm currently trying to make a quote system for my forum and since I am using bb-codes throughout the whole system I want to implement this for quoting aswell. I have created what I want the quote tag ...",
-  adopted: false,
-  created_at: Date.now().toString(),
-}
+// 예시용 redux용 questions입니다. 이 곳 외 사용되지 않음.
+const questions: QuestionProps[] = [
+  defaultQuestion,
+  defaultQuestion,
+  defaultQuestion,
+  defaultQuestion,
+  defaultQuestion,
+]
 
-const posts: QuestionProps[] = [post, post, post, post, post] //post의 개수 만큼 리스트 생성
-
-function reducer(state = posts, action: any) {
+function reducer(state = questions, action: any) {
   if (action.type === "증가") {
     console.log(action.payload)
     state.push(action.payload)

@@ -32,7 +32,7 @@ function Home() {
         <Container fixed>
           <Box
             sx={{
-              height: "150vh",
+              minHeight: "150vh",
             }}
           >
             <QuestionHeader questions={questions} />

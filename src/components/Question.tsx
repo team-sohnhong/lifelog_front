@@ -9,6 +9,7 @@ import {
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { defaultQuestion, QuestionProps } from "../type/questionInteface"
 
 export default function Question() {
@@ -17,7 +18,7 @@ export default function Question() {
   const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
   const question: QuestionProps = questions[0]
   const { _id, category, title, content, adopted, created_at } = question
-
+  // useParams
   const getQuestions = async () => {
     const json = await (await fetch(`http://localhost:3000/questions`)).json()
     console.log(json[0])

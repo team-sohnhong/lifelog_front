@@ -17,46 +17,15 @@ import {
 } from "../type/questionInteface"
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-  // const [loading, setLoading] = useState(true)
 
-  // const [questionsServer, setQuestions] = useState<IQuestion[]>([
-  //   defaultQuestion,
-  // ])
-
-  // const question: IQuestion = questionsServer[0]
-  // const { _id, category, title, content, adopted, created_at } = question
-  // const getQuestions = async () => {
-  //   const json = await (await fetch(`http://localhost:3000/questions`)).json()
-  //   console.log(json[0])
-  //   setQuestions(json)
-  //   setLoading(false)
-  // }
-
-  // useEffect(() => {
-  //   getQuestions()
-  // }, [])
-
-  //  const [movies, setMovies] = useState([""])
-
-  //  const getMovies = async () => {
-  //    const json = await (
-  //      await fetch(
-  //        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-  //      )
-  //    ).json()
-  //    setMovies(json.data.movies)
-  //    setLoading(false)
-  //  }
-  //   useEffect(() => {
-  //     getMovies()
-  //   }, [])
+  // 동적으로 변경하자. 그것만 해보자
 
   // ----response 받고 json 변환 방법 ------
   // const response = await fetch(
   //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
   // )
   // const json = await response
-
+  
   return (
     <List>
       {questions

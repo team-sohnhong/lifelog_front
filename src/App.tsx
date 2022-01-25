@@ -11,11 +11,11 @@ const theme = createTheme({
     // mode: "dark",
     primary: { main: "#1f1f1f" },
     secondary: { main: "#bb86fc" },
-    // background: {
-    // default: "#101010",
-    // },
+    background: {
+      default: "#121212",
+    },
   },
-})
+});
 
 const App: React.FC = () => {
   return (
@@ -31,7 +31,7 @@ const App: React.FC = () => {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

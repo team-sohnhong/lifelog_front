@@ -14,9 +14,8 @@ export default function QuestionHeader({
         spacing={0}
         px={2}
         pt={2}
-        justifyContent={"space-between"}
-      >
-        <Typography variant="h4" color="initial">
+        justifyContent={"space-between"}>
+        <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
         <Link component={RouterLink} to="/question" underline="none">
@@ -26,9 +25,9 @@ export default function QuestionHeader({
         </Link>
       </Grid>
       <Box sx={{ mt: 5 }}>
-        <Typography px={2}>{questionsLength} questions</Typography>
+        <Typography px={2} color="#D8D8D8">{questionsLength} questions</Typography>
         <Divider />
       </Box>
     </Box>
-  )
+  );
 }

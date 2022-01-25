@@ -66,7 +66,7 @@ export default function Question() {
               "댓글2 : 배고파요",
               "댓글3 : 안녕하세요 가르쳐주세요",
             ].map((item, index) => {
-              return <Typography sx={{ my: 1 }}>{item}</Typography>
+              return (<Typography key={index} sx={{ my: 1 }}>{item}</Typography>)
             })}
             <Divider />
             {/* <Box

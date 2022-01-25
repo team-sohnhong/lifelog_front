@@ -1,4 +1,4 @@
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import {
   Box,
   Button,
@@ -10,47 +10,27 @@ import {
   Link,
   List,
   Typography,
-} from "@mui/material"
-import { useEffect, useState } from "react"
-import { QuestionProps } from "../type/questionInteface"
+} from "@mui/material";
+import { Posts } from "../routes/Home";
 
-const Questions = ({ questions }: { questions: QuestionProps[] }) => {
-  // const { posts } = props.posts
+const QuestionList: React.FC<Posts> = (props) => {
+  const { posts } = props;
+  const post = posts[0];
 
-  const [loading, setLoading] = useState(true)
-  const [movies, setMovies] = useState([""])
-
-  const getMovies = async () => {
-    // const response = await fetch(
-    //   `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-    // )
-    const json = await (
-      await fetch(
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.5&sort_by=year`
-      )
-    ).json()
-    // const json = await response
-    setMovies(json.data.movies)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    getMovies()
-  }, [])
-  console.log(movies)
   return (
     <List>
-      {questions
+      {posts
         .map((item, index) => {
           return (
-            <Card key={index} sx={{ minWidth: 275, mb: 1 }}>
+            <Card
+              key={index}
+              sx={{ minWidth: 275, mb: 1, backgroundColor: "#1E1E1E" }}>
               <Grid
                 container
                 direction="row"
                 // justify="center"
                 // alignItems="center"
-                alignContent="center"
-              >
+                alignContent="center">
                 {/* views and answers */}
                 <Grid item xs={1}>
                   <Box
@@ -61,17 +41,17 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       justifyContent: "center",
                       alignContent: "center",
                       alignItems: "center",
+                      color: "#616161",
                     }}
-                    component="div"
-                  >
+                    component="div">
                     <Typography variant="h6" gutterBottom>
-                      {item.vote}
+                      {post.vote}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       vote
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                      {item.answer}
+                      {post.answer}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       answer
@@ -81,16 +61,17 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                 {/* content-body */}
                 <Grid item xs={11} mx={"auto"}>
                   <CardContent>
-                    <Link href="/question/detail" underline="none">
-                      <Typography sx={{ fontSize: 20 }} gutterBottom>
+                    <Link href="/question" underline="none">
+                      <Typography
+                        sx={{ fontSize: 20, color: "#BB86FC" }}
+                        gutterBottom>
                         {item.title}
                       </Typography>
                     </Link>
                     <Typography
                       sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
+                      color="#D8D8D8"
+                      gutterBottom>
                       {item.content}
                       {/* I'm currently trying to make a quote system for my forum and
                     since I am using bb-codes throughout the whole system I want
@@ -107,16 +88,17 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       justifyContent="space-between"
                       alignItems="center"
                       alignContent="center"
-                      wrap="nowrap"
-                    >
+                      wrap="nowrap">
                       <Grid item xs={1}>
-                        <Button size="small">#{item.tags[0]}</Button>
+                        <Button size="small">#{post.tags[0]}</Button>
                       </Grid>
                       <Grid item mr={5}>
-                        <Typography>{item.created_at}</Typography>
+                        <Typography color="#616161">
+                          {post.created_at}
+                        </Typography>
                         <AccessibilityNewIcon></AccessibilityNewIcon>
                         <Link href="/user" underline="none">
-                          <Typography>{item.writer}</Typography>
+                          <Typography color="#BB86FC">{post.writer}</Typography>
                         </Link>
                       </Grid>
                     </Grid>
@@ -126,11 +108,15 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
 
               <Divider />
             </Card>
-          )
+          );
         })
         .reverse()}
     </List>
-  )
-}
+  );
+};
 
-export default Questions
+export default QuestionList;
+
+// 1. props 전달하는 것 만들기
+// 2. 비동기 통신 만들기
+// 3.

@@ -1,4 +1,4 @@
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
 import {
   Box,
   Button,
@@ -10,27 +10,26 @@ import {
   Link,
   List,
   Typography,
-} from "@mui/material";
-import { Posts } from "../routes/Home";
+} from "@mui/material"
+import { QuestionProps } from "../type/questionInteface"
 
-const QuestionList: React.FC<Posts> = (props) => {
-  const { posts } = props;
-  const post = posts[0];
-
+const QuestionList = ({ questions }: { questions: QuestionProps[] }) => {
   return (
     <List>
-      {posts
+      {questions
         .map((item, index) => {
           return (
             <Card
               key={index}
-              sx={{ minWidth: 275, mb: 1, backgroundColor: "#1E1E1E" }}>
+              sx={{ minWidth: 275, mb: 1, backgroundColor: "#1E1E1E" }}
+            >
               <Grid
                 container
                 direction="row"
                 // justify="center"
                 // alignItems="center"
-                alignContent="center">
+                alignContent="center"
+              >
                 {/* views and answers */}
                 <Grid item xs={1}>
                   <Box
@@ -43,15 +42,16 @@ const QuestionList: React.FC<Posts> = (props) => {
                       alignItems: "center",
                       color: "#616161",
                     }}
-                    component="div">
+                    component="div"
+                  >
                     <Typography variant="h6" gutterBottom>
-                      {post.vote}
+                      {item.vote}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       vote
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                      {post.answer}
+                      {item.answer}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       answer
@@ -64,14 +64,16 @@ const QuestionList: React.FC<Posts> = (props) => {
                     <Link href="/question" underline="none">
                       <Typography
                         sx={{ fontSize: 20, color: "#BB86FC" }}
-                        gutterBottom>
+                        gutterBottom
+                      >
                         {item.title}
                       </Typography>
                     </Link>
                     <Typography
                       sx={{ fontSize: 14 }}
                       color="#D8D8D8"
-                      gutterBottom>
+                      gutterBottom
+                    >
                       {item.content}
                       {/* I'm currently trying to make a quote system for my forum and
                     since I am using bb-codes throughout the whole system I want
@@ -88,17 +90,18 @@ const QuestionList: React.FC<Posts> = (props) => {
                       justifyContent="space-between"
                       alignItems="center"
                       alignContent="center"
-                      wrap="nowrap">
+                      wrap="nowrap"
+                    >
                       <Grid item xs={1}>
-                        <Button size="small">#{post.tags[0]}</Button>
+                        <Button size="small">#{item.tags[0]}</Button>
                       </Grid>
                       <Grid item mr={5}>
                         <Typography color="#616161">
-                          {post.created_at}
+                          {item.created_at}
                         </Typography>
                         <AccessibilityNewIcon></AccessibilityNewIcon>
                         <Link href="/user" underline="none">
-                          <Typography color="#BB86FC">{post.writer}</Typography>
+                          <Typography color="#BB86FC">{item.writer}</Typography>
                         </Link>
                       </Grid>
                     </Grid>
@@ -108,14 +111,14 @@ const QuestionList: React.FC<Posts> = (props) => {
 
               <Divider />
             </Card>
-          );
+          )
         })
         .reverse()}
     </List>
-  );
-};
+  )
+}
 
-export default QuestionList;
+export default QuestionList
 
 // 1. props 전달하는 것 만들기
 // 2. 비동기 통신 만들기

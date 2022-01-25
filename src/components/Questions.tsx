@@ -11,6 +11,8 @@ import {
   List,
   Typography,
 } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
+
 import { useEffect, useState } from "react"
 import { QuestionProps } from "../type/questionInteface"
 
@@ -43,7 +45,10 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
       {questions
         .map((item, index) => {
           return (
-            <Card key={index} sx={{ minWidth: 275, mb: 1 }}>
+            <Card
+              key={index}
+              sx={{ minWidth: 275, mb: 1, backgroundColor: "#1E1E1E" }}
+            >
               <Grid
                 container
                 direction="row"
@@ -61,6 +66,7 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                       justifyContent: "center",
                       alignContent: "center",
                       alignItems: "center",
+                      color: "#616161",
                     }}
                     component="div"
                   >
@@ -81,14 +87,17 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                 {/* content-body */}
                 <Grid item xs={11} mx={"auto"}>
                   <CardContent>
-                    <Link href="/question/detail" underline="none">
-                      <Typography sx={{ fontSize: 20 }} gutterBottom>
+                    <Link component={RouterLink} to="/question/detail" underline="none">
+                      <Typography
+                        sx={{ fontSize: 20, color: "#BB86FC" }}
+                        gutterBottom
+                      >
                         {item.title}
                       </Typography>
                     </Link>
                     <Typography
                       sx={{ fontSize: 14 }}
-                      color="text.secondary"
+                      color="#D8D8D8"
                       gutterBottom
                     >
                       {item.content}
@@ -113,10 +122,12 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
                         <Button size="small">#{item.tags[0]}</Button>
                       </Grid>
                       <Grid item mr={5}>
-                        <Typography>{item.created_at}</Typography>
+                        <Typography color="#616161">
+                          {item.created_at}
+                        </Typography>
                         <AccessibilityNewIcon></AccessibilityNewIcon>
                         <Link href="/user" underline="none">
-                          <Typography>{item.writer}</Typography>
+                          <Typography color="#BB86FC">{item.writer}</Typography>
                         </Link>
                       </Grid>
                     </Grid>

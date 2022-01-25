@@ -7,7 +7,7 @@ import { defaultQuestion, QuestionProps } from "../type/questionInteface"
 
 function Home() {
   // const questions = useSelector(state => state) as QuestionProps[]
-  const [loading, setLoading] = useState(true) //이거 안넣어도 왜 에러가 안나지
+  const [loading, setLoading] = useState(true) //loading 안 써도 에러가 안난다.
 
   const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
 

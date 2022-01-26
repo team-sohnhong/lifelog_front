@@ -133,9 +133,13 @@ export default function Question() {
                   // required
                   fullWidth
                   sx={{
-                    my: 8,
+                    mt: 8,
+                    mb: 3,
                   }}
                 />
+                <Button variant="contained" color="secondary">
+                  입력
+                </Button>
               </Grid>
             </Grid>
           </Box>

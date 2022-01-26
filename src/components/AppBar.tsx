@@ -14,8 +14,6 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 import { Link } from "@mui/material"
 
-
-
 const pages = ["Products", "Pricing", "Blog"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
@@ -39,6 +37,9 @@ const ResponsiveAppBar = () => {
   }
 
   const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+  const handleNavigateUserMenu = () => {
     setAnchorElUser(null)
     navigate("/signin")
   }
@@ -109,9 +110,7 @@ const ResponsiveAppBar = () => {
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-              
-          </Typography>
+          ></Typography>
           <Box
             sx={{
               flexGrow: 1,
@@ -156,7 +155,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleNavigateUserMenu}> 
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography"
 import * as React from "react"
 import { useNavigate } from "react-router-dom"
 import ButtonGroup from "@mui/material/ButtonGroup"
+import Web3 from "web3"
 
 function Copyright(props: any) {
   return (
@@ -45,6 +46,11 @@ export default function SignIn(props: any) {
       })
     ).json()
     console.log(json)
+  }
+  const handleMetamask = async () => {
+    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
+    const account = await web3.eth.getAccounts()
+    console.log("🚀 ~메타마스크 주소 겟 ~ handleMetamask ~ account", account)
   }
 
   // 로그인 버튼 누를 시
@@ -112,12 +118,17 @@ export default function SignIn(props: any) {
             label="Remember me"
           />
           <ButtonGroup variant="contained" color="warning" aria-label="">
-            <Button fullWidth variant="contained" color="warning">
+            <Button
+              onClick={handleMetamask}
+              fullWidth
+              variant="contained"
+              color="warning"
+            >
               Sign in with MetaMask
             </Button>
-          <Button fullWidth variant="contained" color="info">
-            Sign up with Google
-          </Button> 
+            <Button fullWidth variant="contained" color="info">
+              Sign up with Google
+            </Button>
           </ButtonGroup>
           {/* 제출버튼 */}
           <Button

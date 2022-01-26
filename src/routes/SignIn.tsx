@@ -10,7 +10,8 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import * as React from "react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
+import ButtonGroup from "@mui/material/ButtonGroup"
 
 function Copyright(props: any) {
   return (
@@ -59,7 +60,7 @@ export default function SignIn(props: any) {
 
     const address = { address: "your address" }
     postSignIn(address)
-    navigate('/')
+    navigate("/")
   }
 
   return (
@@ -110,6 +111,14 @@ export default function SignIn(props: any) {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          <ButtonGroup variant="contained" color="warning" aria-label="">
+            <Button fullWidth variant="contained" color="warning">
+              Sign in with MetaMask
+            </Button>
+          <Button fullWidth variant="contained" color="info">
+            Sign up with Google
+          </Button> 
+          </ButtonGroup>
           {/* 제출버튼 */}
           <Button
             type="submit"

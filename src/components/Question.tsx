@@ -11,11 +11,13 @@ import {
 } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { defaultQuestion, QuestionProps } from "../type/questionInteface"
+import { apiRequest } from "./../api/api"
 
 export default function Question() {
   const params = useParams()
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true)
 
@@ -23,12 +25,11 @@ export default function Question() {
   const { id, category, title, content, created_at, owner } = question
   let { adopted } = question
 
-  //axios로 변경 예정
   const getQuestion = async () => {
-    const json = await (
-      await fetch(`http://localhost:3000/questions/${params.id}`)
-    ).json()
-    setQuestion(json)
+    const response = await apiRequest.get(`/questions/${params.id}`)
+    const { data } = response
+
+    setQuestion(data)
     setLoading(false)
   }
 
@@ -42,10 +43,16 @@ export default function Question() {
     getQuestion()
   }, [])
 
+  const deleteQuestion = async () => {
+    const response = await apiRequest.delete(`/questions/${params.id}`)
+    console.log("🚀 ~ file: Question.tsx ~ line 47 ~ deleteQuestion ~ response", response)
+    navigate('/')
+  }
+
   return (
     <div>
       {loading ? null : (
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Box
             sx={{
               minHeight: "100vh",
@@ -95,6 +102,7 @@ export default function Question() {
                 <Typography sx={{ my: 1 }}>만든 사람: {owner}</Typography>
                 <Typography sx={{ my: 1 }}>카테고리: {category}</Typography>
                 <Typography sx={{ my: 1 }}>아이디: {id}</Typography>
+                <Button onClick={deleteQuestion}>삭제하기</Button>
                 <ButtonGroup
                   variant="contained"
                   color="secondary"

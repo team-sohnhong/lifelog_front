@@ -11,7 +11,10 @@ import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import Tooltip from "@mui/material/Tooltip"
 import MenuItem from "@mui/material/MenuItem"
-import { useNavigate } from "react-router-dom"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
+import { Link } from "@mui/material"
+
+
 
 const pages = ["Products", "Pricing", "Blog"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
@@ -44,19 +47,21 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            color="#FFCD4A"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontWeight: "bold",
-            }}
-          >
-            CRIT
-          </Typography>
+          <Link component={RouterLink} to="/" underline="none">
+            <Typography
+              component="h6"
+              variant="h6"
+              noWrap
+              color="#FFCD4A"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: "bold",
+              }}
+            >
+              CRIT
+            </Typography>
+          </Link>
 
           <Box
             sx={{
@@ -105,7 +110,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+              
           </Typography>
           <Box
             sx={{

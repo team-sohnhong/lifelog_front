@@ -11,6 +11,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { v4 as uuidv4 } from "uuid"
+import { apiRequest } from "../api/api"
 
 export default function WriteQuestion(props: any) {
   const dispatch = useDispatch()
@@ -28,14 +29,11 @@ export default function WriteQuestion(props: any) {
   }
 
   const postQuestion = async (question: any) => {
-    const response = await fetch(`http://localhost:3000/questions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(question),
-    })
-    console.log(response)
+    const response = await apiRequest.post(`/questions`, question)
+    console.log(
+      "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
+      response
+    )
   }
 
   // 전송 및 라우트 이동 로직
@@ -44,11 +42,15 @@ export default function WriteQuestion(props: any) {
 
     const data = new FormData(event.currentTarget)
 
-    const question = {
+    let question = {
       id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
       owner: "Me",
+    }
+
+    if (question.title.length === 0) { 
+      question.title = "default title"
     }
 
     postQuestion(question)
@@ -112,7 +114,12 @@ export default function WriteQuestion(props: any) {
             </Snackbar>
           </Grid>
           <Grid item xs={2}>
-            <Button type="submit" color="secondary" variant="contained">
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              // disabled
+            >
               저장
             </Button>
           </Grid>

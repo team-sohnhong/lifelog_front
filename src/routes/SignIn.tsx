@@ -12,7 +12,6 @@ import Typography from "@mui/material/Typography"
 import * as React from "react"
 import { useNavigate } from "react-router-dom"
 import ButtonGroup from "@mui/material/ButtonGroup"
-import Web3 from "web3"
 
 function Copyright(props: any) {
   return (
@@ -48,9 +47,9 @@ export default function SignIn(props: any) {
     console.log(json)
   }
   const handleMetamask = async () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
-    const account = await web3.eth.getAccounts()
-    console.log("🚀 ~메타마스크 주소 겟 ~ handleMetamask ~ account", account)
+    // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
+    // const account = await web3.eth.getAccounts()
+    // console.log("🚀 ~메타마스크 주소 겟 ~ handleMetamask ~ account", account)
   }
 
   // 로그인 버튼 누를 시

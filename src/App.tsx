@@ -1,10 +1,12 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Home from "./routes/Home"
-import SignIn from "./routes/SignIn"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import CssBaseline from "@mui/material/CssBaseline"
-import WriteQuestion from "./components/WriteQuestion"
-import Question from "./components/Question"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./routes/Home";
+import SignIn from "./routes/SignIn";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import WriteQuestion from "./components/WriteQuestion";
+import Question from "./components/Question";
+import { ethers } from "ethers";
+import { useState, useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -15,9 +17,9 @@ const theme = createTheme({
       default: "#121212",
     },
   },
-})
+});
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -31,7 +33,7 @@ const App: React.FC = () => {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

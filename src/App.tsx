@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AppBar from "./components/AppBar"
 import Question from "./components/Question"
-import WriteQuestion from "./components/QuestionWrite"
+import QuestionWrite from "./components/QuestionWrite"
 import Home from "./routes/Home"
 import SignIn from "./routes/SignIn"
 
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
             <Route path="signin" element={<SignIn />} />
-            <Route path="write" element={<WriteQuestion />} />
+            <Route path="write" element={<QuestionWrite />} />
             <Route path="question/:id" element={<Question />} />
         </Routes>
       </BrowserRouter>

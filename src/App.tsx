@@ -7,6 +7,7 @@ import QuestionWrite from "./components/QuestionWrite"
 import Question from "./components/Question";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
+import AppBar from "./components/AppBar";
 
 const theme = createTheme({
   palette: {

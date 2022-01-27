@@ -1,13 +1,11 @@
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AppBar from "./components/AppBar";
+import Question from "./components/Question";
+import QuestionWrite from "./components/QuestionWrite";
 import Home from "./routes/Home";
 import SignIn from "./routes/SignIn";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import QuestionWrite from "./components/QuestionWrite"
-import Question from "./components/Question";
-import { ethers } from "ethers";
-import { useState, useEffect } from "react";
-import AppBar from "./components/AppBar";
 
 const theme = createTheme({
   palette: {

@@ -8,7 +8,7 @@ export const apiRequest: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  // withCredentials: true,
   // refresh token 설정
 
   // timeout: 30000,

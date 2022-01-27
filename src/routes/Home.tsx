@@ -1,14 +1,20 @@
-import { Box, Container, CssBaseline } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import { Box, Container, CssBaseline } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import AppBar from "../components/AppBar";
+import QuestionHeader from "../components/QuestionHeader";
+import Questions from "../components/Questions";
+import { defaultQuestion, QuestionProps } from "../type/questionInteface";
+import MetaMaskAuth from "../components/auth/Metamask";
 import { apiRequest } from "../api/api"
-import QuestionHeader from "../components/QuestionHeader"
-import Questions from "../components/Questions"
-import { defaultQuestion, QuestionProps } from "../type/questionInteface"
 
 function Home() {
-  const [loading, setLoading] = useState(true)
+  // const questions = useSelector(state => state) as QuestionProps[]
+  const [loading, setLoading] = useState(true); //이거 안넣어도 왜 에러가 안나지
 
-  const [questions, setQuestions] = useState<QuestionProps[]>([defaultQuestion])
+  // <QuestionProps[]>
+  const [questions, setQuestions] = useState<QuestionProps[]>([
+    defaultQuestion,
+  ]);
 
   const getQuestions = async () => {
     const response = await apiRequest.get(`/questions`)
@@ -20,8 +26,8 @@ function Home() {
   }
 
   useEffect(() => {
-    getQuestions()
-  }, [])
+    getQuestions();
+  }, []);
 
   return (
     <React.Fragment>
@@ -40,4 +46,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Home;

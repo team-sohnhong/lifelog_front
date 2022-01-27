@@ -1,11 +1,12 @@
-import CssBaseline from "@mui/material/CssBaseline"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import AppBar from "./components/AppBar"
-import Question from "./components/Question"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./routes/Home";
+import SignIn from "./routes/SignIn";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import QuestionWrite from "./components/QuestionWrite"
-import Home from "./routes/Home"
-import SignIn from "./routes/SignIn"
+import Question from "./components/Question";
+import { ethers } from "ethers";
+import { useState, useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -16,24 +17,24 @@ const theme = createTheme({
       default: "#121212",
     },
   },
-})
+});
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <AppBar /> 
+        <AppBar />
         {/* 이렇게 해야 앱바 전체 적용 된다*/}
         <Routes>
           <Route path="/" element={<Home />} />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="write" element={<QuestionWrite />} />
-            <Route path="question/:id" element={<Question />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="write" element={<QuestionWrite />} />
+          <Route path="question/:id" element={<Question />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
   )
-}
+};
 
-export default App
+export default App;

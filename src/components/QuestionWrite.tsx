@@ -5,65 +5,65 @@ import {
   Grid,
   Snackbar,
   TextField,
-} from "@mui/material"
-import { Box } from "@mui/system"
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { v4 as uuidv4 } from "uuid"
-import { apiRequest } from "../api/api"
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { apiRequest } from "../api/api";
 
 export default function WriteQuestion(props: any) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 임시저장 로직
   const [snackbar, setSnackbar] = useState({
     open: false,
-  })
+  });
 
-  const { open } = snackbar
+  const { open } = snackbar;
 
   const handleSnackbaropen = () => {
-    setSnackbar({ open: !open })
-  }
+    setSnackbar({ open: !open });
+  };
 
   const postQuestion = async (question: any) => {
-    const response = await apiRequest.post(`/questions`, question)
+    const response = await apiRequest.post(`/questions`, question);
     console.log(
       "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
       response
-    )
-  }
+    );
+  };
 
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const data = new FormData(event.currentTarget)
+    const data = new FormData(event.currentTarget);
 
     let question = {
       id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
       owner: "Me",
+    };
+
+    if (question.title.length === 0) {
+      question.title = "default title";
     }
 
-    if (question.title.length === 0) { 
-      question.title = "default title"
-    }
-
-    postQuestion(question)
+    postQuestion(question);
 
     // 리덕스 스토어에 증가 액션 요청 with 데이터
-    dispatch({ type: "증가", payload: question })
+    dispatch({ type: "증가", payload: question });
 
     console.log(
       "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
       question
-    )
-    navigate("/")
-  }
+    );
+    navigate("/");
+  };
 
   return (
     <Container maxWidth="md">
@@ -160,5 +160,5 @@ export default function WriteQuestion(props: any) {
         </Grid>
       </Box>
     </Container>
-  )
+  );
 }

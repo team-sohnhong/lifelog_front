@@ -33,7 +33,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  )
+  );
 };
 
 export default App;

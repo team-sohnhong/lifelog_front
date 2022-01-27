@@ -5,7 +5,7 @@ import QuestionHeader from "../components/QuestionHeader";
 import Questions from "../components/Questions";
 import { defaultQuestion, QuestionProps } from "../type/questionInteface";
 import MetaMaskAuth from "../components/auth/Metamask";
-import { apiRequest } from "../api/api"
+import { apiRequest } from "../api/api";
 
 function Home() {
   // const questions = useSelector(state => state) as QuestionProps[]
@@ -17,13 +17,13 @@ function Home() {
   ]);
 
   const getQuestions = async () => {
-    const response = await apiRequest.get(`/questions`)
-    const { data } = response
-    console.log("🚀 ~ file: Home.tsx ~ line 16 ~ getQuestions ~ data", data)
+    const response = await apiRequest.get(`/questions`);
+    const { data } = response;
+    console.log("🚀 ~ file: Home.tsx ~ line 16 ~ getQuestions ~ data", data);
 
-    setQuestions(data)
-    setLoading(false)
-  }
+    setQuestions(data);
+    setLoading(false);
+  };
 
   useEffect(() => {
     getQuestions();
@@ -43,7 +43,7 @@ function Home() {
         </Box>
       </Container>
     </React.Fragment>
-  )
+  );
 }
 
 export default Home;

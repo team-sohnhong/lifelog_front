@@ -1,17 +1,17 @@
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
-import Avatar from "@mui/material/Avatar"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Checkbox from "@mui/material/Checkbox"
-import Container from "@mui/material/Container"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Grid from "@mui/material/Grid"
-import Link from "@mui/material/Link"
-import TextField from "@mui/material/TextField"
-import Typography from "@mui/material/Typography"
-import * as React from "react"
-import { useNavigate } from "react-router-dom"
-import ButtonGroup from "@mui/material/ButtonGroup"
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Container from "@mui/material/Container";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 function Copyright(props: any) {
   return (
@@ -28,11 +28,11 @@ function Copyright(props: any) {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  )
+  );
 }
 
 export default function SignIn(props: any) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const postSignIn = async (address: any) => {
     const json = await (
@@ -43,30 +43,30 @@ export default function SignIn(props: any) {
         },
         body: JSON.stringify(address),
       })
-    ).json()
-    console.log(json)
-  }
+    ).json();
+    console.log(json);
+  };
   const handleMetamask = async () => {
     // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
     // const account = await web3.eth.getAccounts()
     // console.log("🚀 ~메타마스크 주소 겟 ~ handleMetamask ~ account", account)
-  }
+  };
 
   // 로그인 버튼 누를 시
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log("🚀 ~ file: SignIn.tsx ~ line 50 ~ handleSubmit ~ data", event)
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log("🚀 ~ file: SignIn.tsx ~ line 50 ~ handleSubmit ~ data", event);
 
     console.log({
       email: data.get("email"),
       password: data.get("password"),
-    })
+    });
 
-    const address = { address: "your address" }
-    postSignIn(address)
-    navigate("/")
-  }
+    const address = { address: "your address" };
+    postSignIn(address);
+    navigate("/");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -156,5 +156,5 @@ export default function SignIn(props: any) {
       {/* 카피라이트 */}
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
-  )
+  );
 }

@@ -4,9 +4,9 @@ import { QuestionProps } from "./../type/questionInteface";
 export default function QuestionHeader({
   questions,
 }: {
-  questions: QuestionProps[]
+  questions: QuestionProps[];
 }) {
-  const questionsLength = questions.length
+  const questionsLength = questions.length;
   return (
     <Box>
       <Grid
@@ -14,7 +14,8 @@ export default function QuestionHeader({
         spacing={0}
         px={2}
         pt={2}
-        justifyContent={"space-between"}>
+        justifyContent={"space-between"}
+      >
         <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
@@ -25,7 +26,9 @@ export default function QuestionHeader({
         </Link>
       </Grid>
       <Box sx={{ mt: 5 }}>
-        <Typography px={2} color="#D8D8D8">{questionsLength} questions</Typography>
+        <Typography px={2} color="#D8D8D8">
+          {questionsLength} questions
+        </Typography>
         <Divider />
       </Box>
     </Box>

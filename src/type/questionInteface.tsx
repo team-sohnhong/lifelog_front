@@ -9,13 +9,13 @@
 // }
 
 export interface QuestionProps {
-  id: string
-  category: number
-  title: string
-  content: string
-  adopted: boolean
-  created_at: string
-  owner: string
+  id: string;
+  category: number;
+  title: string;
+  content: string;
+  adopted: boolean;
+  created_at: string;
+  owner: string;
 }
 
 export const defaultQuestion: QuestionProps = {
@@ -26,14 +26,4 @@ export const defaultQuestion: QuestionProps = {
   adopted: false,
   created_at: "",
   owner: "",
-}
-
-// vote: number
-// answer: number
-// tags: Array<string>
-// writer: string
-
-// vote: 2,
-// answer: 3,
-// tags: ["태그1"],
-// writer: "Writer",
+};

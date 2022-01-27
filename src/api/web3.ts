@@ -1,1 +1,1 @@
-export default function web3 () {}
+export default function web3() {}

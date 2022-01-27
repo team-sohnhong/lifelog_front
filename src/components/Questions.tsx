@@ -1,4 +1,4 @@
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import {
   Box,
   Button,
@@ -10,9 +10,9 @@ import {
   Link,
   List,
   Typography,
-} from "@mui/material"
-import { Link as RouterLink } from "react-router-dom"
-import { QuestionProps } from "../type/questionInteface"
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { QuestionProps } from "../type/questionInteface";
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
   return (
@@ -115,11 +115,11 @@ const Questions = ({ questions }: { questions: QuestionProps[] }) => {
               </Grid>
               <Divider />
             </Card>
-          )
+          );
         })
         .reverse()}
     </List>
-  )
-}
+  );
+};
 
-export default Questions
+export default Questions;

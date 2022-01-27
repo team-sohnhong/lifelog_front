@@ -8,46 +8,49 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
-} from "@mui/material"
-import { Box } from "@mui/system"
-import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { defaultQuestion, QuestionProps } from "../type/questionInteface"
-import { apiRequest } from "./../api/api"
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { defaultQuestion, QuestionProps } from "../type/questionInteface";
+import { apiRequest } from "./../api/api";
 
 export default function Question() {
-  const params = useParams()
-  const navigate = useNavigate()
+  const params = useParams();
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion)
-  const { id, category, title, content, created_at, owner } = question
-  let { adopted } = question
+  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
+  const { id, category, title, content, created_at, owner } = question;
+  let { adopted } = question;
 
   const getQuestion = async () => {
-    const response = await apiRequest.get(`/questions/${params.id}`)
-    const { data } = response
+    const response = await apiRequest.get(`/questions/${params.id}`);
+    const { data } = response;
 
-    setQuestion(data)
-    setLoading(false)
-  }
+    setQuestion(data);
+    setLoading(false);
+  };
 
   const clickAdopted = () => {
     setQuestion({
       ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
       adopted: !adopted, // 이렇게!
-    })
-  }
+    });
+  };
   useEffect(() => {
-    getQuestion()
-  }, [])
+    getQuestion();
+  }, []);
 
   const deleteQuestion = async () => {
-    const response = await apiRequest.delete(`/questions/${params.id}`)
-    console.log("🚀 ~ file: Question.tsx ~ line 47 ~ deleteQuestion ~ response", response)
-    navigate('/')
-  }
+    const response = await apiRequest.delete(`/questions/${params.id}`);
+    console.log(
+      "🚀 ~ file: Question.tsx ~ line 47 ~ deleteQuestion ~ response",
+      response
+    );
+    navigate("/");
+  };
 
   return (
     <div>
@@ -89,8 +92,8 @@ export default function Question() {
                   control={
                     <Checkbox
                       onClick={() => {
-                        clickAdopted()
-                        console.log(adopted)
+                        clickAdopted();
+                        console.log(adopted);
                       }}
                       value={adopted}
                       color="primary"
@@ -123,7 +126,7 @@ export default function Question() {
                     <Typography key={index} sx={{ my: 1 }}>
                       {comment}
                     </Typography>
-                  )
+                  );
                 })}
                 <Divider />
                 <TextField
@@ -146,5 +149,5 @@ export default function Question() {
         </Container>
       )}
     </div>
-  )
+  );
 }

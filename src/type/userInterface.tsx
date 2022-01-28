@@ -6,8 +6,8 @@ export interface User {
 }
 
 export const defaultUser: User = {
-  address: "address",
-  created_at: Date.now().toString(),
+  address: "",
+  created_at: "",
   _v: 0,
   _id: "",
 };

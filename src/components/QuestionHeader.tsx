@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { QuestionProps } from "./../type/questionInteface";
+import Modal from "./modal/Modal";
 export default function QuestionHeader({
   questions,
 }: {
@@ -24,6 +25,7 @@ export default function QuestionHeader({
             Add Question
           </Button>
         </Link>
+        <Modal></Modal>
       </Grid>
       <Box sx={{ mt: 5 }}>
         <Typography px={2} color="#D8D8D8">

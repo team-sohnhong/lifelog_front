@@ -2,20 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import { defaultUser, User } from "type/userInterface";
 import App from "./App";
 import "./index.css";
 import { defaultQuestion, QuestionProps } from "./type/questionInteface";
 
-// 예시용 redux용 questions입니다. 이 곳 외 사용되지 않음.
-const questions: QuestionProps[] = [
-  defaultQuestion,
-  defaultQuestion,
-  defaultQuestion,
-  defaultQuestion,
-  defaultQuestion,
-];
 
-function reducer(state = questions, action: any) {
+const user: User = defaultUser;
+
+function reducer(state = user, action: any) {
   if (action.type === "증가") {
     console.log(action.payload);
     state.push(action.payload);

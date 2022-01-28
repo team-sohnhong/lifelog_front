@@ -13,7 +13,6 @@ const user: User = defaultUser;
 function reducer(state = user, action: any) {
   if (action.type === "증가") {
     console.log(action.payload);
-    state.push(action.payload);
     return state;
   } else if (action.type === "감소") {
     // state.posts.

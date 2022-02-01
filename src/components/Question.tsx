@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultQuestion, QuestionProps } from "../domain/type/questionInteface";
-import { apiRequest } from "../service/axios";
+import { apiRequest } from "../service";
 
 export default function Question() {
   const params = useParams(); // 프롭, 파라미터, 리덕스

@@ -1,30 +1,28 @@
-import { Box, Container, CssBaseline } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import AppBar from "../components/AppBar";
+import { Box, Container } from "@mui/material";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import QuestionHeader from "../components/QuestionHeader";
 import Questions from "../components/Questions";
-import { defaultQuestion, QuestionProps } from "../domain/type/questionInteface";
-import MetaMaskAuth from "../components/auth/Metamask";
-import { apiRequest } from "../service/axios";
-
+import { RootState } from "../store";
+import { getQuestions } from "../store/question.slice";
 function Home() {
-  const [loading, setLoading] = useState(true); //이거 안넣어도 왜 에러가 안나지
+  const dispatch = useDispatch();
 
-  const [questions, setQuestions] = useState<QuestionProps[]>([
-    defaultQuestion,
-  ]);
+  const questions = useSelector(
+    (state: RootState) => state.questionReducer.questions
+  );
 
-  const getQuestions = async () => {
-    const response = await apiRequest.get(`/questions`);
-    const { data } = response;
-    console.log("🚀 ~ file: Home.tsx ~ line 16 ~ getQuestions ~ data", data);
+  // 질문들을 받아서 redux store에 받는 것이 목표
+  // 새로고침하면 새로 받는 것이 원래의 목표아닌가 ?
+  // redux store에 없으면 api call을 부르는 게 맞지 않나 생각한다.
 
-    setQuestions(data);
-    setLoading(false);
+  const setQuestions = () => {
+    dispatch(getQuestions());
+    console.log("🚀 리덕스 스토어 내의 questions", questions);
   };
 
   useEffect(() => {
-    getQuestions();
+    setQuestions();
   }, []);
 
   return (

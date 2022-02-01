@@ -1,5 +1,5 @@
 import { User } from "../domain/type/userInterface";
-import { apiRequest } from "./axios";
+import { apiRequest } from ".";
 
 async function register(userAddress: string) {
   try {
@@ -28,6 +28,7 @@ export async function login(userAddress: string) {
         console.log(user, "기존에 존재하는 유저입니다. 로그인 합니다.");
         return user;
       } else {
+        //자동 회원가입? 존재하지 않습니다.
         const newUser: User | undefined = await register(userAddress);
         return newUser;
       }

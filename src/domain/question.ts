@@ -1,11 +1,11 @@
-// // import { currentDatetime } from "../lib/datetime";
-// // import { totalPrice } from "./product";
-// // import { Question } from "./question";
+// import { currentDatetime } from "../lib/datetime";
+// import { totalPrice } from "./product";
+// import { Question } from "./question";
 // import { User } from "../user";
 
-// export type QuestionStatus = "new" | "delivery" | "completed";
-// export type QuestionCategory = "new" | "delivery" | "completed";
-// // domain은 useCases와 entity..
+export type QuestionStatus = "new" | "delivery" | "completed";
+export type QuestionCategory = "new" | "delivery" | "completed";
+// domain은 useCases와 entity..
 // export type Question = {
 //   id: string;
 //   category: number;

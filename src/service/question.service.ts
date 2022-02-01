@@ -1,22 +1,33 @@
-import { apiRequest } from "./axios";
+import { apiRequest } from ".";
 
 const getQuestions = async () => {
-  const response = await apiRequest.get(`/questions`);
-  const { data } = response;
-  console.log("🚀 ~ file: Home.tsx ~ line 16 ~ getQuestions ~ data", data);
+  try {
+    const response = await apiRequest.get(`/questions`);
+    const { data } = response;
+    return data;
+  } catch (err) {
+    return err;
+  }
 };
 
 const updateQuestion = async () => {
-  const response = await apiRequest.patch(`/questions/`);
+  try {
+    const response = await apiRequest.patch(`/questions/`);
+    const { data } = response;
+    return data;
+  } catch (err) {
+    return err;
+  }
 };
 
-const deleteQuestion = async () => {
-  const response = await apiRequest.delete(`/questions/${params.id}`);
-  console.log(
-    "🚀 ~ file: Question.tsx ~ line 47 ~ deleteQuestion ~ response",
-    response
-  );
-  navigate("/");
+const deleteQuestion = async (id: string) => {
+  try {
+    const response = await apiRequest.delete(`/questions/${id}`);
+    const { data } = response;
+    return data;
+  } catch (err) {
+    return err;
+  }
 };
 
 const questionService = {

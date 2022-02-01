@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import AppBar from "../components/AppBar";
 import QuestionHeader from "../components/QuestionHeader";
 import Questions from "../components/Questions";
-import { defaultQuestion, QuestionProps } from "../type/questionInteface";
+import { defaultQuestion, QuestionProps } from "../domain/type/questionInteface";
 import MetaMaskAuth from "../components/auth/Metamask";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../service/axios";
 
 function Home() {
-  // const questions = useSelector(state => state) as QuestionProps[]
   const [loading, setLoading] = useState(true); //이거 안넣어도 왜 에러가 안나지
 
-  // <QuestionProps[]>
   const [questions, setQuestions] = useState<QuestionProps[]>([
     defaultQuestion,
   ]);
@@ -31,7 +29,6 @@ function Home() {
 
   return (
     <React.Fragment>
-      <CssBaseline />
       <Container fixed>
         <Box
           sx={{

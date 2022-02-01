@@ -1,13 +1,29 @@
-import { Box, Button, Divider, Grid, Link, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { QuestionProps } from "./../type/questionInteface";
-import Modal from "./modal/Modal";
+import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { User } from "domain/type/userInterface";
+import { QuestionProps } from "../domain/type/questionInteface";
+import BasicModal from "./modal/Modal";
 export default function QuestionHeader({
   questions,
 }: {
   questions: QuestionProps[];
 }) {
-  const questionsLength = questions.length;
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const user = useSelector((state: User) => state);
+
+  const numberOfQuestion = questions.length;
+
+  const handleAddQuestion = () => {
+    if (user.address) {
+      navigate("/write");
+    } else {
+      setShowModal(!showModal);
+    }
+  };
   return (
     <Box>
       <Grid
@@ -20,16 +36,18 @@ export default function QuestionHeader({
         <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
-        <Link component={RouterLink} to="/write" underline="none">
-          <Button variant="contained" color="primary">
-            Add Question
-          </Button>
-        </Link>
-        <Modal></Modal>
+        <Button onClick={handleAddQuestion} variant="contained" color="primary">
+          Add Question
+        </Button>
       </Grid>
+      <BasicModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+      ></BasicModal>
+
       <Box sx={{ mt: 5 }}>
         <Typography px={2} color="#D8D8D8">
-          {questionsLength} questions
+          {numberOfQuestion} questions
         </Typography>
         <Divider />
       </Box>

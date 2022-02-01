@@ -3,15 +3,16 @@ import {
   Button,
   Container,
   Grid,
+  Input,
   Snackbar,
   TextField,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, spacing } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../service/axios";
 
 export default function WriteQuestion(props: any) {
   const dispatch = useDispatch();
@@ -74,8 +75,8 @@ export default function WriteQuestion(props: any) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          borderLeft: 1,
-          borderRight: 1,
+          my: 5,
+          border: 1,
           borderColor: "#888888",
           alignItems: "center",
           "& input": {
@@ -145,19 +146,29 @@ export default function WriteQuestion(props: any) {
                 placeholder="내용을 입력하세요"
                 multiline // 멀티라인하면 fontSize가 안바뀌구나
                 fullWidth
-                minRows={34} //이게 중요
-                maxRows={50}
+                minRows={16} //이게 중요
+                maxRows={16}
                 InputProps={{ disableUnderline: true }}
                 sx={{
                   pt: 1,
                   pl: 0,
                   borderColor: "#808080",
-                  minHeight: 800,
+                  minHeight: 400,
                 }}
               ></TextField>
             </Box>
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+        <p>보상을 걸고 더 많은 답변을 받아보세요!</p>
+        <TextField
+          id=""
+          placeholder="eth"
+          // value={}
+          // onChange={}
+        />{" "}
+        eth
       </Box>
     </Container>
   );

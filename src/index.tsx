@@ -1,28 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { defaultUser, User } from "type/userInterface";
+import { store } from "store/store";
 import App from "./App";
 import "./index.css";
-import { defaultQuestion, QuestionProps } from "./type/questionInteface";
-
-
-const user: User = defaultUser;
-
-function reducer(state = user, action: any) {
-  if (action.type === "증가") {
-    console.log(action.payload);
-    return state;
-  } else if (action.type === "감소") {
-    // state.posts.
-    return state;
-  } else {
-    return state;
-  }
-}
-
-let store = createStore(reducer);
 
 ReactDOM.render(
   <React.StrictMode>

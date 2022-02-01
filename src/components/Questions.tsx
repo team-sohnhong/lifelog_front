@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { QuestionProps } from "../type/questionInteface";
+import { QuestionProps } from "../domain/type/questionInteface";
 
 const Questions = ({ questions }: { questions: QuestionProps[] }) => {
   return (

@@ -1,7 +1,7 @@
-import { User } from "../type/userInterface";
-import { apiRequest } from "./api";
+import { User } from "../domain/type/userInterface";
+import { apiRequest } from "./axios";
 
-async function signUp(userAddress: string) {
+async function register(userAddress: string) {
   try {
     console.log("새로운 유저입니다. 생성합니다.");
     const response = await apiRequest.post(`/users`, {
@@ -16,7 +16,7 @@ async function signUp(userAddress: string) {
   }
 }
 
-export async function signIn(userAddress: string) {
+export async function login(userAddress: string) {
   if (userAddress) {
     try {
       console.log("주소 존재여부를 확인합니다.");
@@ -28,7 +28,7 @@ export async function signIn(userAddress: string) {
         console.log(user, "기존에 존재하는 유저입니다. 로그인 합니다.");
         return user;
       } else {
-        const newUser: User | undefined = await signUp(userAddress);
+        const newUser: User | undefined = await register(userAddress);
         return newUser;
       }
     } catch (err) {
@@ -41,3 +41,10 @@ export async function signIn(userAddress: string) {
     return undefined;
   }
 }
+
+const authService = {
+  register,
+  login,
+};
+
+export default authService;

@@ -40,16 +40,16 @@ export default function Question() {
   const [answerContent, setAnswerContent] = useState("");
 
   const { id, category, title, content, created_at, owner } = question;
-  let { adopted } = question;
+  let { closed } = question;
 
   const oneQuestion = useSelector(
     (state: RootState) => state.question.questions
   );
 
-  const handleAdopted = () => {
+  const handleClosed = () => {
     setQuestion({
       ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
-      adopted: !adopted, // 이렇게!
+      closed: !closed, // 이렇게!
     });
   };
 
@@ -138,16 +138,16 @@ export default function Question() {
                 </Typography>
                 <Divider sx={{ mt: 30, mb: 3 }} />
                 <Typography sx={{ my: 1 }}>
-                  채택 여부: {adopted.toString()}
+                  채택 여부: {closed.toString()}
                 </Typography>
                 <FormControlLabel
                   control={
                     <Checkbox
                       onClick={() => {
-                        handleAdopted();
-                        console.log(adopted);
+                        handleClosed();
+                        console.log(closed);
                       }}
-                      value={adopted}
+                      value={closed}
                       color="primary"
                     />
                   }

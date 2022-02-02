@@ -24,12 +24,10 @@ import questionService from "./../service/question.service";
 import { v4 as uuidv4 } from "uuid";
 import answerService from "./../service/answer.service";
 
-// 리덕스에 모든 질문 받아와 state에 저장-> useSelector를 이용해 store에서 개별 question 가져오기 -이게 맞는 거 같다.
-// 가능한 props는 사용하지 말고, useState, useSelector만 이용해서 개발하자.
 
-// 컴포넌트에서는 리덕스에서 데이터를 뿌려주는 dumb역할만 할 거고, 기능은 useState 제외하고는 redux reducer가 하게 할 것이다.
-
-export default function OtherQuestion() {
+// 1. 답변 달기 없음
+// 2. 답변 종류와 채택하기 만 존재
+export default function MyQuestion() {
   const params = useParams();
   const navigate = useNavigate();
 

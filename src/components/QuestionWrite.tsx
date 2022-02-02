@@ -2,8 +2,9 @@ import {
   Alert,
   Button,
   Container,
-  Grid, Snackbar,
-  TextField
+  Grid,
+  Snackbar,
+  TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
@@ -29,14 +30,17 @@ export default function WriteQuestion(props: any) {
   };
 
   const postQuestion = async (question: any) => {
-    const response = await apiRequest.post(`/questions`, question);
-    console.log(
-      "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
-      response
-    );
+    try {
+      const response = await apiRequest.post(`/questions`, question);
+    } catch (err) {
+      console.error(
+        "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
+        err
+      );
+    }
   };
 
-  const {_id} = useSelector((state: RootState) => state.user.user)
+  // const { _id } = useSelector((state: RootState) => state.user.user);
 
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,9 +52,12 @@ export default function WriteQuestion(props: any) {
       id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
-      owner: _id,
-      reward: 0.01
+      owner: 'me',
+      reward: 0.01,
     };
+    console.log("🚀 ~ file: QuestionWrite.tsx ~ line 58 ~ handleSubmit ~ question", question)
+
+    
 
     if (question.title.length === 0) {
       question.title = "default title";

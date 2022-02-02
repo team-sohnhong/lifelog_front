@@ -5,16 +5,14 @@ import QuestionHeader from "../components/QuestionHeader";
 import Questions from "../components/Questions";
 import { RootState } from "../store";
 import { getQuestions } from "../store/question.slice";
+
+// 질문들을 받아서 redux store에 받는 것이 목표
+// 새로고침하면 새로 받는 것이 원래의 목표아닌가 ?
+// redux store에 없으면 api call을 부르는 게 맞지 않나 생각한다.
 function Home() {
   const dispatch = useDispatch();
 
-  const questions = useSelector(
-    (state: RootState) => state.questionReducer.questions
-  );
-
-  // 질문들을 받아서 redux store에 받는 것이 목표
-  // 새로고침하면 새로 받는 것이 원래의 목표아닌가 ?
-  // redux store에 없으면 api call을 부르는 게 맞지 않나 생각한다.
+  const questions = useSelector((state: RootState) => state.question.questions);
 
   const setQuestions = () => {
     dispatch(getQuestions());

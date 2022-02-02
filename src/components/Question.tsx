@@ -13,11 +13,21 @@ import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { defaultQuestion, QuestionProps } from "../domain/type/questionInteface";
+import { RootState } from "store";
+import {
+  defaultQuestion,
+  QuestionProps,
+} from "../domain/type/questionInteface";
 import { apiRequest } from "../service";
+import questionSlice from "./../store/question.slice";
+
+// 리덕스에 모든 질문 받아와 state에 저장-> useSelector를 이용해 store에서 개별 question 가져오기 -이게 맞는 거 같다.
+// 가능한 props는 사용하지 말고, useState, useSelector만 이용해서 개발하자.
+
+// 컴포넌트에서는 리덕스에서 데이터를 뿌려주는 dumb역할만 할 거고, 기능은 useState 제외하고는 redux reducer가 하게 할 것이다.
 
 export default function Question() {
-  const params = useParams(); // 프롭, 파라미터, 리덕스
+  const params = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -26,12 +36,13 @@ export default function Question() {
   const { id, category, title, content, created_at, owner } = question;
   let { adopted } = question;
 
-  // 리덕스에 모든 질문 받아와 state에 저장-> useSelector를 이용해 store에서 개별 question 가져오기 -이게 맞는 거 같다.
-  // 가능한 props는 사용하지 말고, useState, useSelector만 이용해서 개발하자.
-  
-  // 컴포넌트에서는 리덕스에서 데이터를 뿌려주는 dumb역할만 할 거고, 기능은 useState 제외하고는 redux reducer가 하게 할 것이다.
-
-  // const result = useSelector(state => state);
+  const oneQuestion = useSelector(
+    (state: RootState) => state.question.questions
+  );
+  console.log(
+    "🚀 ~ file: Question.tsx ~ line 42 ~ Question ~ oneQuestion",
+    oneQuestion
+  );
 
   const getQuestion = async () => {
     const response = await apiRequest.get(`/questions/${params.id}`);

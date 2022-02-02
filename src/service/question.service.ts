@@ -10,6 +10,16 @@ const getQuestions = async () => {
   }
 };
 
+const getQuestion = async (id: string) => {
+  try {
+    const response = await apiRequest.get(`/questions/${id}`);
+    const { data } = response;
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
 const updateQuestion = async () => {
   try {
     const response = await apiRequest.patch(`/questions/`);
@@ -30,8 +40,20 @@ const deleteQuestion = async (id: string) => {
   }
 };
 
+const postQuestion = async (question: any) => {
+  try {
+    const response = await apiRequest.post(`/questions`, question);
+    const { data } = response;
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
 const questionService = {
   getQuestions,
+  getQuestion,
+  postQuestion,
   deleteQuestion,
   updateQuestion,
 };

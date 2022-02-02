@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Answer, defaultAnswer } from "domain/type/answerinterface";
+import { defaultAnswer } from "domain/type/answerinterface";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,7 +22,6 @@ import {
 import { apiRequest } from "../service";
 import questionService from "./../service/question.service";
 import { v4 as uuidv4 } from "uuid";
-import answerService from "./../service/answer.service";
 
 // 리덕스에 모든 질문 받아와 state에 저장-> useSelector를 이용해 store에서 개별 question 가져오기 -이게 맞는 거 같다.
 // 가능한 props는 사용하지 말고, useState, useSelector만 이용해서 개발하자.
@@ -34,51 +33,15 @@ export default function Question() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
-  const [answers, setAnswers] = useState<Answer[]>([defaultAnswer]);
-  const [answerTitle, setAnswerTitle] = useState("");
-  const [answerContent, setAnswerContent] = useState("");
 
+  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
   const { id, category, title, content, created_at, owner } = question;
+
   let { adopted } = question;
 
   const oneQuestion = useSelector(
     (state: RootState) => state.question.questions
   );
-
-  const handleAdopted = () => {
-    setQuestion({
-      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
-      adopted: !adopted, // 이렇게!
-    });
-  };
-
-  const onAnswerTitleChange = (e: any) => {
-    setAnswerTitle(e.target.value);
-  };
-
-  const onAnswerBodyChange = (e: any) => {
-    setAnswerContent(e.target.value);
-  };
-
-  // 질문 등록 시 owner 용, 에러가 있어서 나중에 선언할 것. local Storage 한 후
-  // const userAddress = useSelector((state: RootState) => state.user.user.address);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    let answer = {
-      title: answerTitle,
-      id: uuidv4(),
-      content: answerContent,
-      related: params.id!,
-      owner: "",
-    };
-
-    answerService.postAnswer(answer).then((data: any) => {
-      data ? navigate("/") : console.log("ERROR");
-    });
-  };
 
   const getQuestion = async () => {
     const response = await apiRequest.get(`/questions/${params.id}`);
@@ -93,14 +56,44 @@ export default function Question() {
 
     navigate("/");
   };
-  const getAnswers = async () => {
-    const answers = await answerService.getAnswers(params.id!);
-    setAnswers(answers);
+
+  const handleAdopted = () => {
+    setQuestion({
+      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
+      adopted: !adopted, // 이렇게!
+    });
+  };
+
+  const [answerTitle, setAnswerTitle] = useState("");
+  const [answerBody, setAnswerBody] = useState("");
+
+  const onAnswerTitleChange = (e: any) => {
+    setAnswerTitle(e.target.value);
+  };
+
+  const onAnswerBodyChange = (e: any) => {
+    setAnswerBody(e.target.value);
+  };
+  const userId = useSelector((state: RootState) => state.user.user._id);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    let answer = {
+      title: answerTitle,
+      id: uuidv4(),
+      body: answerBody,
+      related: params.id!,
+      adopted: false,
+      owner: userId,
+      created_at: Date.now(),
+    };
+
+    navigate("/");
   };
 
   useEffect(() => {
     getQuestion();
-    // getAnswers();
     // questionService.getQuestion(`${params.id}`);
   }, []);
 
@@ -169,28 +162,15 @@ export default function Question() {
                   <Button>Tag2</Button>
                 </ButtonGroup>
                 <Divider />
-
-                <h2>답변 목록</h2>
-                {answers.map((answer, index) => {
+                {[
+                  "댓글1 : 좋은 글이네요",
+                  "댓글2 : 배고파요",
+                  "댓글3 : 감사합니다!!!",
+                ].map((comment, index) => {
                   return (
-                    <Box
-                      key={index}
-                      sx={{
-                        height: "100px",
-                        color: "success.dark",
-                        display: "flex",
-                        flexDirection: "column",
-                        my: 10,
-                      }}
-                    >
-                      <Typography sx={{ my: 1 }}>{answer.title}</Typography>
-                      <Typography sx={{ my: 1 }}>{answer.content}</Typography>
-                      <Typography sx={{ my: 1 }}>{answer.id}</Typography>
-                      <Typography sx={{ my: 1 }}>
-                        answered {answer.created_at}
-                      </Typography>
-                      <Typography sx={{ my: 1 }}>{answer.owner}</Typography>
-                    </Box>
+                    <Typography key={index} sx={{ my: 1 }}>
+                      {comment}
+                    </Typography>
                   );
                 })}
                 <Divider />
@@ -210,7 +190,7 @@ export default function Question() {
                   />
                   <TextField
                     name="answer"
-                    value={answerContent}
+                    value={answerBody}
                     onChange={onAnswerBodyChange}
                     variant="outlined"
                     placeholder="답변"

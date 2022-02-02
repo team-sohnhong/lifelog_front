@@ -18,11 +18,11 @@ export default function QuestionHeader({
   const numberOfQuestion = questions.length;
 
   const handleAddQuestion = () => {
-    if (user.address) {
-      navigate("/write");
-    } else {
-      setShowModal(!showModal);
-    }
+    // if (user.address) {
+    navigate("/write");
+    // } else {
+    // setShowModal(!showModal);
+    // }
   };
   return (
     <Box>

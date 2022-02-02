@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Metamask-auth.module.css";
-import { login } from "../../service/auth.service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./../../store/user.slice";
+import { RootState } from "store";
 
 function isMobileDevice() {
   return "ontouchstart" in window || "onmsgesturechange" in window;
@@ -52,15 +53,7 @@ export default function MetaMaskAuth({ onAddressChanged }) {
 
   useEffect(() => {
     setUserAddress(userAddress);
-    login(userAddress).then(user => {
-      if (user) {
-        dispatch({ type: "signIn", payload: user });
-        console.log(user, "로그인 완료");
-      } else {
-        dispatch({ type: "signOut" });
-        console.log(user, "로그인 실패");
-      }
-    });
+    dispatch(login(userAddress));
   }, [dispatch, userAddress]);
 
   return userAddress ? (

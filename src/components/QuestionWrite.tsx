@@ -2,15 +2,14 @@ import {
   Alert,
   Button,
   Container,
-  Grid,
-  Input,
-  Snackbar,
-  TextField,
+  Grid, Snackbar,
+  TextField
 } from "@mui/material";
-import { Box, spacing } from "@mui/system";
+import { Box } from "@mui/system";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "store";
 import { v4 as uuidv4 } from "uuid";
 import { apiRequest } from "../service";
 
@@ -37,6 +36,8 @@ export default function WriteQuestion(props: any) {
     );
   };
 
+  const {_id} = useSelector((state: RootState) => state.user.user)
+
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,7 +48,8 @@ export default function WriteQuestion(props: any) {
       id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
-      owner: "Me",
+      owner: _id,
+      reward: 0.01
     };
 
     if (question.title.length === 0) {

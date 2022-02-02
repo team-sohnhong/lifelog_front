@@ -8,11 +8,15 @@ import {
   TextField,
 } from "@mui/material";
 import { Box, spacing } from "@mui/system";
+import { ethers } from "ethers";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { apiRequest } from "../service";
+import abi from "../utils/CritPortal.json";
+
+declare var window: any;
 
 export default function WriteQuestion(props: any) {
   const dispatch = useDispatch();
@@ -29,6 +33,14 @@ export default function WriteQuestion(props: any) {
     setSnackbar({ open: !open });
   };
 
+  const [reward, setReward] = useState(0);
+
+  const handleChange = (event: any) => {
+    event.preventDefault();
+
+    setReward(event.target.value);
+  };
+
   const postQuestion = async (question: any) => {
     const response = await apiRequest.post(`/questions`, question);
     console.log(
@@ -37,33 +49,82 @@ export default function WriteQuestion(props: any) {
     );
   };
 
+  // Web3 part
+  const contractAddress = "0x1418997DC19014E3CE0a3568dCF5780374591bC6";
+  const contractABI = abi.abi;
+
+  const openQuestion = async (id: string) => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const critPortalContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
+
+        // await signer.sendTransaction({
+        //   to: contractAddress,
+        //   value: ethers.utils.parseEther("0.01"),
+        //   gasPrice: 8000000000,
+        // });
+
+        let result = await critPortalContract.openQuestion(
+          1,
+          BigInt(reward * 1000000000 * 1000000000),
+          {
+            value: ethers.utils.parseEther(`${reward}`),
+          }
+        ); // 0.01 ether
+        return true;
+      } else {
+        console.log("Ethereum object doesn't exist!");
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // 전송 및 라우트 이동 로직
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
+    const id = uuidv4();
+    const isTxSucceed = await openQuestion(id);
 
-    let question = {
-      id: uuidv4(),
-      title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
-      content: data.get("content") as string,
-      owner: "Me",
-    };
+    if (isTxSucceed) {
+      const rewardNum: number = Number(reward);
 
-    if (question.title.length === 0) {
-      question.title = "default title";
+      let question = {
+        id,
+        title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
+        content: data.get("content") as string,
+        owner: "Me",
+        reward: rewardNum,
+      };
+
+      if (question.title.length === 0) {
+        question.title = "default title";
+      }
+
+      await postQuestion(question);
+
+      // 리덕스 스토어에 증가 액션 요청 with 데이터
+      dispatch({ type: "증가", payload: question });
+
+      console.log(
+        "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
+        question
+      );
+      navigate("/");
+    } else {
+      console.log("Error. Fail to upload on blockchain");
     }
-
-    postQuestion(question);
-
-    // 리덕스 스토어에 증가 액션 요청 with 데이터
-    dispatch({ type: "증가", payload: question });
-
-    console.log(
-      "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
-      question
-    );
-    navigate("/");
   };
 
   return (
@@ -86,22 +147,19 @@ export default function WriteQuestion(props: any) {
             //이렇게 컴포넌트의 각 속성에도 넣을 수도 있다
             fontSize: "22px",
           },
-        }}
-      >
+        }}>
         <Grid
           container
           direction="row"
           justifyContent={"flex-end"}
           sx={{
             marginTop: 8,
-          }}
-        >
+          }}>
           <Grid item mr={1}>
             <Button
               color="secondary"
               variant="outlined"
-              onClick={handleSnackbaropen}
-            >
+              onClick={handleSnackbaropen}>
               임시 저장
             </Button>
             <Snackbar
@@ -109,8 +167,7 @@ export default function WriteQuestion(props: any) {
               autoHideDuration={800}
               open={open}
               onClose={handleSnackbaropen}
-              key={"temporary-storage-top"}
-            >
+              key={"temporary-storage-top"}>
               <Alert severity="error">임시 저장 실패!</Alert>
             </Snackbar>
           </Grid>
@@ -154,8 +211,7 @@ export default function WriteQuestion(props: any) {
                   pl: 0,
                   borderColor: "#808080",
                   minHeight: 400,
-                }}
-              ></TextField>
+                }}></TextField>
             </Box>
           </Grid>
         </Grid>
@@ -165,9 +221,9 @@ export default function WriteQuestion(props: any) {
         <TextField
           id=""
           placeholder="eth"
-          // value={}
-          // onChange={}
-        />{" "}
+          value={reward}
+          onChange={handleChange}
+        />
         eth
       </Box>
     </Container>

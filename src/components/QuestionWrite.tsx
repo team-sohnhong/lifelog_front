@@ -40,7 +40,7 @@ export default function WriteQuestion(props: any) {
     }
   };
 
-  // const { _id } = useSelector((state: RootState) => state.user.user);
+  const userId = useSelector((state: RootState) => state.user.user._id);
 
   // 전송 및 라우트 이동 로직
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,16 +52,13 @@ export default function WriteQuestion(props: any) {
       id: uuidv4(),
       title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
       content: data.get("content") as string,
-      owner: 'me',
+      owner: userId,
       reward: 0.01,
     };
-    console.log("🚀 ~ file: QuestionWrite.tsx ~ line 58 ~ handleSubmit ~ question", question)
-
-    
-
-    if (question.title.length === 0) {
-      question.title = "default title";
-    }
+    console.log(
+      "🚀 ~ file: QuestionWrite.tsx ~ line 58 ~ handleSubmit ~ question",
+      question
+    );
 
     postQuestion(question);
 
@@ -79,7 +76,6 @@ export default function WriteQuestion(props: any) {
     <Container maxWidth="md">
       <Box
         component="form"
-        noValidate
         onSubmit={handleSubmit}
         sx={{
           display: "flex",
@@ -155,6 +151,7 @@ export default function WriteQuestion(props: any) {
                 placeholder="내용을 입력하세요"
                 multiline // 멀티라인하면 fontSize가 안바뀌구나
                 fullWidth
+                required
                 minRows={16} //이게 중요
                 maxRows={16}
                 InputProps={{ disableUnderline: true }}

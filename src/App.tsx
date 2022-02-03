@@ -10,10 +10,15 @@ import SignIn from "./routes/SignIn";
 const theme = createTheme({
   palette: {
     // mode: "dark",
-    primary: { main: "#1f1f1f" },
+    primary: {
+      main: "#1f1f1f",
+    },
     secondary: { main: "#bb86fc" },
     background: {
       default: "#121212",
+    },
+    text: {
+      primary: "#fff",
     },
   },
 });

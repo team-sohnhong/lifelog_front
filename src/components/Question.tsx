@@ -101,13 +101,19 @@ export default function Question() {
                       justifyContent: "flex-end",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      color={"secondary"}
-                      onClick={() => handleClosed()}
-                    >
-                      close this question
-                    </Button>
+                    {closed ? (
+                      <Typography color={'secondary'} component="h6" variant="h6">
+                        this question is closed
+                      </Typography>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color={"secondary"}
+                        onClick={() => handleClosed()}
+                      >
+                        close this question
+                      </Button>
+                    )}
                   </Box>
                 )}
                 <Box sx={{ height: "400px" }}>
@@ -171,7 +177,7 @@ export default function Question() {
                           // alignItems={"flex-end"}
                           spacing={2}
                         >
-                          {owner === userId && (
+                          {(owner === userId && !closed)&& (
                             <Grid item container justifyContent={"flex-end"}>
                               <Button variant="contained" color="secondary">
                                 adapt this
@@ -201,7 +207,7 @@ export default function Question() {
                               adopted : {answer.adopted.toString()}
                             </Typography>
                             {/* <Typography gutterBottom> */}
-                              {/* answerId : {answer.id} */}
+                            {/* answerId : {answer.id} */}
                             {/* </Typography> */}
                             <Typography gutterBottom>
                               created_at : {answer.created_at}

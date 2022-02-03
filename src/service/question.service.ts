@@ -20,9 +20,11 @@ const getQuestion = async (id: string) => {
   }
 };
 
-const updateQuestion = async () => {
+const closeQuestion = async (id: string, closed: boolean) => {
   try {
-    const response = await apiRequest.patch(`/questions/`);
+    const response = await apiRequest.patch(`/questions/close/${id}`, {
+      closed,
+    });
     const { data } = response;
     return data;
   } catch (err) {
@@ -55,7 +57,7 @@ const questionService = {
   getQuestion,
   postQuestion,
   deleteQuestion,
-  updateQuestion,
+  closeQuestion,
 };
 
 export default questionService;

@@ -50,12 +50,7 @@ export default function Question() {
     setAnswers(answers);
   };
 
-  //REDUX_LOGIC
-  // const oneQuestion = useSelector(
-  //   (state: RootState) => state.question.questions
-  // );
   // 질문 등록 시 owner 용, 에러가 있어서 나중에 선언할 것. local Storage 한 후
-
   const userId = useSelector((state: RootState) => state.user.user._id);
   console.log("🚀 출력 userId", userId);
 
@@ -66,11 +61,12 @@ export default function Question() {
     navigate("/");
   };
 
-  const handleClosed = () => {
-    setQuestion({
-      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
-      closed: !closed, // 이렇게!
-    });
+  const handleClosed = async () => {
+    const updatedQuestion = await questionService.closeQuestion(
+      params.id!,
+      !closed
+    );
+    setQuestion(updatedQuestion);
   };
 
   useEffect(() => {
@@ -80,7 +76,7 @@ export default function Question() {
 
     // questionService.getQuestion(`${params.id}`);
   }, []);
-  console.log(owner);
+  console.log(owner, closed, "랜더링됨");
 
   return (
     <div>
@@ -119,11 +115,10 @@ export default function Question() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          onClick={() => {
+                          checked={closed}
+                          onChange={() => {
                             handleClosed();
-                            console.log(closed);
                           }}
-                          value={closed}
                           color="primary"
                         />
                       }
@@ -244,7 +239,7 @@ export default function Question() {
                   })}
                 </Box>
                 {/* 남의 질문이면서, 질문이 닫히지 않았다면, */}
-                {(owner !== userId && !question.closed)  && (
+                {owner !== userId && !question.closed && (
                   <AnswerWrite userId={userId}></AnswerWrite>
                 )}
               </Grid>

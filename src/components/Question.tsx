@@ -5,7 +5,7 @@ import { Answer, defaultAnswer } from "domain/type/answerInterface";
 import useQuestion from "hooks/QuestionHooks";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "store";
 import {
   defaultQuestion,
@@ -13,8 +13,14 @@ import {
 } from "../domain/type/questionInteface";
 import answerService from "./../service/answer.service";
 import questionService from "./../service/question.service";
+import { ethers } from "ethers";
+import abi from "../utils/CritPortal.json";
+import { address } from "../utils/ContractInfo";
+
+declare var window: any;
 
 export default function Question() {
+  const navigate = useNavigate();
   const params = useParams();
 
   const [loading, setLoading] = useState(true); // 랜더링 1번
@@ -40,7 +46,7 @@ export default function Question() {
   const handleClosed = async () => {
     const closedQuestion = await questionService
       .closeQuestion(params.id!)
-      .then(closedQuestion => {
+      .then((closedQuestion) => {
         console.log(closedQuestion);
         setQuestion(closedQuestion);
       });
@@ -51,8 +57,42 @@ export default function Question() {
   const handleAdaptAnswer = async (answerId: string) => {
     const chosedAnswer: Answer = await answerService.chooseAnswer(answerId);
     setAnswers(
-      answers.map(answer => (answer.id === answerId ? chosedAnswer : answer))
+      answers.map((answer) => (answer.id === answerId ? chosedAnswer : answer))
     );
+  };
+  // MY_QUESTION logic
+  const contractAddress = address;
+  const contractABI = abi.abi;
+  const closeQuestion = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const critPortalContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
+        let before = await critPortalContract.getQuestionById(question.id);
+
+        let result = await critPortalContract.closeQuestion(question.id);
+
+        let after = await critPortalContract.getQuestionById(question.id);
+
+        console.log(before, after);
+        return true;
+      } else {
+        console.log("Ethereum object doesn't exist!");
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // 서버에서 isClosed 로직 넣기
+
+    navigate("/");
   };
 
   useEffect(() => {
@@ -83,8 +123,7 @@ export default function Question() {
                 //이렇게 컴포넌트의 각 속성에도 넣을 수도 있다
                 fontSize: "22px",
               },
-            }}
-          >
+            }}>
             <Grid container justifyContent={"center"}>
               <Grid item xs={10}>
                 <Box
@@ -92,8 +131,7 @@ export default function Question() {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "flex-end",
-                  }}
-                >
+                  }}>
                   {closed && (
                     <Typography color={"secondary"} component="h6" variant="h6">
                       this question is closed
@@ -103,8 +141,7 @@ export default function Question() {
                     <Button
                       variant="contained"
                       color={"secondary"}
-                      onClick={() => handleClosed()}
-                    >
+                      onClick={() => handleClosed()}>
                       close this question
                     </Button>
                   )}
@@ -162,22 +199,19 @@ export default function Question() {
                           pb: 5,
 
                           borderBottom: 1,
-                        }}
-                      >
+                        }}>
                         <Grid
                           container
                           direction="column"
                           // justifyContent={"flex-end"}
                           // alignItems={"flex-end"}
-                          spacing={2}
-                        >
+                          spacing={2}>
                           <Grid item container justifyContent={"flex-end"}>
                             {answer.adopted && (
                               <Typography
                                 color={"secondary"}
                                 component="h6"
-                                variant="h6"
-                              >
+                                variant="h6">
                                 Adopted
                               </Typography>
                             )}
@@ -185,8 +219,7 @@ export default function Question() {
                               <Button
                                 variant="contained"
                                 color="secondary"
-                                onClick={() => handleAdaptAnswer(answer.id)}
-                              >
+                                onClick={() => handleAdaptAnswer(answer.id)}>
                                 adapt this
                               </Button>
                             )}
@@ -195,8 +228,7 @@ export default function Question() {
                             <Typography
                               variant="h5"
                               sx={{ pb: 3 }}
-                              gutterBottom
-                            >
+                              gutterBottom>
                               {answer.title}
                             </Typography>
                             <Typography sx={{ my: 1 }}>
@@ -208,8 +240,7 @@ export default function Question() {
                             container
                             direction="column"
                             justifyContent={"flex-end"}
-                            alignContent={"flex-end"}
-                          >
+                            alignContent={"flex-end"}>
                             <Typography gutterBottom>
                               adopted : {answer.adopted.toString()}
                             </Typography>

@@ -20,9 +20,9 @@ export default function QuestionHeader({
 
   const handleAddQuestion = () => {
     if (address) {
-    navigate("/write");
+      navigate("/write");
     } else {
-    setShowModal(!showModal);
+      setShowModal(!showModal);
     }
   };
   return (
@@ -32,8 +32,7 @@ export default function QuestionHeader({
         spacing={0}
         px={2}
         pt={2}
-        justifyContent={"space-between"}
-      >
+        justifyContent={"space-between"}>
         <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
@@ -43,8 +42,7 @@ export default function QuestionHeader({
       </Grid>
       <BasicModal
         showModal={showModal}
-        setShowModal={setShowModal}
-      ></BasicModal>
+        setShowModal={setShowModal}></BasicModal>
 
       <Box sx={{ mt: 5 }}>
         <Typography px={2} color="#D8D8D8">

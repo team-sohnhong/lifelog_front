@@ -20,10 +20,10 @@ const getQuestion = async (id: string) => {
   }
 };
 
-const closeQuestion = async (id: string, closed: boolean) => {
+const closeQuestion = async (id: string) => {
   try {
     const response = await apiRequest.patch(`/questions/close/${id}`, {
-      closed,
+      closed: true,
     });
     const { data } = response;
     return data;

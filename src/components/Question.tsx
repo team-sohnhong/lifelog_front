@@ -54,26 +54,15 @@ export default function Question() {
   const userId = useSelector((state: RootState) => state.user.user._id);
   console.log("🚀 출력 userId", userId);
 
-  // MY_QUESTION logic
-  const deleteQuestion = async () => {
-    questionService.deleteQuestion(params.id!);
-
-    navigate("/");
-  };
-
   const handleClosed = async () => {
-    const updatedQuestion = await questionService.closeQuestion(
-      params.id!,
-      !closed
-    );
-    setQuestion(updatedQuestion);
+    const closedQuestion = await questionService.closeQuestion(params.id!);
+    setQuestion(closedQuestion);
   };
 
   useEffect(() => {
     getQuestion();
     getAnswers();
     setLoading(false);
-
     // questionService.getQuestion(`${params.id}`);
   }, []);
   console.log(owner, closed, "랜더링됨");
@@ -112,24 +101,12 @@ export default function Question() {
                       justifyContent: "flex-end",
                     }}
                   >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={closed}
-                          onChange={() => {
-                            handleClosed();
-                          }}
-                          color="primary"
-                        />
-                      }
-                      label="질문닫기"
-                    />
                     <Button
                       variant="contained"
                       color={"secondary"}
-                      onClick={deleteQuestion}
+                      onClick={() => handleClosed()}
                     >
-                      삭제하기
+                      close this question
                     </Button>
                   </Box>
                 )}
@@ -147,12 +124,12 @@ export default function Question() {
                   <Grid container direction="column" alignItems={"flex-end"}>
                     <Grid item>
                       <Typography gutterBottom>
-                        질문 닫기: {closed.toString()}
+                        closed: {closed.toString()}
                       </Typography>
 
-                      <Typography gutterBottom>만든 사람: {owner}</Typography>
+                      <Typography gutterBottom>creator: {owner}</Typography>
                       <Typography gutterBottom>
-                        만든 시간: {created_at}
+                        created_at: {created_at}
                       </Typography>
                       {/* <Typography gutterBottom>카테고리: {category}</Typography> */}
 
@@ -197,7 +174,7 @@ export default function Question() {
                           {owner === userId && (
                             <Grid item container justifyContent={"flex-end"}>
                               <Button variant="contained" color="secondary">
-                                채택하기
+                                adapt this
                               </Button>
                             </Grid>
                           )}
@@ -221,16 +198,16 @@ export default function Question() {
                             alignContent={"flex-end"}
                           >
                             <Typography gutterBottom>
-                              채택여부 : {answer.adopted.toString()}
+                              adopted : {answer.adopted.toString()}
+                            </Typography>
+                            {/* <Typography gutterBottom> */}
+                              {/* answerId : {answer.id} */}
+                            {/* </Typography> */}
+                            <Typography gutterBottom>
+                              created_at : {answer.created_at}
                             </Typography>
                             <Typography gutterBottom>
-                              답변자 : {answer.id}
-                            </Typography>
-                            <Typography gutterBottom>
-                              작성 시간 : {answer.created_at}
-                            </Typography>
-                            <Typography gutterBottom>
-                              작성자 : {answer.owner}
+                              answerer : {answer.owner}
                             </Typography>
                           </Grid>
                         </Grid>

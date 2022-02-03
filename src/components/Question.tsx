@@ -43,7 +43,6 @@ export default function Question() {
     const { data } = response;
 
     setQuestion(data);
-    setLoading(false);
   };
 
   const getAnswers = async () => {
@@ -76,7 +75,9 @@ export default function Question() {
 
   useEffect(() => {
     getQuestion();
-    // getAnswers();
+    getAnswers();
+    setLoading(false);
+
     // questionService.getQuestion(`${params.id}`);
   }, []);
   console.log(owner);
@@ -175,7 +176,7 @@ export default function Question() {
                 </Box>
                 <Divider />
                 <Box>
-                  <h2>답변 목록 : {answers.length}</h2>
+                  <h2>{answers.length} Answers</h2>
                   {answers.map((answer, index) => {
                     return (
                       <Box
@@ -184,6 +185,7 @@ export default function Question() {
                           // color: "success.dark",
                           display: "flex",
                           flexDirection: "column",
+                          mt: 3,
                           mb: 10,
                           pb: 5,
 
@@ -204,8 +206,12 @@ export default function Question() {
                               </Button>
                             </Grid>
                           )}
-                          <Grid item>
-                            <Typography variant="h4" gutterBottom>
+                          <Grid item sx={{ height: "200px" }}>
+                            <Typography
+                              variant="h5"
+                              sx={{ pb: 3 }}
+                              gutterBottom
+                            >
                               {answer.title}
                             </Typography>
                             <Typography sx={{ my: 1 }}>
@@ -220,7 +226,10 @@ export default function Question() {
                             alignContent={"flex-end"}
                           >
                             <Typography gutterBottom>
-                              답변 id : {answer.id}
+                              채택여부 : {answer.adopted.toString()}
+                            </Typography>
+                            <Typography gutterBottom>
+                              답변자 : {answer.id}
                             </Typography>
                             <Typography gutterBottom>
                               작성 시간 : {answer.created_at}
@@ -234,7 +243,8 @@ export default function Question() {
                     );
                   })}
                 </Box>
-                {owner !== userId && (
+                {/* 남의 질문이면서, 질문이 닫히지 않았다면, */}
+                {(owner !== userId && !question.closed)  && (
                   <AnswerWrite userId={userId}></AnswerWrite>
                 )}
               </Grid>

@@ -2,7 +2,7 @@ import { apiRequest } from ".";
 
 const getAnswers = async (questionId: string) => {
   try {
-    const response = await apiRequest.get(`/answers?id=${questionId}`);
+    const response = await apiRequest.get(`/answers/${questionId}`);
     const { data } = response;
     return data;
   } catch (err) {

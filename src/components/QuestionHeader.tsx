@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { User } from "domain/type/userInterface";
 import { QuestionProps } from "../domain/type/questionInteface";
 import BasicModal from "./modal/Modal";
+import { RootState } from "store";
 export default function QuestionHeader({
   questions,
 }: {
@@ -13,16 +14,16 @@ export default function QuestionHeader({
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-  const user = useSelector((state: User) => state);
+  const address = useSelector((state: RootState) => state.user.user.address);
 
   const numberOfQuestion = questions.length;
 
   const handleAddQuestion = () => {
-    // if (user.address) {
+    if (address) {
     navigate("/write");
-    // } else {
-    // setShowModal(!showModal);
-    // }
+    } else {
+    setShowModal(!showModal);
+    }
   };
   return (
     <Box>

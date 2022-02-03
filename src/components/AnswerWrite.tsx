@@ -1,54 +1,56 @@
-import { Box, Divider, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import { useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import answerService from "service/answer.service";
 import { v4 as uuidv4 } from "uuid";
+import BasicModal from "./modal/Modal";
 
 export default function AnswerWrite({ userId }: { userId: string }) {
   const params = useParams();
-  const navigate = useNavigate();
-  const location = useLocation()
 
   const [answerTitle, setAnswerTitle] = useState("");
   const [answerContent, setAnswerContent] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  const onAnswerTitleChange = (e: any) => {
-    setAnswerTitle(e.target.value);
+  const titleProps = {
+    value: answerTitle,
+    onChange: (e: any) => setAnswerTitle(e.target.value),
   };
-
-  const onAnswerBodyChange = (e: any) => {
-    setAnswerContent(e.target.value);
+  const contentProps = {
+    value: answerContent,
+    onChange: (e: any) => setAnswerContent(e.target.value),
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let answer = {
-      title: answerTitle,
-      id: uuidv4(),
-      content: answerContent,
-      adopted: false,
-      owner: userId,
-      related: params.id!,
-    };
+    if (!userId) {
+      setShowModal(!showModal);
+    } else {
+      let answer = {
+        title: answerTitle,
+        id: uuidv4(),
+        content: answerContent,
+        adopted: false,
+        owner: userId,
+        related: params.id!,
+      };
 
-    answerService.postAnswer(answer).then((data: any) => {
-      data
-        ? window.location.reload()
-        : console.log("ERROR");
-    });
+      answerService.postAnswer(answer).then((data: any) => {
+        data ? window.location.reload() : console.log("ERROR");
+      });
+    }
   };
   return (
     <Box>
       <Divider />
-      <h2>답변 작성하기</h2>
+      <h2>Your Answer</h2>
       <form onSubmit={handleSubmit}>
         <TextField
           name="answer"
-          value={answerTitle}
-          onChange={onAnswerTitleChange}
+          {...titleProps}
           variant="standard"
-          placeholder="제목"
+          placeholder="Title"
           fullWidth
           required
           sx={{
@@ -57,10 +59,11 @@ export default function AnswerWrite({ userId }: { userId: string }) {
         />
         <TextField
           name="answer"
-          value={answerContent}
-          onChange={onAnswerBodyChange}
+          {...contentProps}
+          // value={answerContent}
+          // onChange={onAnswerBodyChange}
           variant="outlined"
-          placeholder="답변"
+          placeholder="answer"
           multiline
           required
           minRows={10}
@@ -71,8 +74,12 @@ export default function AnswerWrite({ userId }: { userId: string }) {
           }}
         />
         <Button type="submit" variant="contained" color="secondary">
-          답변 등록하기
+          Post Your Answer
         </Button>
+        <BasicModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+        ></BasicModal>
       </form>
     </Box>
   );

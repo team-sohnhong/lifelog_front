@@ -2,9 +2,10 @@ import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AnswerWrite from "components/AnswerWrite";
 import { Answer, defaultAnswer } from "domain/type/answerInterface";
+import useQuestion from "hooks/QuestionHooks";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "store";
 import {
   defaultQuestion,
@@ -15,10 +16,10 @@ import questionService from "./../service/question.service";
 
 export default function Question() {
   const params = useParams();
-  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
+  const [loading, setLoading] = useState(true); // 랜더링 1번
+  // const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
+  const { question, setQuestion } = useQuestion(defaultQuestion, params.id!); // 랜더링 1번
   const [answers, setAnswers] = useState<Answer[]>([
     defaultAnswer,
     defaultAnswer,
@@ -28,29 +29,28 @@ export default function Question() {
   const { id, category, title, content, created_at, owner } = question;
   let { closed } = question;
 
-  // 공통
-  const getQuestion = async () => {
-    const questionRes = await questionService.getQuestion(`${params.id}`);
-    setQuestion(questionRes);
-  };
-
   const getAnswers = async () => {
     const answersRes = await answerService.getAnswers(params.id!);
     setAnswers(answersRes);
   };
 
-  // 에러가 있어서 나중에 선언할 것. local Storage 한 후
   const userId = useSelector((state: RootState) => {
     return state.user.user._id;
-  });
-  console.log("🚀 출력 userId", userId);
+  }); // 랜더링 1번
+  console.log("🚀 userId : ", userId);
 
   const handleClosed = async () => {
-    const closedQuestion = await questionService.closeQuestion(params.id!);
-    setQuestion(closedQuestion);
+    const closedQuestion = await questionService
+      .closeQuestion(params.id!)
+      .then(closedQuestion => {
+        console.log(closedQuestion);
+        setQuestion(closedQuestion)
+      });
+
+    // setQuestion(closedQuestion);
   };
 
-  const handleChooseAnswer = async (answerId: string) => {
+  const handleAdaptAnswer = async (answerId: string) => {
     const chosedAnswer: Answer = await answerService.chooseAnswer(answerId);
     setAnswers(
       answers.map(answer => (answer.id === answerId ? chosedAnswer : answer))
@@ -58,10 +58,10 @@ export default function Question() {
   };
 
   useEffect(() => {
-    getQuestion();
+    console.log(owner, closed, "랜더링됨");
+    // getQuestion();
     getAnswers().then(() => setLoading(false));
   }, []);
-  console.log(owner, closed, "랜더링됨");
 
   return (
     <div>
@@ -101,7 +101,7 @@ export default function Question() {
                       this question is closed
                     </Typography>
                   )}{" "}
-                  {(owner === userId && !closed) &&(
+                  {owner === userId && !closed && (
                     <Button
                       variant="contained"
                       color={"secondary"}
@@ -187,7 +187,7 @@ export default function Question() {
                               <Button
                                 variant="contained"
                                 color="secondary"
-                                onClick={() => handleChooseAnswer(answer.id)}
+                                onClick={() => handleAdaptAnswer(answer.id)}
                               >
                                 adapt this
                               </Button>

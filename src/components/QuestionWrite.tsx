@@ -4,8 +4,10 @@ import {
   Container,
   Grid,
   Input,
+  makeStyles,
   Snackbar,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Box, spacing } from "@mui/system";
 import { ethers } from "ethers";
@@ -50,7 +52,7 @@ export default function WriteQuestion(props: any) {
   };
 
   // Web3 part
-  const contractAddress = "0x1418997DC19014E3CE0a3568dCF5780374591bC6";
+  const contractAddress = "0xaE859Abcf34A79e40FA17Af008c762153ac82086";
   const contractABI = abi.abi;
 
   const openQuestion = async (id: string) => {
@@ -73,8 +75,8 @@ export default function WriteQuestion(props: any) {
         // });
 
         let result = await critPortalContract.openQuestion(
-          1,
-          BigInt(reward * 1000000000 * 1000000000),
+          id,
+          reward * 1000000000 * 1000000000,
           {
             value: ethers.utils.parseEther(`${reward}`),
           }
@@ -194,6 +196,7 @@ export default function WriteQuestion(props: any) {
                 fullWidth
                 sx={{
                   my: 8,
+                  color: "white",
                 }}
               />
 
@@ -211,18 +214,22 @@ export default function WriteQuestion(props: any) {
                   pl: 0,
                   borderColor: "#808080",
                   minHeight: 400,
+                  color: "white",
                 }}></TextField>
             </Box>
           </Grid>
         </Grid>
       </Box>
       <Box>
-        <p>보상을 걸고 더 많은 답변을 받아보세요!</p>
+        <Typography>보상을 걸고 더 많은 답변을 받아보세요!</Typography>
         <TextField
           id=""
           placeholder="eth"
           value={reward}
           onChange={handleChange}
+          sx={{
+            borderColor: "#808080",
+          }}
         />
         eth
       </Box>

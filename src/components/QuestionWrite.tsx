@@ -107,7 +107,7 @@ export default function WriteQuestion(props: any) {
               variant="outlined"
               onClick={handleSnackbaropen}
             >
-              임시 저장
+              Save Temporarily
             </Button>
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -116,7 +116,9 @@ export default function WriteQuestion(props: any) {
               onClose={handleSnackbaropen}
               key={"temporary-storage-top"}
             >
-              <Alert severity="error">임시 저장 실패!</Alert>
+              <Alert severity="error">
+                Failed to save your file temporarily!
+              </Alert>
             </Snackbar>
           </Grid>
           <Grid item xs={2}>
@@ -126,7 +128,7 @@ export default function WriteQuestion(props: any) {
               variant="contained"
               // disabled
             >
-              저장
+              Post
             </Button>
           </Grid>
         </Grid>
@@ -137,7 +139,7 @@ export default function WriteQuestion(props: any) {
               <TextField
                 name="title" //이게 값 연결
                 variant="standard"
-                placeholder="제목"
+                placeholder="Title"
                 required
                 fullWidth
                 sx={{
@@ -148,7 +150,7 @@ export default function WriteQuestion(props: any) {
               <TextField
                 name="content"
                 variant="standard"
-                placeholder="내용을 입력하세요"
+                placeholder="Write your question..."
                 multiline // 멀티라인하면 fontSize가 안바뀌구나
                 fullWidth
                 required
@@ -167,7 +169,7 @@ export default function WriteQuestion(props: any) {
         </Grid>
       </Box>
       <Box>
-        <p>보상을 걸고 더 많은 답변을 받아보세요!</p>
+        <p>YOUR QUESTION REWARD</p>
         <TextField
           id=""
           placeholder="eth"

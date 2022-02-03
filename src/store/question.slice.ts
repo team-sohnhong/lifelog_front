@@ -16,15 +16,15 @@ export const getQuestions = createAsyncThunk("question/GET_QUESTION", () => {
   return questionService.getQuestions();
 });
 
-const initialQuestions = defaultQuestion;
+const initialState = {
+  questions: [defaultQuestion],
+  loading: false,
+  error: "",
+};
 // reducer
 const questionSlice = createSlice({
   name: "question",
-  initialState: {
-    questions: [] as any[],
-    loading: false,
-    error: "",
-  },
+  initialState,
   reducers: {
     add: (state, action: PayloadAction<any>) => {
       state.questions.push(action.payload);
@@ -32,17 +32,17 @@ const questionSlice = createSlice({
   },
   extraReducers: {
     [getQuestions.pending.type]: state => {
-      state.questions = [];
+      state.questions = [defaultQuestion];
       state.loading = true;
       state.error = "";
     },
     [getQuestions.fulfilled.type]: (state, action: PayloadAction<any>) => {
-      state.questions = action.payload;
+      state.questions = action.payload ?? [defaultQuestion];
       state.loading = false;
       state.error = "";
     },
     [getQuestions.rejected.type]: (state, action: PayloadAction<any>) => {
-      state.questions = [];
+      state.questions = [defaultQuestion];
       state.loading = false;
       state.error = action.payload;
     },

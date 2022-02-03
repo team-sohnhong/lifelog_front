@@ -1,3 +1,4 @@
+import { Answer } from "domain/type/answerInterface";
 import { QuestionProps, defaultQuestion } from "domain/type/questionInteface";
 import { useEffect, useState } from "react";
 import questionService from "service/question.service";
@@ -14,7 +15,7 @@ const useQuestion = (initialQuestion: QuestionProps, questionId: string) => {
   return { question, setQuestion };
 };
 
-// const useQuestion = (initialQuestion: QuestionProps, questionId: string) => {
+// const useAnswer = (initalAnswer: Answer, questionId: string) => {
 //   const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
 
 //   useEffect(() => {

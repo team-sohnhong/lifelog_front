@@ -34,9 +34,7 @@ export default function Question() {
     setAnswers(answersRes);
   };
 
-  const userId = useSelector((state: RootState) => {
-    return state.user.user._id;
-  }); // 랜더링 1번
+  const userId = useSelector((state: RootState) => state.user.user._id); // 랜더링 1번
   console.log("🚀 userId : ", userId);
 
   const handleClosed = async () => {
@@ -44,7 +42,7 @@ export default function Question() {
       .closeQuestion(params.id!)
       .then(closedQuestion => {
         console.log(closedQuestion);
-        setQuestion(closedQuestion)
+        setQuestion(closedQuestion);
       });
 
     // setQuestion(closedQuestion);

@@ -1,49 +1,55 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { defaultUser, User } from "domain/type/userInterface";
 import authService from "service/auth.service";
 
-const initialUser = {
-  loading: false,
-  data: { address: "", created_at: "", _v: 0, _id: "" },
-  error: null,
-};
+
 
 const increment = createAction("user/INCREMENT");
 
-export const fetchUser = createAsyncThunk(
-  "users/FETCH_USER",
-  async (address: string) => {
-    return authService.login(address);
+export const login = createAsyncThunk(
+  "users/LOGIN",
+  async (address: string, thunkAPI) => {
+    const response = await authService.login(address);
+    return response;
   }
 );
 
+interface UserState {
+  user: User;
+  loading: boolean;
+  error: any;
+}
+const initialState: UserState = {
+  user: defaultUser,
+  loading: false,
+  error: "",
+};
+
 const usersSlice = createSlice({
   name: "user",
-  initialState: {
-    user: {},
-    loading: false,
-    error: "",
-  },
+  initialState,
   reducers: {
     //동기 작업
-    increment: (state) => {
-      state.user = {}
+    increment: state => {
+      state.user = defaultUser;
     },
   },
   extraReducers: {
     // 비동기 작업
-    [fetchUser.pending.type]: state => {
+    [login.pending.type]: state => {
+      state.user = defaultUser;
       state.loading = true;
-      state.user = [];
       state.error = "";
     },
-    [fetchUser.fulfilled.type]: (state, action) => {
+    [login.fulfilled.type]: (state, action) => {
       state.user = action.payload;
+      console.log("🚀 ~ file: user.slice.ts ~ line 45 ~ action.payload", action)
       state.loading = false;
       state.error = "";
     },
-    [fetchUser.rejected.type]: (state, action) => {
+    [login.rejected.type]: (state, action) => {
+      state.user = defaultUser;
       state.loading = false;
-      state.user = [];
       state.error = action.payload;
     },
   },

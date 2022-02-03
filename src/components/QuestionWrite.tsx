@@ -12,8 +12,9 @@ import {
 import { Box, spacing } from "@mui/system";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "store";
 import { v4 as uuidv4 } from "uuid";
 import { apiRequest } from "../service";
 import abi from "../utils/CritPortal.json";
@@ -44,11 +45,14 @@ export default function WriteQuestion(props: any) {
   };
 
   const postQuestion = async (question: any) => {
-    const response = await apiRequest.post(`/questions`, question);
-    console.log(
-      "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
-      response
-    );
+    try {
+      const response = await apiRequest.post(`/questions`, question);
+    } catch (err) {
+      console.error(
+        "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
+        err
+      );
+    }
   };
 
   // Web3 part
@@ -90,6 +94,7 @@ export default function WriteQuestion(props: any) {
       console.log(error);
     }
   };
+  const userId = useSelector((state: RootState) => state.user.user._id);
 
   // 전송 및 라우트 이동 로직
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -133,7 +138,6 @@ export default function WriteQuestion(props: any) {
     <Container maxWidth="md">
       <Box
         component="form"
-        noValidate
         onSubmit={handleSubmit}
         sx={{
           display: "flex",
@@ -206,6 +210,7 @@ export default function WriteQuestion(props: any) {
                 placeholder="내용을 입력하세요"
                 multiline // 멀티라인하면 fontSize가 안바뀌구나
                 fullWidth
+                required
                 minRows={16} //이게 중요
                 maxRows={16}
                 InputProps={{ disableUnderline: true }}

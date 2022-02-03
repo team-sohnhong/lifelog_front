@@ -1,15 +1,15 @@
 import {
   Button,
-  ButtonGroup,
+  Checkbox,
   Container,
   Divider,
-  Grid,
-  TextField,
-  Typography,
-  Checkbox,
   FormControlLabel,
+  Grid,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import AnswerWrite from "components/AnswerWrite";
+import { Answer, defaultAnswer } from "domain/type/answerInterface";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,57 +19,68 @@ import {
   QuestionProps,
 } from "../domain/type/questionInteface";
 import { apiRequest } from "../service";
-import questionSlice from "./../store/question.slice";
-
-// 리덕스에 모든 질문 받아와 state에 저장-> useSelector를 이용해 store에서 개별 question 가져오기 -이게 맞는 거 같다.
-// 가능한 props는 사용하지 말고, useState, useSelector만 이용해서 개발하자.
-
-// 컴포넌트에서는 리덕스에서 데이터를 뿌려주는 dumb역할만 할 거고, 기능은 useState 제외하고는 redux reducer가 하게 할 것이다.
+import answerService from "./../service/answer.service";
+import questionService from "./../service/question.service";
 
 export default function Question() {
   const params = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-
   const [question, setQuestion] = useState<QuestionProps>(defaultQuestion);
+  const [answers, setAnswers] = useState<Answer[]>([
+    defaultAnswer,
+    defaultAnswer,
+    defaultAnswer,
+  ]);
+
   const { id, category, title, content, created_at, owner } = question;
-  let { adopted } = question;
+  let { closed } = question;
 
-  const oneQuestion = useSelector(
-    (state: RootState) => state.question.questions
-  );
-  console.log(
-    "🚀 ~ file: Question.tsx ~ line 42 ~ Question ~ oneQuestion",
-    oneQuestion
-  );
-
+  // 공통
   const getQuestion = async () => {
     const response = await apiRequest.get(`/questions/${params.id}`);
     const { data } = response;
 
     setQuestion(data);
-    setLoading(false);
   };
 
-  const clickAdopted = () => {
-    setQuestion({
-      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
-      adopted: !adopted, // 이렇게!
-    });
+  const getAnswers = async () => {
+    const answers = await answerService.getAnswers(params.id!);
+    setAnswers(answers);
   };
-  useEffect(() => {
-    getQuestion();
-  }, []);
 
+  //REDUX_LOGIC
+  // const oneQuestion = useSelector(
+  //   (state: RootState) => state.question.questions
+  // );
+  // 질문 등록 시 owner 용, 에러가 있어서 나중에 선언할 것. local Storage 한 후
+
+  const userId = useSelector((state: RootState) => state.user.user._id);
+  console.log("🚀 출력 userId", userId);
+
+  // MY_QUESTION logic
   const deleteQuestion = async () => {
-    const response = await apiRequest.delete(`/questions/${params.id}`);
-    console.log(
-      "🚀 ~ file: Question.tsx ~ line 47 ~ deleteQuestion ~ response",
-      response
-    );
+    questionService.deleteQuestion(params.id!);
+
     navigate("/");
   };
+
+  const handleClosed = () => {
+    setQuestion({
+      ...question, //부분 값 변경하려면 이렇게!! 전체 가져온 후
+      closed: !closed, // 이렇게!
+    });
+  };
+
+  useEffect(() => {
+    getQuestion();
+    getAnswers();
+    setLoading(false);
+
+    // questionService.getQuestion(`${params.id}`);
+  }, []);
+  console.log(owner);
 
   return (
     <div>
@@ -83,6 +94,7 @@ export default function Question() {
               borderLeft: 1,
               borderRight: 1,
               borderColor: "#888888",
+              py: 10,
 
               alignItems: "center",
               "& input": {
@@ -96,72 +108,145 @@ export default function Question() {
           >
             <Grid container justifyContent={"center"}>
               <Grid item xs={10}>
-                <Typography sx={{ mt: 5, mb: 3 }} component="h3" variant="h3">
-                  {title}
-                </Typography>
-                <Divider />
-                <Typography sx={{ mt: 10 }} component="h6" variant="h6">
-                  {content}
-                </Typography>
-                <Divider sx={{ mt: 30, mb: 3 }} />
-                <Typography sx={{ my: 1 }}>
-                  채택 여부: {adopted.toString()}
-                </Typography>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        clickAdopted();
-                        console.log(adopted);
-                      }}
-                      value={adopted}
-                      color="primary"
+                {owner === userId && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onClick={() => {
+                            handleClosed();
+                            console.log(closed);
+                          }}
+                          value={closed}
+                          color="primary"
+                        />
+                      }
+                      label="질문닫기"
                     />
-                  }
-                  label="채택하기"
-                />
-                <Typography sx={{ my: 1 }}>만든 시간: {created_at}</Typography>
-                <Typography sx={{ my: 1 }}>만든 사람: {owner}</Typography>
-                <Typography sx={{ my: 1 }}>카테고리: {category}</Typography>
-                <Typography sx={{ my: 1 }}>아이디: {id}</Typography>
-                <Button onClick={deleteQuestion}>삭제하기</Button>
-                <ButtonGroup
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  aria-label="1"
-                  sx={{ my: 3 }}
-                >
-                  <Button>Tag1</Button>
-                  <Button>Tag2</Button>
-                </ButtonGroup>
+                    <Button
+                      variant="contained"
+                      color={"secondary"}
+                      onClick={deleteQuestion}
+                    >
+                      삭제하기
+                    </Button>
+                  </Box>
+                )}
+                <Box sx={{ height: "400px" }}>
+                  <Typography sx={{ mt: 5, mb: 3 }} component="h3" variant="h3">
+                    {title}
+                  </Typography>
+                  <Divider />
+                  <Typography sx={{ mt: 10 }} component="h6" variant="h6">
+                    {content}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ mb: 3 }}>
+                  <Grid container direction="column" alignItems={"flex-end"}>
+                    <Grid item>
+                      <Typography gutterBottom>
+                        질문 닫기: {closed.toString()}
+                      </Typography>
+
+                      <Typography gutterBottom>만든 사람: {owner}</Typography>
+                      <Typography gutterBottom>
+                        만든 시간: {created_at}
+                      </Typography>
+                      {/* <Typography gutterBottom>카테고리: {category}</Typography> */}
+
+                      {/* <ButtonGroup
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        aria-label="1"
+                        sx={{ my: 3 }}
+                      >
+                        <Button>Tag1</Button>
+                        <Button>Tag2</Button>
+                      </ButtonGroup> */}
+                    </Grid>
+                  </Grid>
+                </Box>
                 <Divider />
-                {[
-                  "댓글1 : 좋은 글이네요",
-                  "댓글2 : 배고파요",
-                  "댓글3 : 감사합니다!!!",
-                ].map((comment, index) => {
-                  return (
-                    <Typography key={index} sx={{ my: 1 }}>
-                      {comment}
-                    </Typography>
-                  );
-                })}
-                <Divider />
-                <TextField
-                  name="comment"
-                  variant="standard"
-                  placeholder="댓글"
-                  // required
-                  fullWidth
-                  sx={{
-                    mt: 8,
-                    mb: 3,
-                  }}
-                />
-                <Button variant="contained" color="secondary">
-                  입력
-                </Button>
+                <Box>
+                  <h2>{answers.length} Answers</h2>
+                  {answers.map((answer, index) => {
+                    return (
+                      <Box
+                        key={index}
+                        sx={{
+                          // color: "success.dark",
+                          display: "flex",
+                          flexDirection: "column",
+                          mt: 3,
+                          mb: 10,
+                          pb: 5,
+
+                          borderBottom: 1,
+                        }}
+                      >
+                        <Grid
+                          container
+                          direction="column"
+                          // justifyContent={"flex-end"}
+                          // alignItems={"flex-end"}
+                          spacing={2}
+                        >
+                          {owner === userId && (
+                            <Grid item container justifyContent={"flex-end"}>
+                              <Button variant="contained" color="secondary">
+                                채택하기
+                              </Button>
+                            </Grid>
+                          )}
+                          <Grid item sx={{ height: "200px" }}>
+                            <Typography
+                              variant="h5"
+                              sx={{ pb: 3 }}
+                              gutterBottom
+                            >
+                              {answer.title}
+                            </Typography>
+                            <Typography sx={{ my: 1 }}>
+                              {answer.content}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            container
+                            direction="column"
+                            justifyContent={"flex-end"}
+                            alignContent={"flex-end"}
+                          >
+                            <Typography gutterBottom>
+                              채택여부 : {answer.adopted.toString()}
+                            </Typography>
+                            <Typography gutterBottom>
+                              답변자 : {answer.id}
+                            </Typography>
+                            <Typography gutterBottom>
+                              작성 시간 : {answer.created_at}
+                            </Typography>
+                            <Typography gutterBottom>
+                              작성자 : {answer.owner}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    );
+                  })}
+                </Box>
+                {/* 남의 질문이면서, 질문이 닫히지 않았다면, */}
+                {(owner !== userId && !question.closed)  && (
+                  <AnswerWrite userId={userId}></AnswerWrite>
+                )}
               </Grid>
             </Grid>
           </Box>

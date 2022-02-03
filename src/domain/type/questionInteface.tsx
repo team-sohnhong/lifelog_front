@@ -1,21 +1,12 @@
-// export interface QuestionProps {
-//   title: string
-//   content: string
-//   vote: number
-//   answer: number
-//   tags: Array<string>
-//   created_at: number
-//   writer: string
-// }
-
 export interface QuestionProps {
   id: string;
   category: number;
   title: string;
   content: string;
-  adopted: boolean;
+  closed: boolean;
   created_at: string;
   owner: string;
+  reward: number;
 }
 
 export const defaultQuestion: QuestionProps = {
@@ -23,7 +14,8 @@ export const defaultQuestion: QuestionProps = {
   category: 0,
   title: "",
   content: "",
-  adopted: false,
+  closed: false,
   created_at: "",
   owner: "",
+  reward: 0,
 };

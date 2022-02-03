@@ -7,10 +7,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "store";
-import {
-  defaultQuestion,
-  QuestionProps,
-} from "../domain/type/questionInteface";
+import { defaultQuestion } from "../domain/type/questionInteface";
 import answerService from "./../service/answer.service";
 import questionService from "./../service/question.service";
 import { ethers } from "ethers";
@@ -259,8 +256,8 @@ export default function Question() {
                     );
                   })}
                 </Box>
-                {/* 남의 질문이면서, 질문이 닫히지 않았다면, */}
-                {owner !== userId && !question.closed && (
+                {/* 질문이 닫히지 않았다면, */}
+                {!question.closed && (
                   <AnswerWrite userId={userId}></AnswerWrite>
                 )}
               </Grid>

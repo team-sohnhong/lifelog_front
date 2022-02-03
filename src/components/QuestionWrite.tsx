@@ -18,6 +18,7 @@ import { RootState } from "store";
 import { v4 as uuidv4 } from "uuid";
 import { apiRequest } from "../service";
 import abi from "../utils/CritPortal.json";
+import { address } from "../utils/ContractInfo";
 
 declare var window: any;
 
@@ -56,7 +57,7 @@ export default function WriteQuestion(props: any) {
   };
 
   // Web3 part
-  const contractAddress = "0xaE859Abcf34A79e40FA17Af008c762153ac82086";
+  const contractAddress = address;
   const contractABI = abi.abi;
 
   const openQuestion = async (id: string) => {
@@ -85,6 +86,11 @@ export default function WriteQuestion(props: any) {
             value: ethers.utils.parseEther(`${reward}`),
           }
         ); // 0.01 ether
+        await result.wait(); // waiting till mine complete
+        let after = await critPortalContract.getQuestionById(id);
+
+        console.log(after);
+
         return true;
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -111,7 +117,7 @@ export default function WriteQuestion(props: any) {
         id,
         title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
         content: data.get("content") as string,
-        owner: "Me",
+        owner: userId,
         reward: rewardNum,
       };
 

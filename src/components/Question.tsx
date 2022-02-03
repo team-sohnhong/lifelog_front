@@ -1,12 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Container,
-  Divider,
-  FormControlLabel,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AnswerWrite from "components/AnswerWrite";
 import { Answer, defaultAnswer } from "domain/type/answerInterface";
@@ -18,7 +10,6 @@ import {
   defaultQuestion,
   QuestionProps,
 } from "../domain/type/questionInteface";
-import { apiRequest } from "../service";
 import answerService from "./../service/answer.service";
 import questionService from "./../service/question.service";
 
@@ -39,19 +30,19 @@ export default function Question() {
 
   // 공통
   const getQuestion = async () => {
-    const response = await apiRequest.get(`/questions/${params.id}`);
-    const { data } = response;
-
-    setQuestion(data);
+    const questionRes = await questionService.getQuestion(`${params.id}`);
+    setQuestion(questionRes);
   };
 
   const getAnswers = async () => {
-    const answers = await answerService.getAnswers(params.id!);
-    setAnswers(answers);
+    const answersRes = await answerService.getAnswers(params.id!);
+    setAnswers(answersRes);
   };
 
-  // 질문 등록 시 owner 용, 에러가 있어서 나중에 선언할 것. local Storage 한 후
-  const userId = useSelector((state: RootState) => state.user.user._id);
+  // 에러가 있어서 나중에 선언할 것. local Storage 한 후
+  const userId = useSelector((state: RootState) => {
+    return state.user.user._id;
+  });
   console.log("🚀 출력 userId", userId);
 
   const handleClosed = async () => {
@@ -59,11 +50,16 @@ export default function Question() {
     setQuestion(closedQuestion);
   };
 
+  const handleChooseAnswer = async (answerId: string) => {
+    const chosedAnswer: Answer = await answerService.chooseAnswer(answerId);
+    setAnswers(
+      answers.map(answer => (answer.id === answerId ? chosedAnswer : answer))
+    );
+  };
+
   useEffect(() => {
     getQuestion();
-    getAnswers();
-    setLoading(false);
-    // questionService.getQuestion(`${params.id}`);
+    getAnswers().then(() => setLoading(false));
   }, []);
   console.log(owner, closed, "랜더링됨");
 
@@ -93,29 +89,29 @@ export default function Question() {
           >
             <Grid container justifyContent={"center"}>
               <Grid item xs={10}>
-                {owner === userId && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    {closed ? (
-                      <Typography color={'secondary'} component="h6" variant="h6">
-                        this question is closed
-                      </Typography>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color={"secondary"}
-                        onClick={() => handleClosed()}
-                      >
-                        close this question
-                      </Button>
-                    )}
-                  </Box>
-                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {closed && (
+                    <Typography color={"secondary"} component="h6" variant="h6">
+                      this question is closed
+                    </Typography>
+                  )}{" "}
+                  {(owner === userId && !closed) &&(
+                    <Button
+                      variant="contained"
+                      color={"secondary"}
+                      onClick={() => handleClosed()}
+                    >
+                      close this question
+                    </Button>
+                  )}
+                </Box>
+
                 <Box sx={{ height: "400px" }}>
                   <Typography sx={{ mt: 5, mb: 3 }} component="h3" variant="h3">
                     {title}
@@ -177,13 +173,26 @@ export default function Question() {
                           // alignItems={"flex-end"}
                           spacing={2}
                         >
-                          {(owner === userId && !closed)&& (
-                            <Grid item container justifyContent={"flex-end"}>
-                              <Button variant="contained" color="secondary">
+                          <Grid item container justifyContent={"flex-end"}>
+                            {answer.adopted && (
+                              <Typography
+                                color={"secondary"}
+                                component="h6"
+                                variant="h6"
+                              >
+                                Adopted
+                              </Typography>
+                            )}
+                            {owner === userId && !closed && !answer.adopted && (
+                              <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => handleChooseAnswer(answer.id)}
+                              >
                                 adapt this
                               </Button>
-                            </Grid>
-                          )}
+                            )}
+                          </Grid>
                           <Grid item sx={{ height: "200px" }}>
                             <Typography
                               variant="h5"

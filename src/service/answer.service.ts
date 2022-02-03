@@ -29,14 +29,16 @@ const postAnswer = async (answer: any) => {
   } catch (err) {
     return null;
   }
-}
+};
 
-const updateAnswer = async () => {
+const chooseAnswer = async (id: string) => {
   try {
-    const response = await apiRequest.put(`/answers/`);
+    const response = await apiRequest.patch(`/answers/choose/${id}`);
     const { data } = response;
+    console.log("🚀 SUCCESS!!", data);
     return data;
   } catch (err) {
+    console.log("🚀 ERROR!!", err);
     return err;
   }
 };
@@ -57,7 +59,7 @@ const deleteAnswer = async (id: string) => {
 const answerService = {
   getAnswers,
   deleteAnswer,
-  updateAnswer,
+  chooseAnswer,
   getAnswer,
   postAnswer,
 };

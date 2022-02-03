@@ -19,7 +19,7 @@ interface UserState {
   loading: boolean;
   error: any;
 }
-const initialState: UserState = {
+const initialState = {
   user: defaultUser,
   loading: false,
   error: "",
@@ -42,7 +42,7 @@ const usersSlice = createSlice({
       state.error = "";
     },
     [login.fulfilled.type]: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload ?? defaultUser;
       console.log("🚀 ~ file: user.slice.ts ~ line 45 ~ action.payload", action)
       state.loading = false;
       state.error = "";

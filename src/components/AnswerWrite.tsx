@@ -1,12 +1,13 @@
 import { Box, Divider, Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import answerService from "service/answer.service";
 import { v4 as uuidv4 } from "uuid";
 
 export default function AnswerWrite({ userId }: { userId: string }) {
   const params = useParams();
   const navigate = useNavigate();
+  const location = useLocation()
 
   const [answerTitle, setAnswerTitle] = useState("");
   const [answerContent, setAnswerContent] = useState("");
@@ -32,7 +33,9 @@ export default function AnswerWrite({ userId }: { userId: string }) {
     };
 
     answerService.postAnswer(answer).then((data: any) => {
-      data ? navigate("/") : console.log("ERROR");
+      data
+        ? window.location.reload()
+        : console.log("ERROR");
     });
   };
   return (

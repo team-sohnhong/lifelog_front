@@ -2,7 +2,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppBar from "./components/AppBar";
-import Question from "./components/Question";
+import QuestionDetail from "./components/Question";
 import QuestionWrite from "./components/QuestionWrite";
 import Home from "./routes/Home";
 import SignIn from "./routes/SignIn";
@@ -34,7 +34,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="write" element={<QuestionWrite />} />
-          <Route path="question/:id" element={<Question />} />
+          <Route path="question/:id" element={<QuestionDetail />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

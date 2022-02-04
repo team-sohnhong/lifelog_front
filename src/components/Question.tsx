@@ -1,102 +1,47 @@
 import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AnswerWrite from "components/AnswerWrite";
-import { Answer, defaultAnswer } from "domain/type/answerInterface";
-import useQuestion from "hooks/QuestionHooks";
-import { useEffect, useState } from "react";
+import useQuestionDetail from "hooks/useRequest";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import answerService from "service/answer.service";
+import questionService from "service/question.service";
 import { RootState } from "store";
-import { defaultQuestion } from "../domain/type/questionInteface";
-import answerService from "./../service/answer.service";
-import questionService from "./../service/question.service";
-import { ethers } from "ethers";
-import abi from "../utils/CritPortal.json";
-import { address } from "../utils/ContractInfo";
+import contractService from "./../service/contract.service";
 
-declare var window: any;
-
-export default function Question() {
-  const navigate = useNavigate();
+export default function QuestionDetail() {
   const params = useParams();
 
-  const [loading, setLoading] = useState(true);
-  const { question, setQuestion } = useQuestion(defaultQuestion, params.id!); 
-  const [answers, setAnswers] = useState<Answer[]>([
-    defaultAnswer,
-    defaultAnswer,
-    defaultAnswer,
-  ]);
-  const { id, category, title, content, created_at, owner } = question;
-  let { closed } = question;
+  const { loading, setLoading, hasError, setHasError, data, setData } =
+    useQuestionDetail(params.id!);
+  const { question, answers } = data;
 
-  const userAddress = useSelector((state: RootState) => state.user.user.address); 
-  console.log("🚀 userAddress : ", userAddress);
-
-  const getAnswers = async () => {
-    const answersRes = await answerService.getAnswers(params.id!);
-    setAnswers(answersRes);
-  };
+  const userAddress = useSelector(
+    (state: RootState) => state.user.user.address
+  );
 
   const handleCloseQuestion = async () => {
-    const closedQuestion = await questionService
-      .closeQuestion(params.id!)
-      .then((closedQuestion) => {
-        console.log(closedQuestion);
-        setQuestion(closedQuestion);
-      });
+    // execute contract first
+    const isClosed = await contractService.closeQuestion(params.id!);
+    if (isClosed) {
+      // then execute backend
+      await questionService.closeQuestion(params.id!);
+    }
   };
 
   const handleChooseAnswer = async (answerId: string) => {
-    const chosenAnswer: Answer = await answerService.chooseAnswer(answerId);
-    setAnswers(
-      answers.map((answer) => (answer.id === answerId ? chosenAnswer : answer))
-    );
+    // execute contract first
+    await answerService.chooseAnswer(answerId);
+    // then execute backend
   };
-  
-  const contractAddress = address;
-  const contractABI = abi.abi;
-  const closeQuestion = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const critPortalContract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer
-        );
-        let before = await critPortalContract.getQuestionById(question.id);
-
-        let result = await critPortalContract.closeQuestion(question.id);
-
-        let after = await critPortalContract.getQuestionById(question.id);
-
-        console.log(before, after);
-        return true;
-      } else {
-        console.log("Ethereum object doesn't exist!");
-        return false;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    // 서버에서 isClosed 로직 넣기
-
-    navigate("/");
-  };
-
-  useEffect(() => {
-    console.log(owner, closed, "랜더링됨");
-    // getQuestion();
-    getAnswers().then(() => setLoading(false));
-  }, []);
 
   return (
     <div>
-      {loading ? null : (
+      {loading ? (
+        <h1>로딩중....</h1>
+      ) : hasError ? (
+        <h1>에러발생...</h1>
+      ) : (
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -127,12 +72,12 @@ export default function Question() {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {closed && (
+                  {question.closed && (
                     <Typography color={"secondary"} component="h6" variant="h6">
                       this question is closed
                     </Typography>
                   )}{" "}
-                  {owner === userAddress && !closed && (
+                  {question.owner === userAddress && !question.closed && (
                     <Button
                       variant="contained"
                       color={"secondary"}
@@ -145,11 +90,11 @@ export default function Question() {
 
                 <Box sx={{ height: "400px" }}>
                   <Typography sx={{ mt: 5, mb: 3 }} component="h3" variant="h3">
-                    {title}
+                    {question.title}
                   </Typography>
                   <Divider />
                   <Typography sx={{ mt: 10 }} component="h6" variant="h6">
-                    {content}
+                    {question.content}
                   </Typography>
                 </Box>
 
@@ -157,25 +102,15 @@ export default function Question() {
                   <Grid container direction="column" alignItems={"flex-end"}>
                     <Grid item>
                       <Typography gutterBottom>
-                        closed: {closed.toString()}
+                        closed: {question.closed.toString()}
                       </Typography>
 
-                      <Typography gutterBottom>creator: {owner}</Typography>
                       <Typography gutterBottom>
-                        created_at: {created_at}
+                        creator: {question.owner}
                       </Typography>
-                      {/* <Typography gutterBottom>카테고리: {category}</Typography> */}
-
-                      {/* <ButtonGroup
-                        variant="contained"
-                        color="secondary"
-                        size="small"
-                        aria-label="1"
-                        sx={{ my: 3 }}
-                      >
-                        <Button>Tag1</Button>
-                        <Button>Tag2</Button>
-                      </ButtonGroup> */}
+                      <Typography gutterBottom>
+                        created_at: {question.created_at}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Box>
@@ -187,7 +122,6 @@ export default function Question() {
                       <Box
                         key={index}
                         sx={{
-                          // color: "success.dark",
                           display: "flex",
                           flexDirection: "column",
                           mt: 3,
@@ -200,8 +134,6 @@ export default function Question() {
                         <Grid
                           container
                           direction="column"
-                          // justifyContent={"flex-end"}
-                          // alignItems={"flex-end"}
                           spacing={2}
                         >
                           <Grid item container justifyContent={"flex-end"}>
@@ -214,8 +146,8 @@ export default function Question() {
                                 Adopted
                               </Typography>
                             )}
-                            {owner === userAddress &&
-                              !closed &&
+                            {question.owner === userAddress &&
+                              !question.closed &&
                               !answer.adopted && (
                                 <Button
                                   variant="contained"
@@ -248,9 +180,6 @@ export default function Question() {
                             <Typography gutterBottom>
                               adopted : {answer.adopted.toString()}
                             </Typography>
-                            {/* <Typography gutterBottom> */}
-                            {/* answerId : {answer.id} */}
-                            {/* </Typography> */}
                             <Typography gutterBottom>
                               created_at : {answer.created_at}
                             </Typography>

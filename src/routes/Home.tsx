@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import QuestionHeader from "../components/QuestionHeader";
 import Questions from "../components/Questions";
 import { RootState } from "../store";
-import { getQuestions } from "../store/question.slice";
+import { getAllQuestions } from "../store/question.slice";
 
 // 질문들을 받아서 redux store에 받는 것이 목표
 // 새로고침하면 새로 받는 것이 원래의 목표아닌가 ?
@@ -12,15 +12,13 @@ import { getQuestions } from "../store/question.slice";
 function Home() {
   const dispatch = useDispatch();
 
-  const questions = useSelector((state: RootState) => state.question.questions);
-
-  const setQuestions = () => {
-    dispatch(getQuestions());
-    console.log("🚀 리덕스 스토어 내의 questions", questions);
-  };
+  const { loading, questions, error } = useSelector(
+    (state: RootState) => state.question
+  );
 
   useEffect(() => {
-    setQuestions();
+    dispatch(getAllQuestions());
+    console.log("🚀 리덕스 스토어 내의 questions", questions);
   }, []);
 
   return (

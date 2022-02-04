@@ -4,20 +4,16 @@ import {
   Container,
   Grid,
   Snackbar,
-  TextField,
+  TextField
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { ethers } from "ethers";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import questionService from "service/question.service";
 import { RootState } from "store";
 import { v4 as uuidv4 } from "uuid";
-import { apiRequest } from "../service";
-import { address } from "../utils/ContractInfo";
-import abi from "../utils/CritPortal.json";
-
-declare var window: any;
+import contractService from './../service/contract.service';
 
 export default function WriteQuestion(props: any) {
   const navigate = useNavigate();
@@ -26,8 +22,9 @@ export default function WriteQuestion(props: any) {
   const [snackbar, setSnackbar] = useState({
     open: false,
   });
-  const [reward, setReward] = useState(0);
   const { open } = snackbar;
+  const [reward, setReward] = useState(0);
+  
   const userAddress = useSelector(
     (state: RootState) => state.user.user.address
   );
@@ -43,69 +40,13 @@ export default function WriteQuestion(props: any) {
     setReward(event.target.value);
   };
 
-  const postQuestion = async (question: any) => {
-    try {
-      const response = await apiRequest.post(`/questions`, question);
-    } catch (err) {
-      console.error(
-        "🚀 ~ file: QuestionWrite.tsx ~ line 36 ~ postQuestion ~ response",
-        err
-      );
-    }
-  };
-
-  // Web3 part
-  const contractAddress = address;
-  const contractABI = abi.abi;
-
-  const openQuestion = async (id: string) => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const critPortalContract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer
-        );
-
-        // await signer.sendTransaction({
-        //   to: contractAddress,
-        //   value: ethers.utils.parseEther("0.01"),
-        //   gasPrice: 8000000000,
-        // });
-
-        let result = await critPortalContract.openQuestion(
-          id,
-          reward * 1000000000 * 1000000000,
-          {
-            value: ethers.utils.parseEther(`${reward}`),
-          }
-        ); // 0.01 ether
-        await result.wait(); // waiting till mine complete
-        let after = await critPortalContract.getQuestionById(id);
-
-        console.log(after);
-
-        return true;
-      } else {
-        console.log("Ethereum object doesn't exist!");
-        return false;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // 전송 및 라우트 이동 로직
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
     const id = uuidv4();
-    const isTxSucceed = await openQuestion(id);
+    const isTxSucceed = await contractService.openQuestion(id, Number(reward));
 
     if (isTxSucceed) {
       const rewardNum: number = Number(reward);
@@ -118,7 +59,7 @@ export default function WriteQuestion(props: any) {
         reward: rewardNum,
       };
 
-      await postQuestion(question);
+      await questionService.postQuestion(question);
 
       navigate("/");
     } else {

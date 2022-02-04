@@ -5,19 +5,40 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { defaultQuestion } from "../domain/type/questionInteface";
+
 import questionService from "./../service/question.service";
+import { QuestionProps } from "./../domain/type/questionInteface";
 
 //action
 export const add = createAction("question/ADD");
 
 //async action
-export const getQuestions = createAsyncThunk("question/GET_QUESTION", () => {
-  return questionService.getQuestions();
-});
+export const getAllQuestions = createAsyncThunk(
+  "question/GET_QUESTIONS",
+  thunkAPI => {
+    //try catch 여기로 옮겨야 한다.
+    return questionService.getQuestions();
+  }
+);
+
+//async action
+export const getOneQuestion = createAsyncThunk(
+  "question/GET_QUESTION",
+  (questionId: string, thunkAPI) => {
+    return questionService.getQuestion(questionId);
+  }
+);
+
+//async action
+export const closeQuestionAction = createAsyncThunk(
+  "question/CLOSE",
+  (questionId: string, thunkAPI) => {
+    return questionService.closeQuestion(questionId);
+  }
+);
 
 const initialState = {
-  questions: [defaultQuestion],
+  questions: [] as QuestionProps[],
   loading: false,
   error: "",
 };
@@ -31,18 +52,42 @@ const questionSlice = createSlice({
     },
   },
   extraReducers: {
-    [getQuestions.pending.type]: state => {
-      state.questions = [defaultQuestion];
+    [getAllQuestions.pending.type]: state => {
+      state.questions = [];
+      console.log("🚀 질문 목록 로딩 중", state.questions);
       state.loading = true;
       state.error = "";
     },
-    [getQuestions.fulfilled.type]: (state, action: PayloadAction<any>) => {
-      state.questions = action.payload ?? [defaultQuestion];
+    [getAllQuestions.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      console.log("🚀 질문 목록 받는 중", state.questions);
+      state.questions = action.payload ?? [];
       state.loading = false;
       state.error = "";
     },
-    [getQuestions.rejected.type]: (state, action: PayloadAction<any>) => {
-      state.questions = [defaultQuestion];
+    [getAllQuestions.rejected.type]: (state, action: PayloadAction<any>) => {
+      console.log("🚀 질문 목록 에러", state.questions);
+      state.questions = [];
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getOneQuestion.pending.type]: state => {
+      console.log("🚀 질문 one 로딩 중", state.questions);
+      state.loading = true;
+      state.error = "";
+    },
+    [getOneQuestion.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      console.log("🚀 질문 one 받아짐", action.payload);
+
+      const isExist = state.questions.includes(action.payload);
+      if (!isExist) {
+        state.questions.push(action.payload);
+      }
+      state.loading = false;
+      state.error = "";
+    },
+    [getOneQuestion.rejected.type]: (state, action: PayloadAction<any>) => {
+      console.log("🚀 질문 one 에러", state.questions);
+
       state.loading = false;
       state.error = action.payload;
     },

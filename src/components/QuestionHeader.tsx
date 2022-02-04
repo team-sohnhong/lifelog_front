@@ -2,10 +2,9 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { User } from "domain/type/userInterface";
+import { RootState } from "store";
 import { Question } from "../domain/type/questionInteface";
 import BasicModal from "./modal/Modal";
-import { RootState } from "store";
 export default function QuestionHeader({
   questions,
 }: {

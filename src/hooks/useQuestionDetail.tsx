@@ -60,7 +60,7 @@ function useQuestionDetail(questionId: string) {
     }
     setLoading(false);
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);

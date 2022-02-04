@@ -256,10 +256,7 @@ export default function Question() {
                     );
                   })}
                 </Box>
-                {/* 질문이 닫히지 않았다면, */}
-                {!question.closed && (
-                  <AnswerWrite userId={userId}></AnswerWrite>
-                )}
+                <AnswerWrite userId={userId}></AnswerWrite>
               </Grid>
             </Grid>
           </Box>

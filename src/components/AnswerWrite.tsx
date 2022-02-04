@@ -5,7 +5,7 @@ import answerService from "service/answer.service";
 import { v4 as uuidv4 } from "uuid";
 import BasicModal from "./modal/Modal";
 
-export default function AnswerWrite({ userId }: { userId: string }) {
+export default function AnswerWrite({ userAddress }: { userAddress: string }) {
   const params = useParams();
 
   const [answerTitle, setAnswerTitle] = useState("");
@@ -24,7 +24,7 @@ export default function AnswerWrite({ userId }: { userId: string }) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!userId) {
+    if (!userAddress) {
       setShowModal(!showModal);
     } else {
       let answer = {
@@ -32,7 +32,7 @@ export default function AnswerWrite({ userId }: { userId: string }) {
         id: uuidv4(),
         content: answerContent,
         adopted: false,
-        owner: userId,
+        owner: userAddress,
         related: params.id!,
       };
 

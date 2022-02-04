@@ -3,41 +3,39 @@ import {
   Button,
   Container,
   Grid,
-  Input,
-  makeStyles,
   Snackbar,
   TextField,
-  Typography,
 } from "@mui/material";
-import { Box, spacing } from "@mui/system";
+import { Box } from "@mui/system";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "store";
 import { v4 as uuidv4 } from "uuid";
 import { apiRequest } from "../service";
-import abi from "../utils/CritPortal.json";
 import { address } from "../utils/ContractInfo";
+import abi from "../utils/CritPortal.json";
 
 declare var window: any;
 
 export default function WriteQuestion(props: any) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // 임시저장 로직
   const [snackbar, setSnackbar] = useState({
     open: false,
   });
-
+  const [reward, setReward] = useState(0);
   const { open } = snackbar;
+  const userAddress = useSelector(
+    (state: RootState) => state.user.user.address
+  );
 
+  
   const handleSnackbaropen = () => {
     setSnackbar({ open: !open });
   };
-
-  const [reward, setReward] = useState(0);
 
   const handleChange = (event: any) => {
     event.preventDefault();
@@ -100,7 +98,6 @@ export default function WriteQuestion(props: any) {
       console.log(error);
     }
   };
-  const userId = useSelector((state: RootState) => state.user.user._id);
 
   // 전송 및 라우트 이동 로직
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,23 +114,12 @@ export default function WriteQuestion(props: any) {
         id,
         title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
         content: data.get("content") as string,
-        owner: userId,
+        owner: userAddress,
         reward: rewardNum,
       };
 
-      if (question.title.length === 0) {
-        question.title = "default title";
-      }
-
       await postQuestion(question);
 
-      // 리덕스 스토어에 증가 액션 요청 with 데이터
-      dispatch({ type: "증가", payload: question });
-
-      console.log(
-        "🚀 ~ file: AddQuestion.tsx ~ line 48 ~ handleSubmit ~ post",
-        question
-      );
       navigate("/");
     } else {
       console.log("Error. Fail to upload on blockchain");
@@ -159,19 +145,22 @@ export default function WriteQuestion(props: any) {
             //이렇게 컴포넌트의 각 속성에도 넣을 수도 있다
             fontSize: "22px",
           },
-        }}>
+        }}
+      >
         <Grid
           container
           direction="row"
           justifyContent={"flex-end"}
           sx={{
             marginTop: 8,
-          }}>
+          }}
+        >
           <Grid item mr={1}>
             <Button
               color="secondary"
               variant="outlined"
-              onClick={handleSnackbaropen}>
+              onClick={handleSnackbaropen}
+            >
               Save Temporarily
             </Button>
             <Snackbar
@@ -179,7 +168,8 @@ export default function WriteQuestion(props: any) {
               autoHideDuration={800}
               open={open}
               onClose={handleSnackbaropen}
-              key={"temporary-storage-top"}>
+              key={"temporary-storage-top"}
+            >
               <Alert severity="error">
                 Failed to save your file temporarily!
               </Alert>
@@ -228,7 +218,8 @@ export default function WriteQuestion(props: any) {
                   borderColor: "#808080",
                   minHeight: 400,
                   color: "white",
-                }}></TextField>
+                }}
+              ></TextField>
             </Box>
           </Grid>
         </Grid>

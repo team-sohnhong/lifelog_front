@@ -7,7 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import questionService from "./../service/question.service";
-import { QuestionProps } from "./../domain/type/questionInteface";
+import { Question } from "./../domain/type/questionInteface";
 
 //action
 export const add = createAction("question/ADD");
@@ -38,7 +38,7 @@ export const closeQuestionAction = createAsyncThunk(
 );
 
 const initialState = {
-  questions: [] as QuestionProps[],
+  questions: [] as Question[],
   loading: false,
   error: "",
 };

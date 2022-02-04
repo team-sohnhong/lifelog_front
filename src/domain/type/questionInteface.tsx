@@ -1,4 +1,4 @@
-export interface QuestionProps {
+export interface Question {
   id: string;
   category: number;
   title: string;
@@ -9,7 +9,7 @@ export interface QuestionProps {
   reward: number;
 }
 
-export const defaultQuestion: QuestionProps = {
+export const defaultQuestion: Question = {
   id: "",
   category: 0,
   title: "",

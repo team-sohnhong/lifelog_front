@@ -1,39 +1,21 @@
 import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AnswerWrite from "components/AnswerWrite";
-import useQuestionDetail from "hooks/useRequest";
+import useQuestionDetail from "hooks/useQuestionDetail";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import answerService from "service/answer.service";
-import questionService from "service/question.service";
 import { RootState } from "store";
-import contractService from "./../service/contract.service";
 
 export default function QuestionDetail() {
   const params = useParams();
-
-  const { loading, setLoading, hasError, setHasError, data, setData } =
-    useQuestionDetail(params.id!);
+  const questionId = params.id!;
+  const { loading, hasError, data, handleCloseQuestion, handleChooseAnswer } =
+    useQuestionDetail(questionId);
   const { question, answers } = data;
 
   const userAddress = useSelector(
     (state: RootState) => state.user.user.address
   );
-
-  const handleCloseQuestion = async () => {
-    // execute contract first
-    const isClosed = await contractService.closeQuestion(params.id!);
-    if (isClosed) {
-      // then execute backend
-      await questionService.closeQuestion(params.id!);
-    }
-  };
-
-  const handleChooseAnswer = async (answerId: string) => {
-    // execute contract first
-    await answerService.chooseAnswer(answerId);
-    // then execute backend
-  };
 
   return (
     <div>
@@ -131,11 +113,7 @@ export default function QuestionDetail() {
                           borderBottom: 1,
                         }}
                       >
-                        <Grid
-                          container
-                          direction="column"
-                          spacing={2}
-                        >
+                        <Grid container direction="column" spacing={2}>
                           <Grid item container justifyContent={"flex-end"}>
                             {answer.adopted && (
                               <Typography
@@ -152,7 +130,9 @@ export default function QuestionDetail() {
                                 <Button
                                   variant="contained"
                                   color="secondary"
-                                  onClick={() => handleChooseAnswer(answer.id)}
+                                  onClick={() =>
+                                    handleChooseAnswer(answer.id, answer.owner)
+                                  }
                                 >
                                   adapt this
                                 </Button>

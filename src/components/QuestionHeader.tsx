@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { User } from "domain/type/userInterface";
-import { QuestionProps } from "../domain/type/questionInteface";
+import { Question } from "../domain/type/questionInteface";
 import BasicModal from "./modal/Modal";
 import { RootState } from "store";
 export default function QuestionHeader({
   questions,
 }: {
-  questions: QuestionProps[];
+  questions: Question[];
 }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);

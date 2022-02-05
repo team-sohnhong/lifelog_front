@@ -28,7 +28,7 @@ const openQuestion = async (id: string, reward: number) => {
 
       let result = await critPortalContract.openQuestion(
         id,
-        reward * 1000000000 * 1000000000,
+        BigInt(reward * 1000000000 * 1000000000),
         {
           value: ethers.utils.parseEther(`${reward}`),
         }

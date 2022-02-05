@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Link } from "@mui/material";
-import MetaMaskAuth from "./auth/Metamask";
+import MetaMaskAuth from "../auth/Metamask";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];

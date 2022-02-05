@@ -1,11 +1,11 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AppBar from "./components/AppBar";
-import QuestionDetail from "./components/Question";
-import QuestionWrite from "./components/QuestionWrite";
+import AppBar from "./components/header/AppBar";
+import Detail from './routes/Detail';
 import Home from "./routes/Home";
 import SignIn from "./routes/SignIn";
+import Write from './routes/Write';
 
 const theme = createTheme({
   palette: {
@@ -33,8 +33,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
-          <Route path="write" element={<QuestionWrite />} />
-          <Route path="question/:id" element={<QuestionDetail />} />
+          <Route path="write" element={<Write />} />
+          <Route path="question/:id" element={<Detail />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

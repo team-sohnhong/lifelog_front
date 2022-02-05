@@ -2,28 +2,21 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "store";
-import { Question } from "../domain/type/questionInteface";
-import BasicModal from "./modal/Modal";
-export default function QuestionHeader({
-  questions,
-}: {
+import { RootState } from "stores";
+import { Question } from "../../domain/type/questionInteface";
+import BasicModal from "../modal/Modal";
+import useQuestionHeader from "./hooks/useQuestionHeader";
+
+interface QuestionHeaderProps {
   questions: Question[];
-}) {
-  const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
+}
 
-  const address = useSelector((state: RootState) => state.user.user.address);
-
+export default function QuestionHeader({ questions }: QuestionHeaderProps) {
   const numberOfQuestion = questions.length;
 
-  const handleAddQuestion = () => {
-    if (address) {
-      navigate("/write");
-    } else {
-      setShowModal(!showModal);
-    }
-  };
+  const { handleAddQuestion, setShowModal, showModal } =
+    useQuestionHeader();
+
   return (
     <Box>
       <Grid
@@ -31,7 +24,8 @@ export default function QuestionHeader({
         spacing={0}
         px={2}
         pt={2}
-        justifyContent={"space-between"}>
+        justifyContent={"space-between"}
+      >
         <Typography variant="h4" color="#D8D8D8">
           All Questions
         </Typography>
@@ -41,7 +35,8 @@ export default function QuestionHeader({
       </Grid>
       <BasicModal
         showModal={showModal}
-        setShowModal={setShowModal}></BasicModal>
+        setShowModal={setShowModal}
+      ></BasicModal>
 
       <Box sx={{ mt: 5 }}>
         <Typography px={2} color="#D8D8D8">

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Metamask-auth.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "./../../store/user.slice";
-import { RootState } from "store";
+import { login } from "../../stores/user.slice";
+import { RootState } from "stores";
 
 function isMobileDevice() {
   return "ontouchstart" in window || "onmsgesturechange" in window;

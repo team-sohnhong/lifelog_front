@@ -1,9 +1,9 @@
 import { Box, Button, Divider, TextField } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import answerService from "service/answer.service";
+import answerService from "services/answer.service";
 import { v4 as uuidv4 } from "uuid";
-import BasicModal from "./modal/Modal";
+import BasicModal from "components/modal/Modal";
 
 export default function AnswerWrite({ userAddress }: { userAddress: string }) {
   const params = useParams();

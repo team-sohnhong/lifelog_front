@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { Question } from "../domain/type/questionInteface";
+import { Question } from "domain/type/questionInteface";
 
 
 const Questions = ({ questions }: { questions: Question[] }) => {

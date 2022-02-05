@@ -6,8 +6,8 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 
-import questionService from "./../service/question.service";
-import { Question } from "./../domain/type/questionInteface";
+import questionService from "../services/question.service";
+import { Question } from "../domain/type/questionInteface";
 
 //action
 export const add = createAction("question/ADD");

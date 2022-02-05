@@ -1,11 +1,11 @@
 import { Answer } from "domain/type/answerInterface";
-import { defaultQuestion } from "domain/type/questionInteface";
+import { defaultQuestion, Question } from "domain/type/questionInteface";
 import { useEffect, useState } from "react";
-import answerService from "service/answer.service";
-import contractService from "service/contract.service";
-import questionService from "service/question.service";
+import answerService from "services/answer.service";
+import contractService from "services/contract.service";
+import questionService from "services/question.service";
 
-function useQuestionDetail(questionId: string) {
+export function useQuestionDetail(questionId: string) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     question: defaultQuestion,
@@ -19,7 +19,11 @@ function useQuestionDetail(questionId: string) {
     const isClosed = await contractService.closeQuestion(questionId);
     if (isClosed) {
       // then execute backend
-      await questionService.closeQuestion(questionId);
+      const closedQuestion: Question = await questionService.closeQuestion(questionId);
+      setData({
+        question: closedQuestion,
+        answers,
+      });
     } else {
       console.error("Error. Fail to closeQuestion on blockchain");
     }
@@ -30,11 +34,10 @@ function useQuestionDetail(questionId: string) {
     winnerAddress: string
   ) => {
     // execute contract first
-
     const isTxSucceed = await contractService.chooseAnswer(
       questionId,
       winnerAddress
-    );
+      );
     if (isTxSucceed) {
       // then execute backend
       const chosenAnswer: Answer = await answerService.chooseAnswer(answerId);
@@ -72,8 +75,5 @@ function useQuestionDetail(questionId: string) {
     handleChooseAnswer,
   }; // 모든 값과 함수 반환
 }
-// setData,
-// setLoading,
-// setHasError,
 
 export default useQuestionDetail;

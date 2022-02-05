@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { defaultUser, User } from "domain/type/userInterface";
-import authService from "service/auth.service";
+import authService from "services/auth.service";
 
 
 

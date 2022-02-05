@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 
+// How to make custom async hook.
+
 function useBoilerplate() {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  //모든 데이터가 data 안에 존재
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    // The state `data` should contain all of your async data...
+  });
 
-  // functions called by user
+  // Functions called by user
   const handleA = async () => {};
   const handleB = async () => {};
 
   const fetchData = async () => {
     try {
-      // write await function
+      // Write all await functions in here...
       setData({});
     } catch (e) {
       setHasError(true);
@@ -21,7 +24,7 @@ function useBoilerplate() {
   };
 
   useEffect(() => {
-    //컴포넌트 첫 마운트 될 시에만 모든 비동기 데이터 호출,
+    // 컴포넌트 첫 마운트 될 시에만 모든 비동기 데이터 호출.
     fetchData();
   }, []);
   return {
@@ -30,8 +33,8 @@ function useBoilerplate() {
     hasError,
     handleA,
     handleB,
-  }; // return all value and method
-  // you can also return setData, setLoading, setHasError
+  }; // Return all values and methods, then, you can use these in your view component.
+  // You can return setData, setLoading, setHasError as well.
 }
 
 export default useBoilerplate;

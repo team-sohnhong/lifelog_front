@@ -6,7 +6,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { defaultAnswer } from "domain/type/answerInterface";
-import answerService from "service/answer.service";
+import answerService from "services/answer.service";
 
 //action
 export const add = createAction("answer/ADD");

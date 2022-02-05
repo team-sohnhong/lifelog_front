@@ -1,10 +1,10 @@
 import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import AnswerWrite from "components/AnswerWrite";
-import useQuestionDetail from "hooks/useQuestionDetail";
+import AnswerWrite from "components/answer/AnswerWrite";
+import useQuestionDetail from "components/question/hooks/useQuestionDetail";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { RootState } from "store";
+import { RootState } from "stores";
 
 export default function QuestionDetail() {
   const params = useParams();

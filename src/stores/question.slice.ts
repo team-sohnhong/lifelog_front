@@ -59,7 +59,7 @@ const questionSlice = createSlice({
       state.error = "";
     },
     [getAllQuestions.fulfilled.type]: (state, action: PayloadAction<any>) => {
-      console.log("🚀 질문 목록 받는 중", state.questions);
+      console.log("🚀 질문 목록 받았음", state.questions);
       state.questions = action.payload ?? [];
       state.loading = false;
       state.error = "";

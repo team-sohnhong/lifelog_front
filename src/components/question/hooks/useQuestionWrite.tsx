@@ -20,7 +20,7 @@ export default function useQuestionHeader() {
     (state: RootState) => state.user.user.address
   );
 
-  const handleSnackbaropen = () => {
+  const handleSnackbarOpen = () => {
     setSnackbar({ open: !open });
   };
 
@@ -61,7 +61,7 @@ export default function useQuestionHeader() {
     snackbar,
     reward,
     userAddress,
-    handleSnackbaropen,
+    handleSnackbarOpen,
     handleChange,
     handleSubmit,
   };

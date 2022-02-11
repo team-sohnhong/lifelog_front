@@ -13,7 +13,7 @@ export default function QuestionWrite() {
   const {
     snackbar,
     reward,
-    handleSnackbaropen,
+    handleSnackbarOpen,
     handleChange,
     handleSubmit,
   } = useQuestionWrite();
@@ -52,7 +52,7 @@ export default function QuestionWrite() {
             <Button
               color="secondary"
               variant="outlined"
-              onClick={handleSnackbaropen}
+              onClick={handleSnackbarOpen}
             >
               Save Temporarily
             </Button>
@@ -60,7 +60,7 @@ export default function QuestionWrite() {
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               autoHideDuration={800}
               open={open}
-              onClose={handleSnackbaropen}
+              onClose={handleSnackbarOpen}
               key={"temporary-storage-top"}
             >
               <Alert severity="error">

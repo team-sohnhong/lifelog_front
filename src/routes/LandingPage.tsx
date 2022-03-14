@@ -1,5 +1,8 @@
 import { CssBaseline, styled } from "@mui/material";
+import MarkdownRenderer from "assets/markdown/Markdown";
+import MyMdEditor from "assets/markdown/MdEditor";
 import PlaceToVisit from "components/mui_styled/PlaceToVisit";
+import Editor from "components/quill/Quill";
 import React from "react";
 import Header from "./../components/mui_styled/Header";
 
@@ -13,9 +16,10 @@ const Root = styled("div")(({ theme }) => ({
 const LandingPage = () => {
   return (
     <Root>
-      <CssBaseline/>
+      <CssBaseline />
       <Header />
       <PlaceToVisit />
+      <Editor />
     </Root>
   );
 };

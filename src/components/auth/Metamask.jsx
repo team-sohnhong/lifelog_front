@@ -52,7 +52,7 @@ export default function MetaMaskAuth({ onAddressChanged }) {
   // }, [userAddress]);
 
   useEffect(() => {
-    setUserAddress(userAddress);
+    setUserAddress(userAddress);  
     dispatch(login(userAddress));
   }, [dispatch, userAddress]);
 

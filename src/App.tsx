@@ -11,6 +11,8 @@ import Home from "./routes/Home";
 import SignIn from "./routes/SignIn";
 import Write from "./routes/Write";
 import LandingPage from "routes/LandingPage";
+import Apollo from "routes/Apollo";
+import QuillWritePage from "routes/QuillWritePage";
 
 const theme = createTheme({
   palette: {
@@ -40,8 +42,10 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="signin" element={<SignIn />} />
             <Route path="landing" element={<LandingPage />} />
+            <Route path="apollo" element={<Apollo />} />
             <Route path="write" element={<Write />} />
             <Route path="question/:id" element={<Detail />} />
+            <Route path="quillWrite" element={<QuillWritePage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

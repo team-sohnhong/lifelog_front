@@ -1,27 +1,27 @@
-import { ethers } from "ethers";
-import { address } from "../utils/ContractInfo";
-import abi from "../utils/CritPortal.json";
+  import { ethers } from "ethers";
+  import { address } from "../utils/ContractInfo";
+  import abi from "../utils/CritPortal.json";
 
-declare var window: any;
+  declare var window: any;
 
-const contractAddress = address;
-const contractABI = abi.abi;
+  const contractAddress = address;
+  const contractABI = abi.abi;
 
-const openQuestion = async (id: string, reward: number) => {
-  try {
-    const { ethereum } = window;
+  const openQuestion = async (id: string, reward: number) => {
+    try {
+      const { ethereum } = window;
 
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const critPortalContract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const critPortalContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
 
-      // await signer.sendTransaction({
-      //   to: contractAddress,
+        // await signer.sendTransaction({
+        //   to: contractAddress,
       //   value: ethers.utils.parseEther("0.01"),
       //   gasPrice: 8000000000,
       // });

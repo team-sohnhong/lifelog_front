@@ -9,7 +9,7 @@ import { RootState } from "stores";
 export default function QuestionDetail() {
   const params = useParams();
   const questionId = params.id!;
-  const { loading, hasError, data, handleCloseQuestion, handleChooseAnswer } =
+  const { loading, hasError, data, handleCloseBlogPost, handleChooseAnswer } =
     useQuestionDetail(questionId);
   const { question, answers } = data;
 
@@ -63,7 +63,7 @@ export default function QuestionDetail() {
                     <Button
                       variant="contained"
                       color={"secondary"}
-                      onClick={() => handleCloseQuestion()}
+                      onClick={() => handleCloseBlogPost()}
                     >
                       close this question
                     </Button>

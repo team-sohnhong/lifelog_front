@@ -1,4 +1,4 @@
-export interface Question {
+export interface BlogPost {
   id: string;
   category: number;
   title: string;
@@ -6,10 +6,9 @@ export interface Question {
   closed: boolean;
   created_at: string;
   owner: string;
-  reward: number;
 }
 
-export const defaultQuestion: Question = {
+export const defaultBlogPost: BlogPost = {
   id: "",
   category: 0,
   title: "",
@@ -17,5 +16,4 @@ export const defaultQuestion: Question = {
   closed: false,
   created_at: "",
   owner: "",
-  reward: 0,
 };

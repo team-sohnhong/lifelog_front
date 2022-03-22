@@ -12,10 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { Question } from "domain/type/questionInteface";
+import { BlogPost } from "domain/type/blogPostInteface";
 
 
-const Questions = ({ questions }: { questions: Question[] }) => {
+const Questions = ({ questions }: { questions: BlogPost[] }) => {
   return (
     <List>
       {questions

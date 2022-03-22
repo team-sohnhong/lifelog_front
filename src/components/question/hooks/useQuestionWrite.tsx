@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import contractService from "services/contract.service";
-import questionService from "services/question.service";
+import blogPostService from "services/blogPost.service";
 import { RootState } from "stores";
 import { v4 as uuidv4 } from "uuid";
 
@@ -46,10 +46,9 @@ export default function useQuestionHeader() {
         title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
         content: data.get("content") as string,
         owner: userAddress,
-        reward: rewardNum,
       };
 
-      await questionService.postQuestion(question);
+      await blogPostService.postBlogPost(question);
 
       navigate("/");
     } else {

@@ -4,18 +4,18 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import QuestionHeader from "../components/question/QuestionHeader";
 import { RootState } from "../stores";
-import { getAllQuestions } from "../stores/question.slice";
+import { getAllBlogPosts } from "../stores/blogPost.slice";
 
 function Home() {
   const dispatch = useDispatch();
 
-  const { loading, questions, error } = useSelector(
-    (state: RootState) => state.question
+  const { loading, blogPosts, error } = useSelector(
+    (state: RootState) => state.blogPost
   );
 
   useEffect(() => {
-    dispatch(getAllQuestions());
-    console.log("🚀 리덕스 스토어 내의 questions", questions);
+    dispatch(getAllBlogPosts());
+    console.log("🚀 리덕스 스토어 내의 blogPosts", blogPosts);
   }, []);
 
   return (
@@ -27,8 +27,8 @@ function Home() {
               minHeight: "150vh",
             }}
           >
-            <QuestionHeader questions={questions} />
-            <Questions questions={questions} />
+            <QuestionHeader questions={blogPosts} />
+            <Questions questions={blogPosts} />
           </Box>
         </Container>
       )}

@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "stores";
-import { Question } from "../../domain/type/questionInteface";
+import { BlogPost } from "../../domain/type/blogPostInteface";
 import BasicModal from "../modal/Modal";
 import useQuestionHeader from "./hooks/useQuestionHeader";
 
 interface QuestionHeaderProps {
-  questions: Question[];
+  questions: BlogPost[];
 }
 
 export default function QuestionHeader({ questions }: QuestionHeaderProps) {

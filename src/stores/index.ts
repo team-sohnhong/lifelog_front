@@ -1,10 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import questionReducer from "./question.slice";
+import blogPostReducer from "./blogPost.slice";
 import userReducer from "./user.slice";
 import answerReducer from "./answer.slice";
 
 const rootReducer = combineReducers({
-  question: questionReducer,
+  blogPost: blogPostReducer,
   user: userReducer,
   answer: answerReducer,
 });

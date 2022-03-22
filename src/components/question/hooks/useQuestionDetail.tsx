@@ -1,25 +1,25 @@
 import { Answer } from "domain/type/answerInterface";
-import { defaultQuestion, Question } from "domain/type/questionInteface";
+import { defaultBlogPost, BlogPost } from "domain/type/blogPostInteface";
 import { useEffect, useState } from "react";
 import answerService from "services/answer.service";
 import contractService from "services/contract.service";
-import questionService from "services/question.service";
+import blogPostService from "services/blogPost.service";
 
-export function useQuestionDetail(questionId: string) {
+export function useQuestionDetail(blogPostId: string) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
-    question: defaultQuestion,
+    question: defaultBlogPost,
     answers: [] as Answer[],
   });
   const [hasError, setHasError] = useState(false);
   const { question, answers } = data;
 
-  const handleCloseQuestion = async () => {
+  const handleCloseBlogPost = async () => {
     // execute contract first
-    const isClosed = await contractService.closeQuestion(questionId);
+    const isClosed = await contractService.closeQuestion(blogPostId);
     if (isClosed) {
       // then execute backend
-      const closedQuestion: Question = await questionService.closeQuestion(questionId);
+      const closedQuestion: BlogPost = await blogPostService.closeBlogPost(blogPostId);
       setData({
         question: closedQuestion,
         answers,
@@ -35,7 +35,7 @@ export function useQuestionDetail(questionId: string) {
   ) => {
     // execute contract first
     const isTxSucceed = await contractService.chooseAnswer(
-      questionId,
+      blogPostId,
       winnerAddress
       );
     if (isTxSucceed) {
@@ -55,8 +55,8 @@ export function useQuestionDetail(questionId: string) {
   const fetchData = async () => {
     try {
       //컨트랙트 선 실행하기
-      const questionRes = await questionService.getQuestion(questionId);
-      const answersRes = await answerService.getAnswers(questionId);
+      const questionRes = await blogPostService.getBlogPost(blogPostId);
+      const answersRes = await answerService.getAnswers(blogPostId);
       setData({ question: questionRes, answers: answersRes });
     } catch (e) {
       setHasError(true);
@@ -71,7 +71,7 @@ export function useQuestionDetail(questionId: string) {
     data,
     loading,
     hasError,
-    handleCloseQuestion,
+    handleCloseBlogPost,
     handleChooseAnswer,
   }; // 모든 값과 함수 반환
 }

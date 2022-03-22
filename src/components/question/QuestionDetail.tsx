@@ -98,7 +98,7 @@ export default function QuestionDetail() {
                 </Box>
                 <Divider />
                 <Box>
-                  <h2>{answers.length} Answers</h2>
+                  {/* <h2>{answers.length} Answers</h2>
                   {answers.map((answer, index) => {
                     return (
                       <Box
@@ -170,7 +170,7 @@ export default function QuestionDetail() {
                         </Grid>
                       </Box>
                     );
-                  })}
+                  })} */}
                 </Box>
                 <AnswerWrite userAddress={userAddress}></AnswerWrite>
               </Grid>

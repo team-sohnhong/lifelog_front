@@ -9,10 +9,10 @@ export function useQuestionDetail(blogPostId: string) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     question: defaultBlogPost,
-    answers: [] as Answer[],
+    // answers: [] as Answer[],
   });
   const [hasError, setHasError] = useState(false);
-  const { question, answers } = data;
+  const { question } = data;
 
   const handleCloseBlogPost = async () => {
     // execute contract first
@@ -22,7 +22,7 @@ export function useQuestionDetail(blogPostId: string) {
       const closedQuestion: BlogPost = await blogPostService.closeBlogPost(blogPostId);
       setData({
         question: closedQuestion,
-        answers,
+        // answers,
       });
     } else {
       console.error("Error. Fail to closeQuestion on blockchain");
@@ -43,9 +43,9 @@ export function useQuestionDetail(blogPostId: string) {
       const chosenAnswer: Answer = await answerService.chooseAnswer(answerId);
       setData({
         question,
-        answers: answers.map((answer: Answer) =>
-          answer.id === answerId ? chosenAnswer : answer
-        ),
+        // answers: answers.map((answer: Answer) =>
+          // answer.id === answerId ? chosenAnswer : answer
+        // ),
       });
     } else {
       console.error("Error. Fail to upload on blockchain");
@@ -56,8 +56,8 @@ export function useQuestionDetail(blogPostId: string) {
     try {
       //컨트랙트 선 실행하기
       const questionRes = await blogPostService.getBlogPost(blogPostId);
-      const answersRes = await answerService.getAnswers(blogPostId);
-      setData({ question: questionRes, answers: answersRes });
+      // const answersRes = await answerService.getAnswers(blogPostId);
+      setData({ question: questionRes });
     } catch (e) {
       setHasError(true);
     }

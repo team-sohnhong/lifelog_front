@@ -1,6 +1,6 @@
 export interface BlogPost {
   id: string;
-  category: number;
+  // category: number;
   title: string;
   content: string;
   closed: boolean;
@@ -10,8 +10,8 @@ export interface BlogPost {
 
 export const defaultBlogPost: BlogPost = {
   id: "",
-  category: 0,
-  title: "",
+  // category: 0,
+  title: "", 
   content: "",
   closed: false,
   created_at: "",

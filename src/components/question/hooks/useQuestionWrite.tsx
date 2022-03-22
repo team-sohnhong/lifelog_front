@@ -35,25 +35,23 @@ export default function useQuestionHeader() {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const id = uuidv4();
-    const isTxSucceed = await contractService.openQuestion(id, reward);
+    // const isTxSucceed = await contractService.openQuestion(id, reward);
 
-    if (isTxSucceed) {
-      const rewardNum: number = Number(reward);
+    // if (isTxSucceed) {
+    // const rewardNum: number = Number(reward);
 
-      let question = {
-        id,
-        title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
-        content: data.get("content") as string,
-        owner: userAddress,
-      };
+    let blogPost = {
+      title: data.get("title") as string, //textfield의 name 으로 정해놓은 걸 가져올 수 있음! value, onchage와는 다른 방식
+      content: data.get("content") as string,
+      owner: userAddress,
+    };
 
-      await blogPostService.postBlogPost(question);
+    await blogPostService.postBlogPost(blogPost);
 
-      navigate("/");
-    } else {
-      console.log("Error. Fail to upload on blockchain");
-    }
+    navigate("/");
+    // } else {
+    // console.log("Error. Fail to upload on blockchain");
+    // }
   };
 
   return {

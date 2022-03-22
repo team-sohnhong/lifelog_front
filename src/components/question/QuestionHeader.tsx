@@ -27,10 +27,10 @@ export default function QuestionHeader({ questions }: QuestionHeaderProps) {
         justifyContent={"space-between"}
       >
         <Typography variant="h4" color="#D8D8D8">
-          All Questions
+          All BlogPosts
         </Typography>
         <Button onClick={handleAddQuestion} variant="contained" color="primary">
-          Add Question
+          Add BlogPost
         </Button>
       </Grid>
       <BasicModal

@@ -63,7 +63,7 @@ const ResponsiveAppBar = () => {
                 fontWeight: "bold",
               }}
             >
-              CRIT
+              LIFELOG
             </Typography>
           </Link>
 

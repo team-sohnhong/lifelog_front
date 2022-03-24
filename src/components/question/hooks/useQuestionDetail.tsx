@@ -56,6 +56,8 @@ export function useQuestionDetail(blogPostId: string) {
     try {
       //컨트랙트 선 실행하기
       const questionRes = await blogPostService.getBlogPost(blogPostId);
+      console.log("🚀 ~ 출력 ~ questionRes", questionRes)
+      console.log("🚀 출력 ~ blogPostId", blogPostId)
       // const answersRes = await answerService.getAnswers(blogPostId);
       setData({ question: questionRes });
     } catch (e) {

@@ -9,9 +9,10 @@ import { RootState } from "stores";
 export default function QuestionDetail() {
   const params = useParams();
   const questionId = params.id!;
+  console.log("🚀 questionId 출력 ", questionId)
   const { loading, hasError, data, handleCloseBlogPost, handleChooseAnswer } =
     useQuestionDetail(questionId);
-  const { question, answers } = data;
+  const { question } = data;
 
   const userAddress = useSelector(
     (state: RootState) => state.user.user.address
@@ -84,14 +85,14 @@ export default function QuestionDetail() {
                   <Grid container direction="column" alignItems={"flex-end"}>
                     <Grid item>
                       <Typography gutterBottom>
-                        closed: {question.closed.toString()}
+                        {/* closed: {question.closed.toString()} */}
                       </Typography>
 
                       <Typography gutterBottom>
                         creator: {question.owner}
                       </Typography>
                       <Typography gutterBottom>
-                        created_at: {question.created_at}
+                        {/* created_at: {question.created_at} */}
                       </Typography>
                     </Grid>
                   </Grid>

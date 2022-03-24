@@ -14,6 +14,7 @@ const getBlogPost = async (id: string) => {
   try {
     const response = await apiRequest.get(`/blogposts/${id}`);
     const { data } = response;
+    console.log("🚀 블로그 내용 출력", data);
     return data;
   } catch (err) {
     return err;
